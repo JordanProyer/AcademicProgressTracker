@@ -6,12 +6,13 @@ using System.Web.Mvc;
 
 namespace AcademicProgressTracker.Controllers
 {
-    public class HomeController : Controller
+    public class ContactController : Controller
     {
         public ActionResult Index()
         {
+            ViewBag.Message = "Your contact page.";
+
             return View();
         }
-
     }
 }
