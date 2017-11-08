@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicProgressTracker", "AcademicProgressTracker\AcademicProgressTracker.csproj", "{8133886C-5AA4-4C2D-A49A-DD7FB05BE5C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicProgressTracker.Tests", "AcademicProgressTracker.Tests\AcademicProgressTracker.Tests.csproj", "{443F3CA8-3F3C-40BD-BE90-8217E58C9092}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8133886C-5AA4-4C2D-A49A-DD7FB05BE5C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8133886C-5AA4-4C2D-A49A-DD7FB05BE5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8133886C-5AA4-4C2D-A49A-DD7FB05BE5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8133886C-5AA4-4C2D-A49A-DD7FB05BE5C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{443F3CA8-3F3C-40BD-BE90-8217E58C9092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{443F3CA8-3F3C-40BD-BE90-8217E58C9092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{443F3CA8-3F3C-40BD-BE90-8217E58C9092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{443F3CA8-3F3C-40BD-BE90-8217E58C9092}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F00AA78-5CAC-4FF2-A35B-15D0A9DA2D84}
+	EndGlobalSection
+EndGlobal
