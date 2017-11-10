@@ -205,11 +205,16 @@
     <Compile Include="Migrations\201711092310226_InitialDatabaseSeed.Designer.cs">
       <DependentUpon>201711092310226_InitialDatabaseSeed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711100240532_AddUserModules.cs" />
+    <Compile Include="Migrations\201711100240532_AddUserModules.Designer.cs">
+      <DependentUpon>201711100240532_AddUserModules.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Coursework.cs" />
     <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\UserModules.cs" />
     <Compile Include="Models\UserResults.cs" />
     <Compile Include="Models\Year.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -299,6 +304,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711092310226_InitialDatabaseSeed.resx">
       <DependentUpon>201711092310226_InitialDatabaseSeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711100240532_AddUserModules.resx">
+      <DependentUpon>201711100240532_AddUserModules.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

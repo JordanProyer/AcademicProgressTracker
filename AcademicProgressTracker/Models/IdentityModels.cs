@@ -64,6 +64,7 @@ namespace AcademicProgressTracker.Models
         public DbSet<Course> Course { get; set; }
         public DbSet<Coursework> Coursework { get; set; }
         public DbSet<Module> Module { get; set; }
+        public DbSet<UserModules> UserModules { get; set; }
         public DbSet<UserResults> UserResults { get; set; }
         public DbSet<Year> Year { get; set; }
 
