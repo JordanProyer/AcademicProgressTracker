@@ -197,6 +197,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711091725557_InitialModel.cs" />
+    <Compile Include="Migrations\201711091725557_InitialModel.Designer.cs">
+      <DependentUpon>201711091725557_InitialModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711092310226_InitialDatabaseSeed.cs" />
+    <Compile Include="Migrations\201711092310226_InitialDatabaseSeed.Designer.cs">
+      <DependentUpon>201711092310226_InitialDatabaseSeed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Classification.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Coursework.cs" />
+    <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\UserResults.cs" />
+    <Compile Include="Models\Year.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
@@ -277,6 +292,14 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Content\Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711091725557_InitialModel.resx">
+      <DependentUpon>201711091725557_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711092310226_InitialDatabaseSeed.resx">
+      <DependentUpon>201711092310226_InitialDatabaseSeed.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
