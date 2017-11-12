@@ -9,7 +9,7 @@ namespace AcademicProgressTracker.Migrations
         {
             Sql("INSERT INTO AspNetRoles VALUES (\'Admin\'), (\'Standard\')");
 
-            Sql("INSERT INTO AspNetUsers VALUES(\'Jordan\', \'Proyer\', \'jordan.proyer@hotmail.co.uk\', 0, \'AHDWrnmy7vjamIEsIp3QtwKvAzck+dKh/uJxvmcVBKo7gVK6pMrzABxhMPsk40Q7NQ==\', \'0f512a8e-c448-4d8e-b446-cfdc5841ff38\', \'07958328293\', 0, 0, NULL, 0, 0, \'Jordan Proyer\')");
+            Sql("INSERT INTO AspNetUsers VALUES(\'Jordan\', \'Proyer\', \'jordan.proyer@hotmail.co.uk\', 0, \'AGOsoqnbr9XEvrkAopPu/jJxYVHXxnnPb3D1V5V8VjInSROAUF5m72nBc7HuBQi0MA==\', \'0f512a8e-c448-4d8e-b446-cfdc5841ff38\', \'07958328293\', 0, 0, NULL, 0, 0, \'Jordan Proyer\')");
 
             Sql("INSERT INTO AspNetUserRoles VALUES (1, 1)");
 

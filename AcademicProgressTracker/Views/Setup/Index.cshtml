@@ -2,7 +2,170 @@
 
 @{
     ViewBag.Title = "Course Setup";
+    ViewBag.Message = "Set up your course modules";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+@using (Html.BeginForm("CreateUserModule", "Setup"))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Course)
+                @Html.DropDownListFor(m => m.Course, new SelectList(Model.Course, "Id", "Name"), "Select a course", new {@class = "form-control"})
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Year)
+                @Html.DropDownListFor(m => m.Year, new SelectList(Model.Year, "Id", "Name"), "Select a year", new {@class = "form-control"})
+            </div>
+            <div id="divModule1" class="form-group-module">
+                @Html.Label("Optional Module 1")
+                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule1", @class = "form-control"})
+            </div>
+            <div id="divModule2" class="form-group-module">
+                <br/>
+                @Html.Label("Optional Module 2")
+                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule2", @class = "form-control"})
+            </div>
+            <div id="divModule3" class="form-group-module">
+                <br/>
+                @Html.Label("Optional Module 3")
+                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule3", @class = "form-control"})
+            </div>
+            <div id="divModule4" class="form-group-module">
+                <br/>
+                @Html.Label("Optional Module 4")
+                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule4", @class = "form-control"})
+            </div>
+            <div id="divModule5" class="form-group-module">
+                <br/>
+                @Html.Label("Optional Module 5")
+                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule5", @class = "form-control"})
+            </div>
+            <div id="divModule6" class="form-group-module">
+                <br/>
+                @Html.Label("Optional Module 6")
+                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule6", @class = "form-control"})
+            </div>
+            <div id="divModule7" class="form-group-module">
+                <br/>
+                @Html.Label("Optional Module 7")
+                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule7", @class = "form-control"})
+            </div>
+            <div class="form-group">
+                <div class="col-md-pull-12">
+                    <input type="submit" class="btn btn-default" value="Submit" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="creditsText" class="form-group">
+                <br />
+                <h1>Credits Selected</h1>      
+            </div>
+        </div>
+    </div>
+        }
+
+        @section scripts
+{
+            <script>
+        $(document).ready(function () {
+
+            var moduleShowCount = 2;
+            $('.form-group-module').hide();
+
+            changeOnYear();
+            showModules(moduleShowCount);
+        });
+
+        function changeOnYear() {
+            $("#Year").change(function () {
+                updateModules(1);
+            });
+        }
+
+        function updateModules(id) {
+            var ddlModule = $("#ddlModule" + id);
+            var divModule = $("#divModule" + id);
+            var course = $("#Course").val();
+            var year = $("#Year").val();
+
+            var count = id - 1;
+            var ddlModuleValue = $("#ddlModule" + count).val();
+            var result = moduleStore(count, ddlModuleValue);
+
+            var module1 = result[0] || 0;
+            var module2 = result[1] || 0;
+            var module3 = result[2] || 0;
+            var module4 = result[3] || 0;
+            var module5 = result[4] || 0;
+            var module6 = result[5] || 0;
+            var module7 = result[6] || 0;
+
+            var url = '@Url.Action("GetModules", "Setup")' + '?courseId=' + course + '&yearId=' + year + '&optional=1' + '&chosenModulesIds=' + module1 + '&chosenModulesIds=' + module2 + '&chosenModulesIds=' + module3 + '&chosenModulesIds=' + module4 + '&chosenModulesIds=' + module5 + '&chosenModulesIds=' + module6 + '&chosenModulesIds=' + module7;
+            $.getJSON(url, function(response) {
+                $.each(response,
+                    function(index, item) { // item is now an object containing properties ID and Text
+                        ddlModule.append($('<option>').text(item.Name).val(item.Id));
+                    });
+            });
+            divModule.show();
+            id++;
+        }
+
+        function showModules(moduleShowCount) {
+            $('.form-group-module').change(function () {
+                debugger;
+                updateModules(moduleShowCount);
+                moduleShowCount++;
+            });
+        }
+
+        function moduleStore(count, moduleId) {
+            var module1 = sessionStorage.getItem("optionalModule1");
+            var module2 = sessionStorage.getItem("optionalModule2");
+            var module3 = sessionStorage.getItem("optionalModule3");
+            var module4 = sessionStorage.getItem("optionalModule4");
+            var module5 = sessionStorage.getItem("optionalModule5");
+            var module6 = sessionStorage.getItem("optionalModule6");
+            var module7 = sessionStorage.getItem("optionalModule7");
+            switch (count) {
+                case 1:
+                optionalModule1 = moduleId;
+                sessionStorage.setItem("optionalModule1", moduleId.toString());
+                return optionalModule1;
+            case 2:
+                optionalModule2 = moduleId;
+                sessionStorage.setItem("optionalModule2", moduleId.toString());
+                return [module1, optionalModule2];
+            case 3:
+                optionalModule3 = moduleId;
+                sessionStorage.setItem("optionalModule3", moduleId.toString());
+                return [module1, module2, optionalModule3 ];
+            case 4:
+                optionalModule4 = moduleId;
+                sessionStorage.setItem("optionalModule4", moduleId.toString());
+                return [module1, module2, module3, optionalModule4];
+                case 5:
+                    optionalModule5 = moduleId;
+                    sessionStorage.setItem("optionalModule5", moduleId.toString());
+                    return [module1, module2, module3, module4, optionalModule5];
+                case 6:
+                    optionalModule6 = moduleId;
+                    sessionStorage.setItem("optionalModule6", moduleId.toString());
+                    return [module1, module2, module3, module4, module5, optionalModule6];
+                case 7:
+                    optionalModule7 = moduleId;
+                    sessionStorage.setItem("optionalModule7", moduleId.toString());
+                    return [module1, module2, module3, module4, module5, module6, optionalModule7];
+            default:
+                return 0;
+            }
+
+        }
+            </script>
+        }
