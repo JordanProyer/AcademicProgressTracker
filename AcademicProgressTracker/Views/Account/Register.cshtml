@@ -1,6 +1,7 @@
 ﻿@model AcademicProgressTracker.ViewModels.RegisterViewModel
 @{
     ViewBag.Title = "Register";
+    ViewBag.Message = "Register a new account";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -8,7 +9,7 @@
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
+    <p>@ViewBag.Message</p>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
