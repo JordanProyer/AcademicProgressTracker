@@ -21,10 +21,12 @@ namespace AcademicProgressTracker
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Content/Scripts/bootstrap.js",
-                      "~/Content/Scripts/respond.js"));
+                      "~/Content/Scripts/respond.js",
+                      "~/Content/Scripts/toastr.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-cerulean.css",
+                      "~/Content/toastr.css",
                       "~/Content/site.css"));
         }
     }

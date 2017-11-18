@@ -11,88 +11,114 @@
 
 @using (Html.BeginForm("CreateUserModule", "Setup"))
 {
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(m => m.Course)
-                @Html.DropDownListFor(m => m.Course, new SelectList(Model.Course, "Id", "Name"), "Select a course", new {@class = "form-control"})
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Year)
-                @Html.DropDownListFor(m => m.Year, new SelectList(Model.Year, "Id", "Name"), "Select a year", new {@class = "form-control"})
-            </div>
-            <div id="divModule1" class="form-group-module">
-                @Html.Label("Optional Module 1")
-                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule1", @class = "form-control"})
-            </div>
-            <div id="divModule2" class="form-group-module">
-                <br/>
-                @Html.Label("Optional Module 2")
-                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule2", @class = "form-control"})
-            </div>
-            <div id="divModule3" class="form-group-module">
-                <br/>
-                @Html.Label("Optional Module 3")
-                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule3", @class = "form-control"})
-            </div>
-            <div id="divModule4" class="form-group-module">
-                <br/>
-                @Html.Label("Optional Module 4")
-                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule4", @class = "form-control"})
-            </div>
-            <div id="divModule5" class="form-group-module">
-                <br/>
-                @Html.Label("Optional Module 5")
-                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule5", @class = "form-control"})
-            </div>
-            <div id="divModule6" class="form-group-module">
-                <br/>
-                @Html.Label("Optional Module 6")
-                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule6", @class = "form-control"})
-            </div>
-            <div id="divModule7" class="form-group-module">
-                <br/>
-                @Html.Label("Optional Module 7")
-                @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule7", @class = "form-control"})
-            </div>
-            <div class="form-group">
-                <div class="col-md-pull-12">
-                    <input type="submit" class="btn btn-default" value="Submit" />
+    @Html.HiddenFor(x => x.Success);
+    <form id="moduleForm" onsubmit="checkVaildForm()">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Course)
+                    @Html.DropDownListFor(m => m.Course, new SelectList(Model.Course, "Id", "Name"), "Select a course", new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Year)
+                    @Html.DropDownListFor(m => m.Year, new SelectList(Model.Year, "Id", "Name"), "Select a year", new { @class = "form-control" })
+                </div>
+                <div id="divModule1" class="form-group-module">
+                    @Html.Label("Optional Module 1")
+                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule1", @class = "form-control" })
+                </div>
+                <div id="divModule2" class="form-group-module">
+                    <br />
+                    @Html.Label("Optional Module 2")
+                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule2", @class = "form-control" })
+                </div>
+                <div id="divModule3" class="form-group-module">
+                    <br />
+                    @Html.Label("Optional Module 3")
+                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule3", @class = "form-control" })
+                </div>
+                <div id="divModule4" class="form-group-module">
+                    <br />
+                    @Html.Label("Optional Module 4")
+                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule4", @class = "form-control" })
+                </div>
+                <div id="divModule5" class="form-group-module">
+                    <br />
+                    @Html.Label("Optional Module 5")
+                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule5", @class = "form-control" })
+                </div>
+                <div id="divModule6" class="form-group-module">
+                    <br />
+                    @Html.Label("Optional Module 6")
+                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule6", @class = "form-control" })
+                </div>
+                <div id="divModule7" class="form-group-module">
+                    <br />
+                    @Html.Label("Optional Module 7")
+                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule7", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <div class="col-md-pull-12">
+                        <br />
+                        <input type="submit" id="btnSubmit"class="btn btn-default" value="Submit" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div id="creditsText" class="form-group">
-                <br />
-                <h1>Credits Selected</h1>      
+
+            <div class="col-md-6">
+                <div id="creditsText" class="form-group">
+                    <h1>Course Information:</h1>
+                    <h2 id="compulsoryCredits">Compulsory Credits: -</h2>
+                    <h2 id="optionalCredits">Optional Credits Selected: -</h2>
+                </div>
+                @Html.HiddenFor(x => x.SelectionComplete);
             </div>
         </div>
-    </div>
-        }
+    </form>
+}
 
-        @section scripts
+@section scripts
 {
-            <script>
+    <script>
         $(document).ready(function () {
+            debugger;
+            if ($("#Success").val() === "True") {
+                debugger;
+                toastr.success('Module choices saved successfully');
+            }
+            var moduleShowCount = 2;          
 
-            var moduleShowCount = 2;
             $('.form-group-module').hide();
 
             changeOnYear();
-            showModules(moduleShowCount);
+            showModules(moduleShowCount);    
+
+            $("#btnSubmit").click(function () {
+                debugger;
+                if ($('#SelectionComplete').val() === 'False') {
+                    toastr.error('Insufficient number of credits selected');
+                    return false;
+                }
+                return true;
+            });
         });
+
 
         function changeOnYear() {
             $("#Year").change(function () {
+                var courseId = $("#Course").val();
+                var yearId = $("#Year").val();
+                GetCompulsoryCredits(courseId, yearId);
                 updateModules(1);
             });
         }
 
         function updateModules(id) {
+            debugger;
             var ddlModule = $("#ddlModule" + id);
             var divModule = $("#divModule" + id);
-            var course = $("#Course").val();
-            var year = $("#Year").val();
+            var courseId = $("#Course").val();
+            var yearId = $("#Year").val();
 
             var count = id - 1;
             var ddlModuleValue = $("#ddlModule" + count).val();
@@ -106,7 +132,7 @@
             var module6 = result[5] || 0;
             var module7 = result[6] || 0;
 
-            var url = '@Url.Action("GetModules", "Setup")' + '?courseId=' + course + '&yearId=' + year + '&optional=1' + '&chosenModulesIds=' + module1 + '&chosenModulesIds=' + module2 + '&chosenModulesIds=' + module3 + '&chosenModulesIds=' + module4 + '&chosenModulesIds=' + module5 + '&chosenModulesIds=' + module6 + '&chosenModulesIds=' + module7;
+            var url = '@Url.Action("GetModules", "Setup")' + '?courseId=' + courseId + '&yearId=' + yearId + '&optional=1' + '&chosenModulesIds=' + module1 + '&chosenModulesIds=' + module2 + '&chosenModulesIds=' + module3 + '&chosenModulesIds=' + module4 + '&chosenModulesIds=' + module5 + '&chosenModulesIds=' + module6 + '&chosenModulesIds=' + module7;
             $.getJSON(url, function(response) {
                 $.each(response,
                     function(index, item) { // item is now an object containing properties ID and Text
@@ -115,6 +141,8 @@
             });
             divModule.show();
             id++;
+
+            updateCredits(ddlModuleValue);
         }
 
         function showModules(moduleShowCount) {
@@ -150,22 +178,76 @@
                 optionalModule4 = moduleId;
                 sessionStorage.setItem("optionalModule4", moduleId.toString());
                 return [module1, module2, module3, optionalModule4];
-                case 5:
-                    optionalModule5 = moduleId;
-                    sessionStorage.setItem("optionalModule5", moduleId.toString());
-                    return [module1, module2, module3, module4, optionalModule5];
-                case 6:
-                    optionalModule6 = moduleId;
-                    sessionStorage.setItem("optionalModule6", moduleId.toString());
-                    return [module1, module2, module3, module4, module5, optionalModule6];
-                case 7:
-                    optionalModule7 = moduleId;
-                    sessionStorage.setItem("optionalModule7", moduleId.toString());
-                    return [module1, module2, module3, module4, module5, module6, optionalModule7];
+            case 5:
+                optionalModule5 = moduleId;
+                sessionStorage.setItem("optionalModule5", moduleId.toString());
+                return [module1, module2, module3, module4, optionalModule5];
+            case 6:
+                optionalModule6 = moduleId;
+                sessionStorage.setItem("optionalModule6", moduleId.toString());
+                return [module1, module2, module3, module4, module5, optionalModule6];
+            case 7:
+                optionalModule7 = moduleId;
+                sessionStorage.setItem("optionalModule7", moduleId.toString());
+                return [module1, module2, module3, module4, module5, module6, optionalModule7];
             default:
                 return 0;
             }
 
         }
-            </script>
+
+        function updateCredits(module) {
+            debugger;
+            var compulsoryCredits = $("#compulsoryCredits").text().replace('Compulsory Credits: ', '');
+            var optionalCredits = 120 - +compulsoryCredits;
+
+            var optionalCreditsText = $("#optionalCredits").text().replace('Optional Credits Selected: ', '').replace('-', '').replace('/' + optionalCredits, '');
+            var totalCredits;
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                data: {chosenModulesIds: + module},
+                url: "/Setup/GetCredits",
+                success: function (data) {
+                    chosenModuleCredits = +data;
+                    totalCredits = +optionalCreditsText + +data;
+                    $("#optionalCredits").text('Optional Credits Selected: ' +totalCredits + '/' + optionalCredits);
+
+                    if (+optionalCredits == +optionalCreditsText + +data) {
+                        $("#SelectionComplete").val(true);
+                    }
+                }
+            });
+
         }
+
+        function GetCompulsoryCredits(course, year) {
+            debugger;
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                data: { courseId: + course, yearId: + year, optional: + 0 },
+                url: "/Setup/GetCompulsoryCredits",
+                success: function (data) {
+                    var compulsoryCreditsText = "Compulsory Credits: " + data;
+                    $("#compulsoryCredits").text(compulsoryCreditsText);
+
+                    var optionalCredits = 120 - +data;
+                    var optionalCreditsText = "Optional Credits Selected: 0/" + optionalCredits;
+                    $("#optionalCredits").text(optionalCreditsText);
+                }
+            });
+        }
+
+        function onSuccess() {
+            alert("The form was submitted");
+        }
+
+        $('#moduleForm').submit(function() {
+            alert("The form was submitted");
+            return false; // return false to cancel form action
+        });
+    </script>
+}

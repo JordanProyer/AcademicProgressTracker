@@ -14,7 +14,8 @@ namespace AcademicProgressTracker.ViewModels
         public IEnumerable<Module> Module { get; set; }
 
         //Post back to controller
-        public IEnumerable<int> Credits { get; set; }
+        public bool Success { get; set; }
+        public bool SelectionComplete { get; set; }
         public IEnumerable<int> ModuleId { get; set; }
 
     }

@@ -23,17 +23,17 @@ namespace AcademicProgressTracker.Controllers
         }
 
         // GET: Setup
-        public ActionResult Index()
+        public ActionResult Index(SetupViewModel viewModel)
         {
             var coursesList = _context.Course.ToList();
             var yearList = _context.Year.ToList();
             var modulePlaceholder = _context.Module.Where(x => x.Id == 100000).ToList();
-            var viewModel = new SetupViewModel
-            {
-                Course = coursesList,
-                Year = yearList,
-                Module = modulePlaceholder
-            };
+            viewModel.Course = coursesList;
+            viewModel.Year = yearList;
+            viewModel.Module = modulePlaceholder;
+
+                viewModel.Success = false;
+
             return View(viewModel);
         }
 
@@ -68,21 +68,27 @@ namespace AcademicProgressTracker.Controllers
             return Json(modules, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetCredits(int[] moduleId)
+        public JsonResult GetCompulsoryCredits(int courseId, int yearId, int optional)
+        {
+            var compulsoryCredits = _context.Module.Where(x => x.CourseId == courseId 
+                                                        && x.YearId == yearId
+                                                        && x.Optional == optional).Select(y => y.Credits).Sum();
+
+            return Json(compulsoryCredits, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetCredits(int chosenModulesIds)
         {
             var moduleDb = _context.Module;
             var moduleList = moduleDb.Select(x => x.Id).ToList();
-            var totalCredits = 0;
-            foreach (var id in moduleId)
-            {
-                if (moduleList.Contains(id))
+            var creditValue = 0;
+            
+                if (moduleList.Contains(chosenModulesIds))
                 {
-                    var creditValue = moduleDb.Where(x => x.Id == id).Select(y => y.Credits).Single();
-                    totalCredits += creditValue;
+                     creditValue = moduleDb.Where(x => x.Id == chosenModulesIds).Select(y => y.Credits).Single();
                 }
-            }
 
-            return new JsonResult { JsonRequestBehavior = JsonRequestBehavior.AllowGet, Data = totalCredits };
+            return Json(creditValue, JsonRequestBehavior.AllowGet);
         }
 
         //parameter = view model? could help with other call
@@ -105,7 +111,8 @@ namespace AcademicProgressTracker.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Setup");
+            viewModel.Success = true;
+            return RedirectToAction("Index", "Setup", viewModel);
 
         }
     }
