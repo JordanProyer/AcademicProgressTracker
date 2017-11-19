@@ -8,8 +8,13 @@ namespace AcademicProgressTracker
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Content/Scripts/jquery-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/lib").Include(
+                        "~/Content/Scripts/jquery-{version}.js",
+                        "~/Content/Scripts/bootstrap.js",
+                        "~/Content/Scripts/respond.js",
+                        "~/Content/Scripts/toastr.js",
+                        "~/Content/Scripts/datatables/jquery.datatables.js",
+                        "~/Content/Scripts/datatables/datatables.bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Content/Scripts/jquery.validate*"));
@@ -19,13 +24,9 @@ namespace AcademicProgressTracker
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Content/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Content/Scripts/bootstrap.js",
-                      "~/Content/Scripts/respond.js",
-                      "~/Content/Scripts/toastr.js"));
-
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-cerulean.css",
+                      "~/Content/datatables/css/datatables.bootstrap.css",
                       "~/Content/toastr.css",
                       "~/Content/site.css"));
         }

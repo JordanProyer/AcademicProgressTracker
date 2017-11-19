@@ -96,6 +96,9 @@ namespace AcademicProgressTracker.Controllers
         public ActionResult CreateUserModule(SetupViewModel viewModel)
         {
             var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var compulsoryModules = _context.Module.Where(x => x.CourseId == viewModel.CourseId
+                                                               && x.YearId == viewModel.YearId
+                                                               && x.Optional == 0).Select(x => x.Id);
             foreach (var module in viewModel.ModuleId)
             {
                 var userModule = new UserModules()
@@ -107,9 +110,24 @@ namespace AcademicProgressTracker.Controllers
                 if (userId != 0 && module != 0)
                 {
                     _context.UserModules.Add(userModule);
-                    _context.SaveChanges();
                 }
             }
+
+            foreach (var module in compulsoryModules)
+            {
+                var userModule = new UserModules()
+                {
+                    UserId = userId,
+                    ModuleId = module,
+                };
+
+                if (userId != 0 && module != 0)
+                {
+                    _context.UserModules.Add(userModule);
+                }
+            }
+
+            _context.SaveChanges();
 
             viewModel.Success = true;
             return RedirectToAction("Index", "Setup", viewModel);
