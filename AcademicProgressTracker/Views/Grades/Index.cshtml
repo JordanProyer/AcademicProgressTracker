@@ -1,4 +1,4 @@
-﻿
+﻿@model AcademicProgressTracker.ViewModels.GradesViewModel
 @{
     ViewBag.Title = "Grades";
     ViewBag.Message = "Select the module you would like to edit";
@@ -7,4 +7,42 @@
 
 <h2>@ViewBag.Title</h2>
 <p>@ViewBag.Message</p>
+
+@if (!Model.ModuleList.Any())
+{
+    <p>You have not selected your modules yet</p>
+    <p>To choose your modules, <a href="~/Setup/Index">click here</a>
+    </p>
+}
+else
+{
+    <table id="modulesTable" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Add Grades</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var module in Model.ModuleList)
+        {
+            <tr>
+                <td>@module.Code</td>
+                <td>@module.Name</td>
+                <td>@Html.ActionLink("Add Grades", "Add", "Grades", new { id = module.Id }, null)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#modulesTable").DataTable();
+        });
+    </script>
+}
 

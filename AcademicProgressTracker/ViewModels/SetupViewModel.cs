@@ -14,9 +14,11 @@ namespace AcademicProgressTracker.ViewModels
         public IEnumerable<Module> Module { get; set; }
 
         //Post back to controller
+        public IEnumerable<int> ModuleId { get; set; }
+        public int CourseId { get; set; }
+        public int YearId { get; set; }
         public bool Success { get; set; }
         public bool SelectionComplete { get; set; }
-        public IEnumerable<int> ModuleId { get; set; }
 
     }
 }

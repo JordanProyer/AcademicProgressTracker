@@ -18,10 +18,12 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.Course)
                     @Html.DropDownListFor(m => m.Course, new SelectList(Model.Course, "Id", "Name"), "Select a course", new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.CourseId)
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Year)
-                    @Html.DropDownListFor(m => m.Year, new SelectList(Model.Year, "Id", "Name"), "Select a year", new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.Year, new SelectList(Model.Year, "Id", "Name"), "Select a year", new { @class = "form-control" })              
+                    @Html.HiddenFor(m => m.YearId)
                 </div>
                 <div id="divModule1" class="form-group-module">
                     @Html.Label("Optional Module 1")
@@ -71,7 +73,7 @@
                     <h2 id="compulsoryCredits">Compulsory Credits: -</h2>
                     <h2 id="optionalCredits">Optional Credits Selected: -</h2>
                 </div>
-                @Html.HiddenFor(x => x.SelectionComplete);
+                @Html.HiddenFor(x => x.SelectionComplete)
             </div>
         </div>
     </form>
@@ -81,9 +83,7 @@
 {
     <script>
         $(document).ready(function () {
-            debugger;
             if ($("#Success").val() === "True") {
-                debugger;
                 toastr.success('Module choices saved successfully');
             }
             var moduleShowCount = 2;          
@@ -94,7 +94,6 @@
             showModules(moduleShowCount);    
 
             $("#btnSubmit").click(function () {
-                debugger;
                 if ($('#SelectionComplete').val() === 'False') {
                     toastr.error('Insufficient number of credits selected');
                     return false;
@@ -108,13 +107,14 @@
             $("#Year").change(function () {
                 var courseId = $("#Course").val();
                 var yearId = $("#Year").val();
+                $("#CourseId").val(courseId);
+                $("#YearId").val(yearId);
                 GetCompulsoryCredits(courseId, yearId);
                 updateModules(1);
             });
         }
 
         function updateModules(id) {
-            debugger;
             var ddlModule = $("#ddlModule" + id);
             var divModule = $("#divModule" + id);
             var courseId = $("#Course").val();
@@ -147,7 +147,6 @@
 
         function showModules(moduleShowCount) {
             $('.form-group-module').change(function () {
-                debugger;
                 updateModules(moduleShowCount);
                 moduleShowCount++;
             });
@@ -197,7 +196,6 @@
         }
 
         function updateCredits(module) {
-            debugger;
             var compulsoryCredits = $("#compulsoryCredits").text().replace('Compulsory Credits: ', '');
             var optionalCredits = 120 - +compulsoryCredits;
 
@@ -223,8 +221,6 @@
         }
 
         function GetCompulsoryCredits(course, year) {
-            debugger;
-
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
