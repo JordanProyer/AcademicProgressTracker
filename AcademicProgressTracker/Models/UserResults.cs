@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AcademicProgressTracker.Models
 {
@@ -7,11 +8,15 @@ namespace AcademicProgressTracker.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public int CourseworkId { get; set; }
+
+        [MinGradeValue]
+        [MaxGradeValue]
         public int? Mark { get; set; }
 
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
         [ForeignKey("CourseworkId")]
         public Coursework Coursework { get; set; }
+
     }
 }

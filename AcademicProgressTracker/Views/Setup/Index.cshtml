@@ -11,7 +11,7 @@
 
 @using (Html.BeginForm("CreateUserModule", "Setup"))
 {
-    @Html.HiddenFor(x => x.Success);
+    @Html.HiddenFor(x => x.Success)
     <form id="moduleForm" onsubmit="checkVaildForm()">
         <div class="row">
             <div class="col-md-6">
@@ -236,14 +236,5 @@
                 }
             });
         }
-
-        function onSuccess() {
-            alert("The form was submitted");
-        }
-
-        $('#moduleForm').submit(function() {
-            alert("The form was submitted");
-            return false; // return false to cancel form action
-        });
     </script>
 }

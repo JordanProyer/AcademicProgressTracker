@@ -9,6 +9,5 @@ namespace AcademicProgressTracker.ViewModels
     public class GradesViewModel
     {
         public IEnumerable<Module> ModuleList { get; set; }
-        public Module Module { get; set; }
     }
 }

@@ -1,9 +1,62 @@
-﻿@model AcademicProgressTracker.ViewModels.GradesViewModel
+﻿@using AcademicProgressTracker.Models
+@model AcademicProgressTracker.ViewModels.GradesAddViewModel
 @{
-    ViewBag.Title = "Add";
+    ViewBag.Title = @Model.Module.Name;
+    ViewBag.Message = "Enter module results for " + @Model.Module.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Add</h2>
-<h2>@Model.Module.Name</h2>
+<h1>@ViewBag.Title</h1>
+<p>@ViewBag.Message</p>
+
+@using (Html.BeginForm("AddGrades", "Grades", FormMethod.Post, new { gradesAddViewModel = Model }))
+{
+    @Html.HiddenFor(x => x.Success)
+
+    <table id="courseworkTable" class="table table-bordered table-hover fixed">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th style="width: 180px">Percentage</th>
+            <th style="width: 502px">Result (%)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var coursework in Model.CourseworkList.Select((value, index) => new {value, index}))
+        {
+            var courseWorkId = coursework.value.Id;
+            <tr>
+                <td>
+                    @coursework.value.Name
+                </td>
+                <td style="width: 180px">
+                    @coursework.value.Percentage
+                </td>
+                <td style="width: 502px">@Html.EditorFor(x => x.UserResults[coursework.index].Mark)
+                    @Html.ValidationMessageFor(x => x.UserResults[coursework.index].Mark)
+                </td>
+                    @Html.HiddenFor(x => x.UserResults[coursework.index].CourseworkId, new {Value = courseWorkId.ToString()})
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="col-md-pull-12">
+        <br/>
+        <input type="submit" id="btnSubmit" class="btn btn-success" value="Submit"/>
+    </div>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#courseworkTable").DataTable();
+
+            if ($("#Success").val() === "True") {
+                toastr.success('Module choices saved successfully');
+                $("#Success").val("False");
+            }
+        });
+    </script>
+}
 

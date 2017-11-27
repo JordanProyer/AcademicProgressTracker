@@ -32,7 +32,7 @@ namespace AcademicProgressTracker.Controllers
             viewModel.Year = yearList;
             viewModel.Module = modulePlaceholder;
 
-                viewModel.Success = false;
+            viewModel.Success = false;
 
             return View(viewModel);
         }

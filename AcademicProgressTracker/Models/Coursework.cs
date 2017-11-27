@@ -11,5 +11,6 @@ namespace AcademicProgressTracker.Models
 
         [ForeignKey("ModuleId")]
         public Module Module { get; set; }
+
     }
 }
