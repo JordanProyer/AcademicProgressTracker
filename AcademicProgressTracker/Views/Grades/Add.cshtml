@@ -57,6 +57,16 @@
                 $("#Success").val("False");
             }
         });
+
+        $("#UserResults_0__Mark").onkeypress = function (e) {
+            debugger;
+            e = e || window.event;
+            var charCode = (typeof e.which == "undefined") ? e.keyCode : e.which;
+            var charStr = String.fromCharCode(charCode);
+            if (/\d/.test(charStr)) {
+                return false;
+            }
+        };
     </script>
 }
 

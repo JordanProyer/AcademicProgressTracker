@@ -11,7 +11,7 @@ namespace AcademicProgressTracker.Models
 
         [MinGradeValue]
         [MaxGradeValue]
-        public int? Mark { get; set; }
+        public decimal? Mark { get; set; }
 
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }

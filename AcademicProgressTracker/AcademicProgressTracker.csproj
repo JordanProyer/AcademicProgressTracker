@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201711100240532_AddUserModules.Designer.cs">
       <DependentUpon>201711100240532_AddUserModules.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711291742341_ChangeMarkToDecimal.cs" />
+    <Compile Include="Migrations\201711291742341_ChangeMarkToDecimal.Designer.cs">
+      <DependentUpon>201711291742341_ChangeMarkToDecimal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
@@ -508,6 +512,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711100240532_AddUserModules.resx">
       <DependentUpon>201711100240532_AddUserModules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711291742341_ChangeMarkToDecimal.resx">
+      <DependentUpon>201711291742341_ChangeMarkToDecimal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
