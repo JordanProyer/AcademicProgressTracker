@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<AcademicProgressTracker.ViewModels.ResultsViewModel>
 @{
     ViewBag.Title = "Results";
     ViewBag.Message = "View Your Results";
@@ -8,3 +8,9 @@
 <h2>@ViewBag.Title</h2>
 <p>@ViewBag.Message</p>
 
+@foreach (var result in Model)
+{
+    <div class="row col-md-4">
+        @Html.Partial("_Overview", result)
+    </div>
+}

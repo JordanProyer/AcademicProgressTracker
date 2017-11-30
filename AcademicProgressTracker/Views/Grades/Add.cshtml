@@ -1,5 +1,4 @@
-﻿@using AcademicProgressTracker.Models
-@model AcademicProgressTracker.ViewModels.GradesAddViewModel
+﻿@model AcademicProgressTracker.ViewModels.GradesAddViewModel
 @{
     ViewBag.Title = @Model.Module.Name;
     ViewBag.Message = "Enter module results for " + @Model.Module.Name;
@@ -42,7 +41,7 @@
     </table>
     <div class="col-md-pull-12">
         <br/>
-        <input type="submit" id="btnSubmit" class="btn btn-success" value="Submit"/>
+        <input type="submit" id="btnSubmit" class="btn btn-info" value="Submit" />
     </div>
 }
 
@@ -57,16 +56,6 @@
                 $("#Success").val("False");
             }
         });
-
-        $("#UserResults_0__Mark").onkeypress = function (e) {
-            debugger;
-            e = e || window.event;
-            var charCode = (typeof e.which == "undefined") ? e.keyCode : e.which;
-            var charStr = String.fromCharCode(charCode);
-            if (/\d/.test(charStr)) {
-                return false;
-            }
-        };
     </script>
 }
 

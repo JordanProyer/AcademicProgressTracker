@@ -1,0 +1,10 @@
+﻿@model AcademicProgressTracker.ViewModels.ResultsAddViewModel
+@{
+    ViewBag.Title = @Model.Module.Name;
+    ViewBag.Message = "Detailed analytics for: " + @Model.Module.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+<p>@ViewBag.Message</p>
+

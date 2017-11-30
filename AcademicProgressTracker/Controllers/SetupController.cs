@@ -15,7 +15,7 @@ namespace AcademicProgressTracker.Controllers
 {
     public class SetupController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public SetupController()
         {

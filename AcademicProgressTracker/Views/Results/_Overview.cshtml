@@ -1,0 +1,18 @@
+﻿@model AcademicProgressTracker.ViewModels.ResultsViewModel
+
+<div class="panel-primary" style="overflow: hidden; width: 330px"; height ="400px">
+    <div class="panel-heading">
+        <b>@Model.ModuleName</b>
+    </div>
+    <div class="panel-body-result">
+        <b>Coursework Completed: </b> @Model.CompletedCoursework / @Model.TotalCourseworks
+        <br />
+        <b> Average Mark: </b> @Model.AverageMark
+        <br />
+        <b>Predicted Classifcation:</b> @Model.PredictedClassification
+        <br/><br/>
+        <button class="pull-right btn btn-block" onclick="location.href= '@Url.Action("Details", "Results", new { id = Model.ModuleId })';">More details</button>
+        <br/><br/>
+    </div>
+</div>
+<br/><br/>
