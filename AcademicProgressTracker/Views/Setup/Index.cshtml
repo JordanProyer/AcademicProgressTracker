@@ -12,10 +12,10 @@
 @using (Html.BeginForm("CreateUserModule", "Setup"))
 {
     @Html.HiddenFor(x => x.Success)
-    <form id="moduleForm" onsubmit="checkVaildForm()">
+    <form id="moduleForm">
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group"><br/>
                     @Html.LabelFor(m => m.Course)
                     @Html.DropDownListFor(m => m.Course, new SelectList(Model.Course, "Id", "Name"), "Select a course", new { @class = "form-control" })
                     @Html.HiddenFor(m => m.CourseId)
@@ -25,40 +25,40 @@
                     @Html.DropDownListFor(m => m.Year, new SelectList(Model.Year, "Id", "Name"), "Select a year", new { @class = "form-control" })              
                     @Html.HiddenFor(m => m.YearId)
                 </div>
-                <div id="divModule1" class="form-group-module">
+                <div id="divModule1" class="form-group-module" hidden>
                     @Html.Label("Optional Module 1")
                     @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule1", @class = "form-control" })
                 </div>
-                <div id="divModule2" class="form-group-module">
+                <div id="divModule2" class="form-group-module" hidden>
                     <br />
                     @Html.Label("Optional Module 2")
                     @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule2", @class = "form-control" })
                 </div>
-                <div id="divModule3" class="form-group-module">
+                <div id="divModule3" class="form-group-module" hidden>
                     <br />
                     @Html.Label("Optional Module 3")
                     @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule3", @class = "form-control" })
                 </div>
-                <div id="divModule4" class="form-group-module">
+                <div id="divModule4" class="form-group-module" hidden>
                     <br />
                     @Html.Label("Optional Module 4")
                     @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule4", @class = "form-control" })
                 </div>
-                <div id="divModule5" class="form-group-module">
+                <div id="divModule5" class="form-group-module" hidden>
                     <br />
                     @Html.Label("Optional Module 5")
                     @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule5", @class = "form-control" })
                 </div>
-                <div id="divModule6" class="form-group-module">
+                <div id="divModule6" class="form-group-module" hidden>
                     <br />
                     @Html.Label("Optional Module 6")
                     @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule6", @class = "form-control" })
                 </div>
-                <div id="divModule7" class="form-group-module">
-                    <br />
-                    @Html.Label("Optional Module 7")
-                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule7", @class = "form-control" })
-                </div>
+                    <div id="divModule7" class="form-group-module" hidden>
+                        <br />
+                        @Html.Label("Optional Module 7")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule7", @class = "form-control" })
+                    </div>
                 <div class="form-group">
                     <div class="col-md-pull-12">
                         <br />
@@ -66,9 +66,8 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6">
-                <div id="creditsText" class="form-group">
+                <div id="creditsText">
                     <h1>Course Information:</h1>
                     <h2 id="compulsoryCredits">Compulsory Credits: -</h2>
                     <h2 id="optionalCredits">Optional Credits Selected: -</h2>
@@ -83,12 +82,11 @@
 {
     <script>
         $(document).ready(function () {
+            removeErrors();
             if ($("#Success").val() === "True") {
                 toastr.success('Module choices saved successfully');
             }
             var moduleShowCount = 2;          
-
-            $('.form-group-module').hide();
 
             changeOnYear();
             showModules(moduleShowCount);    
@@ -139,7 +137,7 @@
                         ddlModule.append($('<option>').text(item.Name).val(item.Id));
                     });
             });
-            divModule.show();
+            divModule.removeAttr("hidden");
             id++;
 
             updateCredits(ddlModuleValue);
@@ -235,6 +233,18 @@
                     $("#optionalCredits").text(optionalCreditsText);
                 }
             });
+        }
+
+        function removeErrors() {
+            $("#Course").removeClass("input-validation-error");
+            $("#Year").removeClass("input-validation-error");
+            $("#ddlModule1").removeClass("input-validation-error");
+            $("#ddlModule2").removeClass("input-validation-error");
+            $("#ddlModule3").removeClass("input-validation-error");
+            $("#ddlModule4").removeClass("input-validation-error");
+            $("#ddlModule5").removeClass("input-validation-error");
+            $("#ddlModule6").removeClass("input-validation-error");
+            $("#ddlModule7").removeClass("input-validation-error");
         }
     </script>
 }
