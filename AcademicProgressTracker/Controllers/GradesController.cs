@@ -95,8 +95,6 @@ namespace AcademicProgressTracker.Controllers
             //Create new userResult for each table entry
             foreach (var userResults in gradesAddViewModel.UserResults)
             {
-                if (userResults.Mark != null)
-                {
                     var userResult = new UserResults
                     {
                         UserId = userId,
@@ -108,15 +106,13 @@ namespace AcademicProgressTracker.Controllers
                     if (userResultContext.FirstOrDefault(x => x.UserId == userId 
                                                             && x.CourseworkId == userResult.CourseworkId) != null)
                     {
-                        //Add userResult to list to be removed
-                        userResultsToRemove.Add(userResultContext.First(x => x.UserId == userId
-                                                                           && x.CourseworkId == userResult.CourseworkId));
+                        //Remove userResult from db
+                        userResultsToRemove.Add(userResultContext.First(x => x.UserId == userId && x.CourseworkId == userResult.CourseworkId));
+                        userResultContext.RemoveRange(userResultsToRemove);
                     }
 
-                    //Remove userResult from db and add new record
-                    userResultContext.RemoveRange(userResultsToRemove);
-                    userResultContext.Add(userResult);
-                }              
+                    //Add new user result
+                    userResultContext.Add(userResult);            
             }
 
             _context.SaveChanges();
