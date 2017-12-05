@@ -8,7 +8,7 @@
 <h1>@ViewBag.Title</h1>
 <p>@ViewBag.Message</p>
 
-@using (Html.BeginForm("AddGrades", "Grades", FormMethod.Post, new { gradesAddViewModel = Model }))
+@using (Html.BeginForm("AddGrades", "Grades", FormMethod.Post, new { id = "gradesForm", gradesAddViewModel = Model }))
 {
     @Html.HiddenFor(x => x.Success)
 
@@ -49,13 +49,23 @@
 @section scripts
 {
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#courseworkTable").DataTable();
 
             if ($("#Success").val() === "True") {
                 toastr.success('Module choices saved successfully');
                 $("#Success").val("False");
-            }           
+            }
+
+            $("#gradesForm").submit(function(e) {
+                var currentForm = this;
+                e.preventDefault();
+                bootbox.confirm("Are you sure you would like to add these results?", function(result) {
+                        if (result) {
+                            currentForm.submit();
+                        }
+                    });
+            });
         });
     </script>
 }

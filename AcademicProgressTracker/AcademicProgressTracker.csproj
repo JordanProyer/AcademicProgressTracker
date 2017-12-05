@@ -450,6 +450,8 @@
     <Content Include="Content\Scripts\DataTables\responsive.foundation.min.js" />
     <Content Include="Content\Scripts\DataTables\responsive.jqueryui.js" />
     <Content Include="Content\Scripts\DataTables\responsive.jqueryui.min.js" />
+    <Content Include="Content\Scripts\bootbox.js" />
+    <Content Include="Content\Scripts\bootbox.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

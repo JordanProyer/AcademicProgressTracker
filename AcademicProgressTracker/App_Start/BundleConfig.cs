@@ -11,6 +11,7 @@ namespace AcademicProgressTracker
             bundles.Add(new ScriptBundle("~/bundles/lib").Include(
                         "~/Content/Scripts/jquery-{version}.js",
                         "~/Content/Scripts/bootstrap.js",
+                        "~/Content/Scripts/bootbox.js",
                         "~/Content/Scripts/respond.js",
                         "~/Content/Scripts/toastr.js",
                         "~/Content/Scripts/datatables/jquery.datatables.js",
