@@ -35,7 +35,7 @@ namespace AcademicProgressTracker.Controllers
                 {
                     ModuleName = moduleList.First(x => x.Id == userModule.ModuleId).Name,
                     ModuleId = moduleList.First(x => x.Id == userModule.ModuleId).Id,
-                    CompletedCoursework = userResultsList.Count(x => x.Coursework.ModuleId == userModule.ModuleId),
+                    CompletedCoursework = userResultsList.Count(x => x.Coursework.ModuleId == userModule.ModuleId && x.Mark != null),
                     TotalCourseworks = courseworkList.Count(x => x.ModuleId == userModule.ModuleId),              
                 };
 
