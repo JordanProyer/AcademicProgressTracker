@@ -170,10 +170,14 @@ else
                         ddlModule.append($('<option>').text(item.Name).val(item.Id));
                     });
             });
-            divModule.removeAttr("hidden");
-            id++;
 
             updateCredits(ddlModuleValue);
+            debugger;
+            var optionalCredits = $("#optionalCredits").text().replace('Optional Credits Selected: ', '');
+            if (optionalCredits !== '60/70') {
+                divModule.removeAttr("hidden");
+            }
+            id++;
         }
 
         function showModules(moduleShowCount) {
