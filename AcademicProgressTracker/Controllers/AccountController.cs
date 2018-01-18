@@ -167,7 +167,7 @@ namespace AcademicProgressTracker.Controllers
             if (ModelState.IsValid)
             {
                 var userName = string.Format(model.FirstName + ' ' +  model.LastName);
-                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = userName, Email = model.Email };
+                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

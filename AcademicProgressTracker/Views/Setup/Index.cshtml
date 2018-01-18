@@ -1,81 +1,104 @@
-﻿@model AcademicProgressTracker.ViewModels.SetupViewModel
+﻿@using AcademicProgressTracker.Models
+@using Microsoft.Ajax.Utilities
+@using Microsoft.AspNet.Identity
+@model AcademicProgressTracker.ViewModels.SetupViewModel
 
 @{
     ViewBag.Title = "Course Setup";
     ViewBag.Message = "Set up your course modules";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var _context = new ApplicationDbContext();
+    var userId = Convert.ToInt32(User.Identity.GetUserId());
+    var usermodulesExist = _context.UserModules.Any(x => x.UserId == userId);
 }
 
 <h2>@ViewBag.Title</h2>
 <p>@ViewBag.Message</p>
 
-@using (Html.BeginForm("CreateUserModule", "Setup", FormMethod.Post, new { id = "setupForm"}))
+@if (!User.Identity.IsAuthenticated)
+{
+    <p><b>You must be logged in to choose your course modules</b>
+    </p>
+    <p><b>To login, <a href="~/Account/Login">click here</a> or to sign up, <a href="~/Account/Register">click here</a> </b>
+    </p>
+}
+
+else if (User.Identity.IsAuthenticated && !usermodulesExist )
+{
+    using (Html.BeginForm("CreateUserModule", "Setup", FormMethod.Post, new {id = "setupForm"}))
+    {
+        @Html.HiddenFor(x => x.Success)
+        <form id="moduleForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group"><br/>
+                        @Html.LabelFor(m => m.Course)
+                        @Html.DropDownListFor(m => m.Course, new SelectList(Model.Course, "Id", "Name"), "Select a course", new {@class = "form-control"})
+                        @Html.HiddenFor(m => m.CourseId)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Year)
+                        @Html.DropDownListFor(m => m.Year, new SelectList(Model.Year, "Id", "Name"), "Select a year", new {@class = "form-control"})
+                        @Html.HiddenFor(m => m.YearId)
+                    </div>
+                    <div id="divModule1" class="form-group-module" hidden>
+                        @Html.Label("Optional Module 1")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule1", @class = "form-control"})
+                    </div>
+                    <div id="divModule2" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 2")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule2", @class = "form-control"})
+                    </div>
+                    <div id="divModule3" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 3")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule3", @class = "form-control"})
+                    </div>
+                    <div id="divModule4" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 4")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule4", @class = "form-control"})
+                    </div>
+                    <div id="divModule5" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 5")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule5", @class = "form-control"})
+                    </div>
+                    <div id="divModule6" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 6")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule6", @class = "form-control"})
+                    </div>
+                    <div id="divModule7" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 7")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule7", @class = "form-control"})
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-pull-12">
+                            <br/>
+                            <input type="submit" id="btnSubmit"class="btn btn-info" value="Submit"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div id="creditsText">
+                        <h1>Course Information:</h1>
+                        <h2 id="compulsoryCredits">Compulsory Credits: -</h2>
+                        <h2 id="optionalCredits">Optional Credits Selected: -</h2>
+                    </div>
+                    @Html.HiddenFor(x => x.SelectionComplete)
+                </div>
+            </div>
+        </form>
+    }
+}
+
+else
 {
     @Html.HiddenFor(x => x.Success)
-    <form id="moduleForm">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group"><br/>
-                    @Html.LabelFor(m => m.Course)
-                    @Html.DropDownListFor(m => m.Course, new SelectList(Model.Course, "Id", "Name"), "Select a course", new { @class = "form-control" })
-                    @Html.HiddenFor(m => m.CourseId)
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Year)
-                    @Html.DropDownListFor(m => m.Year, new SelectList(Model.Year, "Id", "Name"), "Select a year", new { @class = "form-control" })              
-                    @Html.HiddenFor(m => m.YearId)
-                </div>
-                <div id="divModule1" class="form-group-module" hidden>
-                    @Html.Label("Optional Module 1")
-                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule1", @class = "form-control" })
-                </div>
-                <div id="divModule2" class="form-group-module" hidden>
-                    <br />
-                    @Html.Label("Optional Module 2")
-                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule2", @class = "form-control" })
-                </div>
-                <div id="divModule3" class="form-group-module" hidden>
-                    <br />
-                    @Html.Label("Optional Module 3")
-                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule3", @class = "form-control" })
-                </div>
-                <div id="divModule4" class="form-group-module" hidden>
-                    <br />
-                    @Html.Label("Optional Module 4")
-                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule4", @class = "form-control" })
-                </div>
-                <div id="divModule5" class="form-group-module" hidden>
-                    <br />
-                    @Html.Label("Optional Module 5")
-                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule5", @class = "form-control" })
-                </div>
-                <div id="divModule6" class="form-group-module" hidden>
-                    <br />
-                    @Html.Label("Optional Module 6")
-                    @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule6", @class = "form-control" })
-                </div>
-                    <div id="divModule7" class="form-group-module" hidden>
-                        <br />
-                        @Html.Label("Optional Module 7")
-                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new { @Id = "ddlModule7", @class = "form-control" })
-                    </div>
-                <div class="form-group">
-                    <div class="col-md-pull-12">
-                        <br />
-                        <input type="submit" id="btnSubmit"class="btn btn-info" value="Submit" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div id="creditsText">
-                    <h1>Course Information:</h1>
-                    <h2 id="compulsoryCredits">Compulsory Credits: -</h2>
-                    <h2 id="optionalCredits">Optional Credits Selected: -</h2>
-                </div>
-                @Html.HiddenFor(x => x.SelectionComplete)
-            </div>
-        </div>
-    </form>
+    <p><b>Looks like you've already picked your optional modules</b></p>
 }
 
 @section scripts

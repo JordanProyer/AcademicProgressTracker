@@ -8,9 +8,21 @@
 <h2>@ViewBag.Title</h2>
 <p>@ViewBag.Message</p>
 
-@foreach (var result in Model)
+@if (Model.All(x => x.ModuleId == 0))
 {
-    <div class="row col-md-4">
-        @Html.Partial("_Overview", result)
-    </div>
+    <p><b>You must select your optional modules before you can view the results page</b>
+    </p>
+    <p><b>To select your modules, <a href="~/Setup/Index">click here</a></b>
+    </p>
 }
+
+else
+{
+    foreach (var result in Model)
+    {
+        <div class="row col-md-4">
+            @Html.Partial("_Overview", result)
+        </div>
+    }
+}
+
