@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AcademicProgressTracker.Models;
+using AcademicProgressTracker.Models.Graphs;
 using AcademicProgressTracker.ViewModels;
 using Microsoft.AspNet.Identity;
 
@@ -61,6 +63,27 @@ namespace AcademicProgressTracker.Controllers
                 Module = module
             };
             return View(viewModel);
+        }
+
+        public JsonResult GetCourseworkGrades(int moduleId)
+        {
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var relevantUserResults = _context.UserResults.Where(x => x.Coursework.ModuleId == moduleId && x.UserId == userId).Include(y => y.Coursework).ToList();
+            var courseworkGradesList = new List<CourseworkGrades>();
+            var courseworkNameList = _context.Coursework.Where(x => x.ModuleId == moduleId).OrderBy(y => y.Name).Select(z => z.Name).ToList();
+
+            foreach (var userResult in relevantUserResults)
+            {
+                var courseworkGrades = new CourseworkGrades
+                {
+                    Name = userResult.Coursework.Name,
+                    Mark = userResult.Mark
+                };
+
+                courseworkGradesList.Add(courseworkGrades);
+            }
+            
+            return Json(courseworkGradesList, JsonRequestBehavior.AllowGet);
         }
     }
 }

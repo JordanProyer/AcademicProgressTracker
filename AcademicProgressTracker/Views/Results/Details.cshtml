@@ -8,3 +8,63 @@
 <h1>@ViewBag.Title</h1>
 <p>@ViewBag.Message</p>
 
+    <div id="chartContainer" style="height: 370px; width: 80%;"></div>
+
+    <script>
+        window.onload = function () {
+
+            var dataPoints = [];
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: "Coursework Grades"
+                },
+                axisX: {
+                    title: "Coursework Name",
+                    titleFontSize: 24,
+                },
+                axisY: {
+                    title: "Mark achieved (%)",
+                    titleFontSize: 24,
+                    maximum: 100
+                },
+                axisY2: {
+                    title: "Clutch - Units",
+                    titleFontColor: "#C0504E",
+                    lineColor: "#C0504E",
+                    labelFontColor: "#C0504E",
+                    tickColor: "#C0504E"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: dataPoints
+                    }
+                    ,
+                //    {
+                //        type: "column",
+                //        name: "Test",
+                //        axisYType: "secondary",
+                //        dataPoints: dataPoints
+                //    }
+                ]
+            });
+
+            function addData(data) {
+                for (var i = 0; i < data.length; i++) {
+                    dataPoints.push({
+                        label: data[i].Name,
+                        y: data[i].Mark
+                    });
+                }
+                chart.render();
+
+            }
+
+            var moduleId = @Model.Module.Id;
+            var url = '@Url.Action("GetCourseworkGrades", "Results")' + '?moduleId=' + moduleId;
+            $.getJSON(url, addData);
+
+        }
+    </script>

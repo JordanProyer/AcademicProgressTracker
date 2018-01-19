@@ -232,6 +232,7 @@
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Coursework.cs" />
+    <Compile Include="Models\Graphs\CourseworkGrades.cs" />
     <Compile Include="Validation\MaxGradeValueAttribute.cs" />
     <Compile Include="Validation\MinGradeValueAttribute.cs" />
     <Compile Include="Models\Module.cs" />
@@ -360,6 +361,8 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\Scripts\canvasjs.min.js" />
+    <Content Include="Content\Scripts\jquery.canvasjs.min.js" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
@@ -498,6 +501,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\toastr.scss" />

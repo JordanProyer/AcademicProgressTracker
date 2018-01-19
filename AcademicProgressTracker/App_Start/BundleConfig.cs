@@ -14,6 +14,8 @@ namespace AcademicProgressTracker
                         "~/Content/Scripts/bootbox.js",
                         "~/Content/Scripts/respond.js",
                         "~/Content/Scripts/toastr.js",
+                        "~/Content/Scripts/canvasjs.min.js",
+                        "~/Content/Scripts/jquery.canvasjs.min.js",
                         "~/Content/Scripts/datatables/jquery.datatables.js",
                         "~/Content/Scripts/datatables/datatables.bootstrap.js"));
 
