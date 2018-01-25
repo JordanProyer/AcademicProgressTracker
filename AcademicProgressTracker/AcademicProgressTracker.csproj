@@ -361,6 +361,13 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\Images\books-background.jpeg" />
+    <Content Include="Content\Images\bricks-background.jpeg" />
+    <Content Include="Content\Images\edit.png" />
+    <Content Include="Content\Images\green-plus-sign-md.png" />
+    <Content Include="Content\Images\open-book-background.jpeg" />
+    <Content Include="Content\Images\open-books-background-transparent.png" />
+    <Content Include="Content\Images\Red_cross_tick.png" />
     <Content Include="Content\Scripts\canvasjs.min.js" />
     <Content Include="Content\Scripts\jquery.canvasjs.min.js" />
     <Content Include="Content\toastr.css" />
@@ -501,7 +508,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\toastr.scss" />
