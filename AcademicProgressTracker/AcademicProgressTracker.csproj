@@ -50,6 +50,7 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -228,11 +229,16 @@
     <Compile Include="Migrations\201711291742341_ChangeMarkToDecimal.Designer.cs">
       <DependentUpon>201711291742341_ChangeMarkToDecimal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801252342207_UpdateBoundsToDoubles.cs" />
+    <Compile Include="Migrations\201801252342207_UpdateBoundsToDoubles.Designer.cs">
+      <DependentUpon>201801252342207_UpdateBoundsToDoubles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Coursework.cs" />
     <Compile Include="Models\Graphs\CourseworkGrades.cs" />
+    <Compile Include="Utilities\Utilities.cs" />
     <Compile Include="Validation\MaxGradeValueAttribute.cs" />
     <Compile Include="Validation\MinGradeValueAttribute.cs" />
     <Compile Include="Models\Module.cs" />
@@ -533,6 +539,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711291742341_ChangeMarkToDecimal.resx">
       <DependentUpon>201711291742341_ChangeMarkToDecimal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801252342207_UpdateBoundsToDoubles.resx">
+      <DependentUpon>201801252342207_UpdateBoundsToDoubles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

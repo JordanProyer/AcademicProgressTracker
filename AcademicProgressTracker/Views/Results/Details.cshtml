@@ -8,7 +8,16 @@
 <h1>@ViewBag.Title</h1>
 <p>@ViewBag.Message</p>
 
+@using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+{
     <div id="chartContainer" style="height: 370px; width: 80%;"></div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.KnnPredictionNum)
+            @Html.DisplayTextFor(m => m.KnnPredictionNum)
+        @Html.LabelFor(m => m.KnnPredictionTxt)
+        @Html.DisplayTextFor(m => m.KnnPredictionTxt)
+    </div>
+}
 
     <script>
         window.onload = function () {

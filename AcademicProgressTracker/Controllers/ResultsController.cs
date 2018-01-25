@@ -47,7 +47,8 @@ namespace AcademicProgressTracker.Controllers
                     viewModel.AverageMark = decimal.Round((decimal) averageMark, 2, MidpointRounding.AwayFromZero);
                 }
 
-                var classification = classificationList.FirstOrDefault(x => x.LowerBound <= viewModel.AverageMark && x.UpperBound >= viewModel.AverageMark)?.Value;
+                var roundResult = Math.Round(Convert.ToDouble(viewModel.AverageMark), 2);
+                var classification = classificationList.FirstOrDefault(x => x.LowerBound <= roundResult && x.UpperBound >= roundResult)?.Value;
                 viewModel.PredictedClassification = classification ?? "Currently unavailable";
                 viewModelList.Add(viewModel);
             }
@@ -57,12 +58,29 @@ namespace AcademicProgressTracker.Controllers
 
         public ActionResult Details(int id)
         {
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var util = new Utilities.Utilities();
             var module = _context.Module.First(x => x.Id == id);
+            var knn = Convert.ToDouble(util.KNeareastNeighbour(userId, id));
+            knn = Math.Round(knn, 2);
             var viewModel = new ResultsAddViewModel
             {
-                Module = module
+                Module = module,
             };
+
+            if (Math.Abs(knn) > 0)
+            {
+                viewModel.KnnPredictionNum = knn;
+                viewModel.KnnPredictionTxt = GetKnnResultText(knn);
+            }
+
             return View(viewModel);
+        }
+
+        private String GetKnnResultText(double result)
+        {
+            var roundResult = Math.Round(result, 2);
+            return _context.Classification.First(x => x.UpperBound >= roundResult && x.LowerBound <= roundResult).Name;
         }
 
         public JsonResult GetCourseworkGrades(int moduleId)
@@ -70,7 +88,6 @@ namespace AcademicProgressTracker.Controllers
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var relevantUserResults = _context.UserResults.Where(x => x.Coursework.ModuleId == moduleId && x.UserId == userId).Include(y => y.Coursework).ToList();
             var courseworkGradesList = new List<CourseworkGrades>();
-            var courseworkNameList = _context.Coursework.Where(x => x.ModuleId == moduleId).OrderBy(y => y.Name).Select(z => z.Name).ToList();
 
             foreach (var userResult in relevantUserResults)
             {
