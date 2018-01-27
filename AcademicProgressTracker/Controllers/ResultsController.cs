@@ -94,13 +94,37 @@ namespace AcademicProgressTracker.Controllers
                 var courseworkGrades = new CourseworkGrades
                 {
                     Name = userResult.Coursework.Name,
-                    Mark = userResult.Mark
+                    Mark = userResult.Mark,                   
                 };
 
                 courseworkGradesList.Add(courseworkGrades);
             }
             
             return Json(courseworkGradesList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetCourseworkGradesOverTime(int moduleId)
+        {
+            var util = new Utilities.Utilities();
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var relevantUserResults = _context.UserResults.Where(x => x.Coursework.ModuleId == moduleId && x.UserId == userId).Include(y => y.Coursework).OrderBy(z => z.AddedDateTime).ToList();
+            var courseworkGradesOverTimeList = new List<CourseworkGradesOverTime>();
+            decimal? totalWeightedMark = 0;
+
+            foreach (var userResult in relevantUserResults)
+            {
+                totalWeightedMark += util.WeightedMark(userResult);
+                var courseworkGradesOverTime = new CourseworkGradesOverTime
+                {
+                    Mark = userResult.Mark,
+                    WeightedMark = totalWeightedMark,
+                    AddedDateTime = DateTimeOffset.Parse(userResult.AddedDateTime.ToLongDateString()).ToUnixTimeMilliseconds()
+                };
+
+                courseworkGradesOverTimeList.Add(courseworkGradesOverTime);
+            }
+
+            return Json(courseworkGradesOverTimeList, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetMaximumWeightedGrade(int moduleId)

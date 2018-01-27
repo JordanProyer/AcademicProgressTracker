@@ -8,23 +8,24 @@
 <h1>@ViewBag.Title</h1>
 <p>@ViewBag.Message</p>
 
-    <div id="gradesChartContainer" style="height: 370px; width: 80%;"></div>
-    <br /><br /><br />
-    <div id="maximumgradeChartContainer" style="height: 370px; width: 80%;"></div>
-    <br /><br /><br />
-    <div class="form-group">
-        @Html.LabelFor(m => m.KnnPredictionNum)
+<div id="gradesChartContainer" style="height: 370px; width: 80%;"></div>
+<br /><br /><br />
+<div id="gradesOverTimeChartContainer" style="height: 370px; width: 80%;"></div>
+<br /><br /><br />
+<div id="maximumgradeChartContainer" style="height: 370px; width: 80%;"></div>
+<br /><br /><br />
+<div class="form-group">
+    @Html.LabelFor(m => m.KnnPredictionNum)
     @Html.DisplayTextFor(m => m.KnnPredictionNum)<br />
-        @Html.LabelFor(m => m.KnnPredictionTxt)
-        @Html.DisplayTextFor(m => m.KnnPredictionTxt)
-    </div>
+    @Html.LabelFor(m => m.KnnPredictionTxt)
+    @Html.DisplayTextFor(m => m.KnnPredictionTxt)
+</div>
 
-    <script>
+<script>
         window.onload = function() {
             drawMarksGraph();
+            drawGradesOverTimeGraph();
             drawMaximumResultGraph();
-
-
         }
 
         function drawMarksGraph() {
@@ -47,13 +48,9 @@
                         maximum: 100,
                         interlacedColor: "#D6DCFC"
                     },
-                   
+
                     toolTip: {
                         shared: true
-                    },
-                    legend: {
-                        cursor:"pointer",
-                        itemclick: toggleDataSeries
                     },
                     data: [
                         {
@@ -78,7 +75,96 @@
             var moduleId = @Model.Module.Id;
             var url = '@Url.Action("GetCourseworkGrades", "Results")' + '?moduleId=' + moduleId;
             $.getJSON(url, addData);
+    }
+
+
+        function drawGradesOverTimeGraph() {
+            var dataPoints = [];
+            var dataPoints2 = [];
+
+            var chart = new CanvasJS.Chart("gradesOverTimeChartContainer",
+                {
+                    animationEnabled: true,
+                    theme: "light2",
+                    title: {
+                        text: "Coursework Grades Over Time"
+                    },
+                    axisX: {
+                        title: "Date",
+                        titleFontSize: 24,
+                    },
+                    axisY: {
+                        title: "Mark achieved (%)",
+                        titleFontSize: 24,
+                        maximum: 100,
+                        interlacedColor: "#D6DCFC"
+                    },
+                    axisY2: {
+                        title: "Cumulative Weighted Mark (%)",
+                        titleFontColor: "#C0504E",
+                        lineColor: "#C0504E",
+                        tickColor: "#C0504E",
+                        maximum: 100,
+                    },
+                    toolTip: {
+                        shared: true
+                    },
+                    legend: {
+                        cursor:"pointer",
+                        itemclick: toggleDataSeries
+                    },
+                    data: [
+                        {
+                            type: "line",
+                            xValueType: "dateTime",
+                            name: "Coursework Mark (%)",
+                            showInLegend: true,
+                            dataPoints: dataPoints
+                        },
+                        {
+                            type: "line",
+                            xValueType: "dateTime",
+                            name: "Cumulative Weighted Mark (%)",
+                            showInLegend: true,
+                            axisYType: "secondary",
+                            color: "#C0504E",
+                            dataPoints: dataPoints2
+                        }
+                    ]
+                });
+
+            function addData(data) {
+                for (var i = 0; i < data.length; i++) {
+                    dataPoints.push({
+                        x: new Date(data[i].AddedDateTime),
+                        y: data[i].Mark
+                    });
+                    dataPoints2.push({
+                        x: new Date(data[i].AddedDateTime),
+                        y: data[i].WeightedMark
+                    });
+                }
+                chart.render();
+
+            }
+
+            function toggleDataSeries(e) {
+                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                }
+                else {
+                    e.dataSeries.visible = true;
+                }
+                chart.render();
+            }
+
+            var moduleId = @Model.Module.Id;
+            var url = '@Url.Action("GetCourseworkGradesOverTime", "Results")' + '?moduleId=' + moduleId;
+            $.getJSON(url, addData);
         }
+
+
+
 
 
         function drawMaximumResultGraph() {
@@ -126,7 +212,7 @@
                             type: "column",
                             name: "Current Weighted Mark (%)",
                             legendText: "Current Weighted Mark (%)",
-                            showInLegend: true, 
+                            showInLegend: true,
                             dataPoints: dataPoints
                         },
                             {
@@ -156,18 +242,18 @@
 
             }
 
+            function toggleDataSeries(e) {
+                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                }
+                else {
+                    e.dataSeries.visible = true;
+                }
+                chart.render();
+            }
+
             var moduleId = @Model.Module.Id;
             var url = '@Url.Action("GetMaximumWeightedGrade", "Results")' + '?moduleId=' + moduleId;
             $.getJSON(url, addData);
-        }
-
-        function toggleDataSeries(e) {
-            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                e.dataSeries.visible = false;
-            }
-            else {
-                e.dataSeries.visible = true;
-            }
-            chart.render();
-        }
-    </script>
+        }  
+</script>

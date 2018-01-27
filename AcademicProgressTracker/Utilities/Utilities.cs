@@ -114,5 +114,18 @@ namespace AcademicProgressTracker.Utilities
             var weightedMark = moduleMark * weighting;
             return weightedMark;
         }
+
+        public decimal? WeightedMark(UserResults userResult)
+        {
+            var mark = userResult.Mark;
+            var courseworkId = userResult.CourseworkId;
+            decimal percentage = _context.Coursework.First(x => x.Id == courseworkId).Percentage;
+            var weighting = percentage / 100;
+            var weightedMark = mark * weighting;
+
+            return weightedMark;
+        }
+
+
     }
 }
