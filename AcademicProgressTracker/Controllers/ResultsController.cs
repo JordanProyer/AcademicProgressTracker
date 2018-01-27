@@ -102,5 +102,18 @@ namespace AcademicProgressTracker.Controllers
             
             return Json(courseworkGradesList, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetMaximumWeightedGrade(int moduleId)
+        {
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var util = new Utilities.Utilities();
+            var relevantUserResults = _context.UserResults.Where(x => x.Coursework.ModuleId == moduleId && x.UserId == userId && x.Mark != null).Include(y => y.Coursework).ToList();
+            List<MaximumWeightedGrade> maxWeightedGradeList = new List<MaximumWeightedGrade>();
+
+            var maxWeightedGrade = util.CalculateMaximumPercentage(relevantUserResults);
+            maxWeightedGradeList.Add(maxWeightedGrade);
+
+            return Json(maxWeightedGradeList, JsonRequestBehavior.AllowGet);
+        }
     }
 }

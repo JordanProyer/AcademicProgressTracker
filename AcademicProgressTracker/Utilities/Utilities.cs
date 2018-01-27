@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using AcademicProgressTracker.Models;
+using AcademicProgressTracker.Models.Graphs;
 using Microsoft.AspNet.Identity;
 
 namespace AcademicProgressTracker.Utilities
@@ -70,6 +71,44 @@ namespace AcademicProgressTracker.Utilities
             var total = numberList.Sum();
             var distance = Math.Sqrt(total);
             return distance;
+        }
+
+        public MaximumWeightedGrade CalculateMaximumPercentage(List<UserResults> userResultsList)
+        {
+            List<WeightedResult> weightedGradesList = new List<WeightedResult>();
+
+            foreach (var result in userResultsList)
+            {
+                var weightedResult = new WeightedResult()
+                {
+                    Mark = WeightedMark(Convert.ToDouble(result.Mark), result.Coursework.Percentage),
+                    Percentage = result.Coursework.Percentage
+                };
+
+                weightedGradesList.Add(weightedResult);
+            }
+
+            var currentPercentage = weightedGradesList.Where(x => true).Select(x => x.Percentage).Sum();
+            var remainingPercentage = 100 - currentPercentage;
+
+            var currentWeightedMark = weightedGradesList.Where(x => true).Select(x => x.Mark).Sum();
+            var maximumWeightedMark = currentWeightedMark + remainingPercentage;
+
+            var maximumWeightedGrade = new MaximumWeightedGrade
+            {
+                CurrentWeightedMark = Convert.ToDecimal(currentWeightedMark),
+                MaximumWeightedMark = maximumWeightedMark
+            };
+
+            return maximumWeightedGrade;
+        }
+
+
+        private double WeightedMark(double moduleMark, double percentage)
+        {
+            var weighting = percentage / 100;
+            var weightedMark = moduleMark * weighting;
+            return weightedMark;
         }
     }
 }
