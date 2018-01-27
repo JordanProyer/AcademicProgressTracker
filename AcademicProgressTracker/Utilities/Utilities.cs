@@ -38,9 +38,13 @@ namespace AcademicProgressTracker.Utilities
             {
                 foreach (var coursework in allUserResults.Where(x => x.UserId == group.Key))
                 {
-                    var userMark = Convert.ToDouble(userResult.First(x => x.Mark != null && x.CourseworkId == coursework.CourseworkId).Mark);
-                    var distance = Math.Pow(userMark - Convert.ToDouble(coursework.Mark), 2);
-                    values.Add(distance);
+                    var userResultMark = userResult.FirstOrDefault(x => x.Mark != null && x.CourseworkId == coursework.CourseworkId);
+                    if (userResultMark != null)
+                    {
+                        var userMark = Convert.ToDouble(userResultMark.Mark);
+                        var distance = Math.Pow(userMark - Convert.ToDouble(coursework.Mark), 2);
+                        values.Add(distance);
+                    }
                 }
 
                 var totalDistance = KNNFactor(values);
