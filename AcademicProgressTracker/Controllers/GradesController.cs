@@ -95,29 +95,37 @@ namespace AcademicProgressTracker.Controllers
             //Create new userResult for each table entry
             foreach (var userResults in gradesAddViewModel.UserResults)
             {
-                    var userResult = new UserResults
-                    {
-                        UserId = userId,
-                        CourseworkId = userResults.CourseworkId,
-                        Mark = userResults.Mark,
-                    };
+                var userResult = new UserResults
+                {
+                    UserId = userId,
+                    CourseworkId = userResults.CourseworkId,
+                    Mark = userResults.Mark,
+                    AddedDateTime = System.DateTime.Now
+                };
 
-                    //Check if entry exists for that coursework already
-                    if (userResultContext.FirstOrDefault(x => x.UserId == userId 
-                                                            && x.CourseworkId == userResult.CourseworkId) != null)
+                var resultInDb = userResultContext.FirstOrDefault(x => x.UserId == userId && x.CourseworkId == userResult.CourseworkId);
+
+                //Check if entry exists for that coursework already
+                if (resultInDb != null)
+                {
+                    //Don't update datetime is mark is unchanged
+                    if (userResult.Mark == resultInDb.Mark)
                     {
-                        //Remove userResult from db
-                        userResultsToRemove.Add(userResultContext.First(x => x.UserId == userId && x.CourseworkId == userResult.CourseworkId));
-                        userResultContext.RemoveRange(userResultsToRemove);
+                        userResult.AddedDateTime = resultInDb.AddedDateTime;
                     }
 
-                    //Add new user result
-                    userResultContext.Add(userResult);            
+                    //Remove userResult from db
+                    userResultsToRemove.Add(resultInDb);
+                    userResultContext.RemoveRange(userResultsToRemove);
+                }
+
+                //Add new user result
+                userResultContext.Add(userResult);
             }
 
             _context.SaveChanges();
 
-            return RedirectToAction("Add", new {id = module.Id, success = true});
+            return RedirectToAction("Add", new { id = module.Id, success = true });
         }
     }
 }

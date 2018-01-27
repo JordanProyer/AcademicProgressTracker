@@ -233,6 +233,10 @@
     <Compile Include="Migrations\201801252342207_UpdateBoundsToDoubles.Designer.cs">
       <DependentUpon>201801252342207_UpdateBoundsToDoubles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801270110120_AddDateTimeToUserResult.cs" />
+    <Compile Include="Migrations\201801270110120_AddDateTimeToUserResult.Designer.cs">
+      <DependentUpon>201801270110120_AddDateTimeToUserResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
@@ -544,6 +548,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801252342207_UpdateBoundsToDoubles.resx">
       <DependentUpon>201801252342207_UpdateBoundsToDoubles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801270110120_AddDateTimeToUserResult.resx">
+      <DependentUpon>201801270110120_AddDateTimeToUserResult.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
