@@ -9,14 +9,10 @@ namespace AcademicProgressTracker.Migrations
         {
             Sql("INSERT INTO AspNetRoles VALUES (\'Admin\'), (\'Standard\')");
 
-            Sql("INSERT INTO AspNetUsers VALUES(\'Jordan\', \'Proyer\', \'jordan.proyer@hotmail.co.uk\', 0, \'AGOsoqnbr9XEvrkAopPu/jJxYVHXxnnPb3D1V5V8VjInSROAUF5m72nBc7HuBQi0MA==\', \'0f512a8e-c448-4d8e-b446-cfdc5841ff38\', \'07958328293\', 0, 0, NULL, 0, 0, \'Jordan Proyer\')");
-
-            Sql("INSERT INTO AspNetUserRoles VALUES (1, 1)");
-
             Sql("INSERT INTO Classifications VALUES (\'First Class\', \'1st\', 70, 100), (\'Second Class Division 1\', \'2:1\', 60, 69), " +
                 "(\'Second Class Division 2\', \'2:2\', 50, 59), (\'Third Class\', \'3rd\', 40, 49), (\'Fail\', \'Fail\', 0, 39)");
 
-            Sql("INSERT INTO Courses VALUES (\'Computer Science\', \'BSc\', 3)");
+            Sql("INSERT INTO Courses VALUES (\'Computer Science\', \'BSc\', 3), (\'Agriculture\', \'BSc\', 3), (\'Ancient History\', \'BSc\', 3), (\'Animal Science\', \'BSc\', 3), (\'Archaeology\', \'BSc\', 3), (\'Architecture\', \'BSc\', 3), (\'Art\', \'BSc\', 3), (\'Biological Sciences\', \'BSc\', 3), (\'Biomedical Engineering\', \'BSc\', 3), (\'Building and Surveying\', \'BSc\', 3), (\'Business and Management, Accounting and Finance\', \'BSc\', 3), (\'Chemistry\', \'BSc\', 3), (\'Classics and Classical Studies\', \'BSc\', 3), (\'Construction Management\', \'BSc\', 3), (\'Consumer Behaviour and Marketing\', \'BSc\', 3), (\'Economics\', \'BSc\', 3), (\'Education\', \'BSc\', 3), (\'Engineering\', \'BSc\', 3), (\'English Language and Applied Linguistics\', \'BSc\', 3), (\'English Literature\', \'BSc\', 3), (\'Environment\', \'BSc\', 3), (\'Film, Theatre and Television\', \'BSc\', 3), (\'Food and Nutritional Sciences\', \'BSc\', 3), (\'French\', \'BSc\', 3), (\'Geography\', \'BSc\', 3), (\'German\', \'BSc\', 3), (\'Graphic Communication\', \'BSc\', 3), (\'Healthcare\', \'BSc\', 3), (\'History\', \'BSc\', 3), (\'International Development\', \'BSc\', 3), (\'International Foundation Programme (IFP)\', \'BSc\', 3), (\'Italian\', \'BSc\', 3), (\'Law\', \'BSc\', 3), (\'Linguistics\', \'BSc\', 3), (\'Marketing\', \'BSc\', 3), (\'Mathematics\', \'BSc\', 3), (\'Meteorology and Climate\', \'BSc\', 3), (\'Modern Languages and European Studies\', \'BSc\', 3), (\'Museum Studies\', \'BSc\', 3), (\'Nutrition\', \'BSc\', 3), (\'Pharmacy\', \'BSc\', 3), (\'Philosophy\', \'BSc\', 3), (\'Physics\', \'BSc\', 3), (\'Politics and International Relations\', \'BSc\', 3), (\'Psychology\', \'BSc\', 3), (\'Real Estate and Planning\', \'BSc\', 3), (\'Science Foundation Programmes\', \'BSc\', 3), (\'Spanish\', \'BSc\', 3), (\'Speech and Language Therapy\', \'BSc\', 3), (\'Surveying and Construction\', \'BSc\', 3), (\'Teaching\', \'BSc\', 3), (\'Theatre\', \'BSc\', 3), (\'Zoology\', \'BSc\', 3)");
 
             Sql("INSERT INTO Years VALUES(\'Year 1\'), (\'Year 2\'), (\'Year 3\'), (\'Year 4\')");
 

@@ -23,7 +23,8 @@
     </p>
 }
 
-else if (User.Identity.IsAuthenticated && !usermodulesExist )
+else 
+//if (User.Identity.IsAuthenticated && !usermodulesExist )
 {
     using (Html.BeginForm("CreateUserModule", "Setup", FormMethod.Post, new {id = "setupForm"}))
     {
@@ -95,11 +96,11 @@ else if (User.Identity.IsAuthenticated && !usermodulesExist )
     }
 }
 
-else
+@*else
 {
     @Html.HiddenFor(x => x.Success)
     <p><b>Looks like you've already picked your optional modules</b></p>
-}
+}*@
 
 @section scripts
 {
@@ -136,6 +137,7 @@ else
 
         function changeOnYear() {
             $("#Year").change(function () {
+                $("#ddlModule1").empty();
                 var courseId = $("#Course").val();
                 var yearId = $("#Year").val();
                 $("#CourseId").val(courseId);

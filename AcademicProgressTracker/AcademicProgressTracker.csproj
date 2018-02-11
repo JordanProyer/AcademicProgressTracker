@@ -241,6 +241,10 @@
     <Compile Include="Migrations\201802112113559_AddCSYearOneCourse.Designer.cs">
       <DependentUpon>201802112113559_AddCSYearOneCourse.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802112219520_AddCSYearTwoCourse.cs" />
+    <Compile Include="Migrations\201802112219520_AddCSYearTwoCourse.Designer.cs">
+      <DependentUpon>201802112219520_AddCSYearTwoCourse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
@@ -560,6 +564,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802112113559_AddCSYearOneCourse.resx">
       <DependentUpon>201802112113559_AddCSYearOneCourse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802112219520_AddCSYearTwoCourse.resx">
+      <DependentUpon>201802112219520_AddCSYearTwoCourse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
