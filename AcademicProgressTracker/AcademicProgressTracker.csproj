@@ -237,6 +237,10 @@
     <Compile Include="Migrations\201801270110120_AddDateTimeToUserResult.Designer.cs">
       <DependentUpon>201801270110120_AddDateTimeToUserResult.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802112113559_AddCSYearOneCourse.cs" />
+    <Compile Include="Migrations\201802112113559_AddCSYearOneCourse.Designer.cs">
+      <DependentUpon>201802112113559_AddCSYearOneCourse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
@@ -244,6 +248,7 @@
     <Compile Include="Models\Graphs\CourseworkGrades.cs" />
     <Compile Include="Models\Graphs\CourseworkGradesOverTime.cs" />
     <Compile Include="Models\Graphs\MaximumWeightedGrade.cs" />
+    <Compile Include="Models\KnnResult.cs" />
     <Compile Include="Models\WeightedResult.cs" />
     <Compile Include="Utilities\Utilities.cs" />
     <Compile Include="Validation\MaxGradeValueAttribute.cs" />
@@ -552,6 +557,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801270110120_AddDateTimeToUserResult.resx">
       <DependentUpon>201801270110120_AddDateTimeToUserResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802112113559_AddCSYearOneCourse.resx">
+      <DependentUpon>201802112113559_AddCSYearOneCourse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -25,7 +25,7 @@ namespace AcademicProgressTracker.Controllers
         // GET: Setup
         public ActionResult Index(SetupViewModel viewModel)
         {
-            var coursesList = _context.Course.ToList();
+            var coursesList = _context.Course.OrderBy(x => x.Name).ToList();
             var yearList = _context.Year.ToList();
             var modulePlaceholder = _context.Module.Where(x => x.Id == 100000).ToList();
             viewModel.Course = coursesList;
