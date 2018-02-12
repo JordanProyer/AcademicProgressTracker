@@ -61,26 +61,20 @@ namespace AcademicProgressTracker.Controllers
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var util = new Utilities.Utilities();
             var module = _context.Module.First(x => x.Id == id);
-            var knn = Convert.ToDouble(util.KNeareastNeighbour(userId, id));
-            knn = Math.Round(knn, 2);
-            var viewModel = new ResultsAddViewModel
+            var viewModel = new ResultsDetailedViewModel
             {
                 Module = module,
             };
 
-            if (Math.Abs(knn) > 0)
+            var knnNum = Math.Round(util.GetKnnResultNumber(userId, id), 2);
+
+            if (Math.Abs(knnNum) > 0)
             {
-                viewModel.KnnPredictionNum = knn;
-                viewModel.KnnPredictionTxt = GetKnnResultText(knn);
+                viewModel.KnnPredictionNum = knnNum;
+                viewModel.KnnPredictionTxt = util.GetKnnResultText(knnNum);
             }
 
             return View(viewModel);
-        }
-
-        private String GetKnnResultText(double result)
-        {
-            var roundResult = Math.Round(result, 2);
-            return _context.Classification.First(x => x.UpperBound >= roundResult && x.LowerBound <= roundResult).Name;
         }
 
         public JsonResult GetCourseworkGrades(int moduleId)
@@ -138,6 +132,29 @@ namespace AcademicProgressTracker.Controllers
             maxWeightedGradeList.Add(maxWeightedGrade);
 
             return Json(maxWeightedGradeList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetKnnResult(int moduleId, int kValue)
+        {
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var util = new Utilities.Utilities();
+            var knnResultList = util.KNeareastNeighbour(userId, moduleId, kValue).ToList();
+
+            var userResultContext = _context.UserResults;
+            var totalAverageMark = Convert.ToDouble(userResultContext.Where(x => x.Coursework.ModuleId == moduleId && x.UserId == userId).Sum(y => y.Mark));
+            var courseworkCount = userResultContext.Count(x => x.Coursework.ModuleId == moduleId && x.UserId == userId);
+            var userAverageMark = Math.Round((totalAverageMark / courseworkCount), 2);
+            var userKnnResult = new KnnResult
+            {
+                AverageModuleMark = userAverageMark,
+                Label = "Your Result",
+                UserId = userId
+            };
+
+            knnResultList.Insert(0, userKnnResult);
+
+
+            return Json(knnResultList, JsonRequestBehavior.AllowGet);
         }
     }
 }
