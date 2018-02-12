@@ -14,6 +14,8 @@
 <br /><br /><br />
 <div id="maximumgradeChartContainer" style="height: 370px; width: 80%;"></div>
 <br /><br /><br />
+<div id="marksToClassificationChartContainer" style="height: 370px; width: 80%;"></div>
+<br /><br /><br />
 <h5>How many nearest neightbours do you want to view? (max: 5)</h5>
 <input type="text" id="kValueDistance" value ="3"/>
 <input type="submit" id="btnSubmit" class="btn btn-info" value="Run" onclick="redrawKnnResultGraphDistance()" /><br/>
@@ -36,6 +38,7 @@
             drawMarksGraph();
             drawGradesOverTimeGraph();
             drawMaximumResultGraph();
+            drawMarksToClassificationGraph();
             drawKnnResultGraphDistance();
             drawKnnResultGraphBubble();
         }
@@ -186,7 +189,7 @@
                     animationEnabled: true,
                     theme: "light2",
                     title: {
-                        text: "Best possible Grade"
+                        text: "Maximum Possible Grade"
                     },
                     axisX: {
                         title: "Module",
@@ -263,6 +266,56 @@
 
             var moduleId = @Model.Module.Id;
             var url = '@Url.Action("GetMaximumWeightedGrade", "Results")' + '?moduleId=' + moduleId;
+            $.getJSON(url, addData);
+        }
+
+        function drawMarksToClassificationGraph() {
+            var dataPoints = [];
+
+            var chart = new CanvasJS.Chart("marksToClassificationChartContainer",
+                {
+                    animationEnabled: true,
+                    theme: "light2",
+                    title: {
+                        text: "Average Mark in Remaining Coursework for:"
+                    },
+                    axisX: {
+                        title: "Distance",
+                        titleFontSize: 24,
+                    },
+                    axisY: {
+                        title: "Mark (%)",
+                        titleFontSize: 24,
+                        maximum: 100,
+                        interlacedColor: "#D6DCFC"
+                    },
+
+                    toolTip: {
+                        shared: true
+                    },
+                    data: [
+                        {
+                            type: "column",
+                            name: "Mark (%)",
+                            //toolTipContent: "<b>{name}</b><br/>Distance: {x}<br/> Average Mark: {y}",
+                            dataPoints: dataPoints
+                        },
+                    ]
+                });
+
+            function addData(data) {
+                for (var i = 0; i < data.length; i++) {
+                    dataPoints.push({
+                        label: data[i].Label,
+                        y: data[i].MarkNeeded,
+                    });
+                }
+                chart.render();
+
+            }
+
+            var moduleId = @Model.Module.Id;
+            var url = '@Url.Action("GetMarksToClassification", "Results")' + '?moduleId=' + moduleId;
             $.getJSON(url, addData);
         }
 
@@ -362,7 +415,7 @@
                         minimum: 0,
                     },
                     axisY: {
-                        title: "Mark",
+                        title: "Mark (%)",
                         titleFontSize: 24,
                         maximum: 100,
                         interlacedColor: "#D6DCFC"
@@ -399,10 +452,11 @@
 
             var url = '@Url.Action("GetKnnResult", "Results")' + '?moduleId=' + moduleId + '&kValue=' + kValueBubble;
             $.getJSON(url, addData);
-        }
+    }
 
         function redrawKnnResultGraphBubble() {
             $("#knnChartContainerBubble").html("");
             drawKnnResultGraphBubble();
-        }
+    }
+
 </script>

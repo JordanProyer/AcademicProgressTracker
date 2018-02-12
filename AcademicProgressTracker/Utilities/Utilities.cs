@@ -67,10 +67,10 @@ namespace AcademicProgressTracker.Utilities
                     allUserResults = _context.UserResults.Where(x => x.Coursework.ModuleId == moduleId && x.UserId != userId).ToList();
                     markPercentRange += 10;
 
-                    //If no results are in a reasonable range, return 0
+                    //If not enough results are in a reasonable range, continue with valid ones
                     if (markPercentRange > 200)
                     {
-                        return null;
+                        enoughResults = true;
                     }
                 }
 
@@ -123,7 +123,7 @@ namespace AcademicProgressTracker.Utilities
 
             //Order all results by distance asc and take first k results
             var orderedKnnResultList = knnResultList.OrderBy(x => x.Distance).Take(k).ToList();
-            SetLabelName(orderedKnnResultList);
+            SetNeighbourLabelName(orderedKnnResultList);
             return orderedKnnResultList;
         }
 
@@ -175,7 +175,7 @@ namespace AcademicProgressTracker.Utilities
             return distance;
         }
 
-        private void SetLabelName(List<KnnResult> resultList)
+        private void SetNeighbourLabelName(List<KnnResult> resultList)
         {
             int positionInList = 0;
 
@@ -251,6 +251,59 @@ namespace AcademicProgressTracker.Utilities
             return weightedMark;
         }
 
+        public List<MarkToClassification> CalculateNeededMarks(List<UserResults> userResultList)
+        {
+            double totalWeightedMark = 0;
+            double totalWeighting = 0;
+            foreach (var result in userResultList)
+            {
+                var weightedMark = Convert.ToDouble(WeightedMark(result));
+                totalWeightedMark += weightedMark;
 
+                var weighting = result.Coursework.Percentage;
+                totalWeighting += weighting;
+            }
+
+            var remainingWeighting = 100 - totalWeighting;
+            var markToClassificationList = new List<MarkToClassification>();
+            var classificationList = _context.Classification.ToList();
+
+            foreach (var classification in classificationList)
+            {
+                var distanceToClassification = classification.LowerBound - totalWeightedMark;
+                var markToGoal = Math.Round((distanceToClassification / remainingWeighting * 100), 2);
+
+                if (markToGoal < 0)
+                {
+                    markToGoal = 0;
+                }
+
+                var marksToClassification = new MarkToClassification
+                {
+                    Label = SetClassificationLabelName(Convert.ToInt16(classification.LowerBound)),
+                    MarkNeeded = markToGoal
+                };
+
+                markToClassificationList.Add(marksToClassification);
+            }
+
+            return markToClassificationList;
+        }
+
+        private String SetClassificationLabelName(int lowerBound)
+        { 
+                String label;
+                switch (lowerBound)
+                {
+                    case 0: label = "Fail"; break;
+                    case 40: label = "Third Class"; break;
+                    case 50: label = "Second Class Division 2"; break;
+                    case 60: label = "Second Class Division 1"; break;
+                    case 70: label = "First Class"; break;
+                    default: label = "Unknown"; break;
+                }
+
+            return label;
+        }
     }
 }

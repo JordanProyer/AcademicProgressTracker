@@ -156,5 +156,15 @@ namespace AcademicProgressTracker.Controllers
 
             return Json(knnResultList, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetMarksToClassification(int moduleId)
+        {
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var util = new Utilities.Utilities();
+            var relevantUserResults = _context.UserResults.Where(x => x.Coursework.ModuleId == moduleId && x.UserId == userId && x.Mark != null).Include(y => y.Coursework).ToList();
+
+            var marksToClassificationList = util.CalculateNeededMarks(relevantUserResults);
+            return Json(marksToClassificationList, JsonRequestBehavior.AllowGet);
+        }
     }
 }
