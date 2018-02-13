@@ -1,0 +1,25 @@
+﻿@model AcademicProgressTracker.ViewModels.OverviewViewModel
+
+@if (Model.YearName != "BadCode")
+{
+    var divClass = (Model.YearName == "Year 1") ? "panel-primary-year1" : (Model.YearName == "Year 2") ? "panel-primary-year2" : (Model.YearName == "Year 3") ? "panel-primary-year3" : (Model.YearName == "Year 4") ? "panel-primary-year4" : "panel-primary-year1";
+
+    <div class="@divClass" style="overflow: hidden; width: 375px; height:400px">
+        <div class="panel-heading">
+            <b>@Model.YearName</b>
+        </div>
+        <div class="panel-body-result">
+            @foreach (var module in Model.ModuleResultList)
+            {
+                var boldClass = (module.ModuleName != "Total") ? "bold-hover" : "";
+                if (module.ModuleName == "Total")
+                {
+                    <br/>
+                }
+                <b class="@boldClass" onclick="location.href = '@Url.Action("Details", "Results", new {id = module.ModuleId})';">@module.ModuleName: </b> 
+                <i>@module.Mark%    -</i> @module.Classification<br/>
+            }
+        </div>
+    </div>
+    <br />
+}

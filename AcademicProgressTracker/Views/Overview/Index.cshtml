@@ -1,0 +1,17 @@
+﻿@model IEnumerable<AcademicProgressTracker.ViewModels.OverviewViewModel>
+@{
+    ViewBag.Title = "Yearly Overview";
+    ViewBag.Message = "Your yearly overview:";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+@foreach (var result in Model)
+{
+<div class="row col-md-4" style="overflow: hidden; width: 410px; height: 430px;">
+    @Html.Partial("_YearPanel", result)
+</div>
+}
+
