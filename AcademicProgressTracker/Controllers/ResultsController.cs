@@ -25,7 +25,7 @@ namespace AcademicProgressTracker.Controllers
         {
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var viewModelList = new List<ResultsViewModel>();
-            var userModuleList = _context.UserModules.Where(x => x.UserId == userId).OrderBy(y => y.Module.Name);
+            var userModuleList = _context.UserModules.Where(x => x.UserId == userId).Include(y => y.Module.Year).OrderByDescending(z => z.Module.Year.Id).ThenBy(z => z.Module.Name);
             var moduleList = _context.Module;
             var courseworkList = _context.Coursework;
             var userResultsList = _context.UserResults.Where(x => x.UserId == userId);
@@ -36,6 +36,7 @@ namespace AcademicProgressTracker.Controllers
                 var viewModel = new ResultsViewModel
                 {
                     ModuleName = moduleList.First(x => x.Id == userModule.ModuleId).Name,
+                    YearName = moduleList.First(x => x.Id == userModule.ModuleId).Year.Name,
                     ModuleId = moduleList.First(x => x.Id == userModule.ModuleId).Id,
                     CompletedCoursework = userResultsList.Count(x => x.Coursework.ModuleId == userModule.ModuleId && x.Mark != null),
                     TotalCourseworks = courseworkList.Count(x => x.ModuleId == userModule.ModuleId),              

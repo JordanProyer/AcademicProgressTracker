@@ -390,6 +390,7 @@
     <Content Include="Content\Images\green-plus-sign-md.png" />
     <Content Include="Content\Images\open-book-background.jpeg" />
     <Content Include="Content\Images\open-books-background-transparent.png" />
+    <Content Include="Content\Images\open-books-background-transparent1.png" />
     <Content Include="Content\Images\Red_cross_tick.png" />
     <Content Include="Content\Scripts\canvasjs.min.js" />
     <Content Include="Content\Scripts\jquery.canvasjs.min.js" />

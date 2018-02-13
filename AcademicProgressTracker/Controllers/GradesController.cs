@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,7 +26,7 @@ namespace AcademicProgressTracker.Controllers
             //Populate view model
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var userModulesId = _context.UserModules.Where(x => x.UserId == userId).Select(x => x.ModuleId).ToList();
-            var moduleList = _context.Module.Where(x => userModulesId.Contains(x.Id)).OrderBy(x => x.Name).ToList();
+            var moduleList = _context.Module.Where(x => userModulesId.Contains(x.Id)).Include(y => y.Year).OrderByDescending(x => x.Year.Name).ThenBy(x => x.Name).ToList();
 
             var viewModel = new GradesViewModel
             {

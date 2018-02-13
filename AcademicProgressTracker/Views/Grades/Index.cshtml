@@ -20,16 +20,20 @@ else
         <tr>
             <th>Code</th>
             <th>Name</th>
+            <th>Year</th>
             <th>Add Grades</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var module in Model.ModuleList)
         {
-            <tr>
+            var colour = (module.YearId == 1) ? "table-danger" : (module.YearId == 2) ? "table-primary" : (module.YearId == 3) ? "table-success" : (module.YearId == 4) ? "table-dark" : "table-warning";
+            <tr class="@colour">
+            @*<tr>*@
                 <td>@module.Code</td>
                 <td>@module.Name</td>
-                <td>@Html.ActionLink("Add Grades", "Add", "Grades", new { id = module.Id, success = false }, null)</td>
+                <td>@module.Year.Id</td>
+                <td>@Html.ActionLink("Add Grades", "Add", "Grades", new {id = module.Id, success = false}, null)</td>
             </tr>
         }
         </tbody>
@@ -39,8 +43,10 @@ else
 @section scripts
 {
     <script>
-        $(document).ready(function () {
-            $("#modulesTable").DataTable();
+        $(document).ready(function() {
+            $("#modulesTable").DataTable({
+                "order": [[3, "desc"]]
+            });
         });
     </script>
 }

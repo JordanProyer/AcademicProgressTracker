@@ -10,6 +10,7 @@ namespace AcademicProgressTracker.ViewModels
     {
         public string ModuleName { get; set; }
         public int ModuleId { get; set; }
+        public string YearName { get; set; }
         public int CompletedCoursework { get; set; }
         public int TotalCourseworks { get; set; }
         public decimal? AverageMark { get; set; }

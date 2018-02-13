@@ -1091,11 +1091,11 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555555;
-  background-color: #ffffff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #282626;
+    background-color: #ffffff;
 }
 input,
 button,
@@ -2320,7 +2320,7 @@ th {
 .table-bordered > thead > tr > td,
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
-  border: 1px solid #dddddd;
+  border: 1px solid #000000;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
@@ -5736,11 +5736,31 @@ button.list-group-item-danger.active:focus {
   background-color: #2fa4e7;
   border-color: #dddddd;
 }
+.panel-primary-year3 > .panel-heading {
+  color: #ffffff;
+  background-color: #2fa4e7;
+  border-color: #dddddd;
+}
+.panel-primary-year1 > .panel-heading {
+    color: #ffffff;
+    background-color: #ff6d6d;
+    border-color: #dddddd;
+}
+.panel-primary-year2 > .panel-heading {
+    color: #ffffff;
+    background-color: #88f47a;
+    border-color: #dddddd;
+}
+.panel-primary-year4 > .panel-heading {
+    color: #ffffff;
+    background-color: #db9eff;
+    border-color: #dddddd;
+}
 .panel-primary > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #dddddd;
 }
 .panel-primary > .panel-heading .badge {
-  color: #2fa4e7;
+  color: #dddddd;
   background-color: #ffffff;
 }
 .panel-primary > .panel-footer + .panel-collapse > .panel-body {
@@ -6923,4 +6943,74 @@ button.close {
 .panel-danger .panel-title,
 .panel-info .panel-title {
   color: #fff;
+}
+.table-danger,
+.table-danger > th,
+.table-danger > td {
+    background-color: #efbfc1;
+}
+
+.table-hover .table-danger:hover {
+    background-color: #eaabad;
+}
+
+.table-hover .table-danger:hover > td,
+.table-hover .table-danger:hover > th {
+    background-color: #eaabad;
+}
+.table-success,
+.table-success > th,
+.table-success > td {
+    background-color: #d8e7c8;
+}
+
+.table-hover .table-success:hover {
+    background-color: #cbdfb6;
+}
+
+.table-hover .table-success:hover > td,
+.table-hover .table-success:hover > th {
+    background-color: #cbdfb6;
+}
+.table-primary,
+.table-primary > th,
+.table-primary > td {
+    background-color: #c5e6f8;
+}
+
+.table-hover .table-primary:hover {
+    background-color: #aedcf5;
+}
+
+.table-hover .table-primary:hover > td,
+.table-hover .table-primary:hover > th {
+    background-color: #aedcf5;
+}
+.table-dark,
+.table-dark > th,
+.table-dark > td {
+    background-color: #c6c8ca;
+}
+
+.table-hover .table-dark:hover {
+    background-color: #b9bbbe;
+}
+
+.table-hover .table-dark:hover > td,
+.table-hover .table-dark:hover > th {
+    background-color: #b9bbbe;
+}
+.table-warning,
+.table-warning > th,
+.table-warning > td {
+    background-color: #f5d0b8;
+}
+
+.table-hover .table-warning:hover {
+    background-color: #f2c1a2;
+}
+
+.table-hover .table-warning:hover > td,
+.table-hover .table-warning:hover > th {
+    background-color: #f2c1a2;
 }
