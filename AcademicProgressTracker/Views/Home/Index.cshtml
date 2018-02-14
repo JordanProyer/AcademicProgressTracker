@@ -1,33 +1,373 @@
-﻿@{
+﻿@using AcademicProgressTracker.Models
+@using Microsoft.AspNet.Identity
+@{
     ViewBag.Title = "Home Page";
+    var _context = new ApplicationDbContext();
+    var userId = Convert.ToInt32(User.Identity.GetUserId());
 }
 
+    <div class="h1-home">Academic Progress Tracker </div>
+    <p class="lead p-home">Track your progress throughout your degree with this progress tracker. Set up your course, enter your grades and let us do the rest!</p>
+<br/>
+<p><a href="~/About/Index" class="btn btn-primary btn-lg">More Details &raquo;</a></p>
+<br/>
+<hr />
+<br/>
 
-    <div class="jumbotron">
-        <h1>Academic Progress Tracker </h1>
-        <p class="lead">Track your progress throughout your degree with this progress tracker. Set up your course, enter your grades and let us do the rest!</p>
-        <hr />
-        <p><a href="~/About/Index" class="btn btn-primary btn-lg">More Details &raquo;</a></p>
+@if (_context.UserModules.FirstOrDefault(x => x.UserId == userId) != null)
+{
+        <textarea hidden="true" id="loggedIn">true</textarea>
+        <div class="row" id="loggedInGraphs">
+            <div class="col-md-4">
+                <div id="middleTextLeft" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; line-height: 350px; text-align: center; color: black; font-size: 22px;"></div>
+                <div id="completedModulesChartContainer" style="height: 320px; width: 100%;"></div>
+                <textarea hidden="true" id="completedModulesHdn"></textarea>
+                <textarea hidden="true" id="totalModulesHdn"></textarea>
+            </div>
+            <div class="col-md-4">
+                <div id="middleTextMiddle" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; line-height: 350px; text-align: center; color: black; font-size: 22px;"></div>
+                <div id="completedCourseworksChartContainer" style="height: 320px; width: 100%;"></div>
+                <textarea hidden="true" id="completedCourseworksHdn"></textarea>
+                <textarea hidden="true" id="totalCourseworksHdn"></textarea>
+            </div>
+            <div class="col-md-4">
+                <div id="middleTextRight" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; line-height: 350px; text-align: center; color: black; font-size: 22px;"></div>
+                <div id="averageGradeChartContainer" style="height: 320px; width: 100%;"></div>
+                <textarea hidden="true" id="averageMarkHdn"></textarea>
+            </div>
+        </div>
+}
+else
+{
+    <div>
+        <h1>Some Basic Stats:</h1>
+        <p>Login and register to a course to see stats personalised to your course!</p>
+        <textarea hidden="true" id="loggedIn">false</textarea>
+        <div class="row" id="loggedOutGraphs">
+            <div class="col-md-6">
+                <div id="usersText" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; line-height: 350px; text-align: center; color: black; font-size: 22px;"></div>
+                <div id="numOfUsersChartContainer" style="height: 320px; width: 100%;"></div>
+                <textarea  id="numOfUsersHdn" hidden="true"></textarea>
+            </div>
+            <div class="col-md-6">
+                <div id="resultsText" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; line-height: 350px; text-align: center; color: black; font-size: 22px;"></div>
+                <div id="numOfResultsChartContainer" style="height: 320px; width: 100%;"></div>
+                <textarea  id="numOfResultsHdn" hidden="true"></textarea>
+            </div>
+        </div>
     </div>
+}   
+<br />
 
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </div>
-    </div>
+<script>
+    window.onload = function () {
+        debugger;
+        var loggedIn = $("#loggedIn").val();
+        if (loggedIn === "true") {
+            drawCompletedModulesGraph();
+            drawCompletedCourseworkGraph();
+            drawAverageMarkGraph();
+            drawNumOfUsersGraph();
+            drawNumOfResultsGraph();
+
+            setTimeout(function() {
+                addNumbersToChartCentreLoggedIn();
+                    addNumbersToChartCentreLoggedOut();
+                },
+                1300);
+        } else {
+            drawNumOfUsersGraph();
+            drawNumOfResultsGraph();
+
+            setTimeout(function() {
+                    addNumbersToChartCentreLoggedOut();
+                },
+                1300);
+        }
+
+    }
+
+    function drawCompletedModulesGraph() {
+        var dataPoints = [];
+
+        var chart = new CanvasJS.Chart("completedModulesChartContainer",
+            {
+                animationEnabled: true,
+                theme: "light2",
+                backgroundColor: null,
+                title: {
+                    text: "Modules Completed",
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: [
+                    {
+                        type: "doughnut",
+                        toolTipContent: "<b>{Label}:</b> {y}",
+                        indexLabel: "{Label}",
+                        indexLabelFontSize: 12,
+                        indexLabelFontWeight: "bolder",
+                        indexLabelLineThickness: 4,
+                        dataPoints: dataPoints
+                    },
+                ]
+            });
+
+        function addData(data) {
+            for (var i = 0; i < data.length; i++) {
+                dataPoints.push({
+                    Label: data[i].Label,
+                    y: data[i].CourseworkNumber
+                });
+            }
+            chart.render();
+        }
+
+        var url = '@Url.Action("GetCompletedModules", "Home")';
+        $.getJSON(url, addData);
+
+        $.getJSON(url, function(response) {
+            $.each(response,
+                function (index, item) { // item is now an object containing properties ID and Text
+                    if (index == 0) {
+                        $("#completedModulesHdn").val(item.CourseworkNumber);
+                    }
+                    $("#totalModulesHdn").val(item.CourseworkNumber);
+                });
+        });
+    }
+
+    function drawCompletedCourseworkGraph() {
+        var dataPoints = [];
+
+        var chart = new CanvasJS.Chart("completedCourseworksChartContainer",
+            {
+                animationEnabled: true,
+                theme: "light2",
+                backgroundColor: null,
+                title: {
+                    text: "Courseworks Completed",
+                },
+                axisX: {
+                    title: "Coursework Name",
+                    titleFontSize: 24,
+                },
+                axisY: {
+                    title: "Mark achieved (%)",
+                    titleFontSize: 24,
+                    maximum: 100,
+                    interlacedColor: "#D6DCFC"
+                },
+
+                toolTip: {
+                    shared: true
+                },
+                data: [
+                    {
+                        type: "doughnut",
+                        name: "Current Mark (%)",
+                        toolTipContent: "<b>{Label}:</b> {y}",
+                        indexLabel: "{Label}",
+                        indexLabelFontSize: 12,
+                        indexLabelFontWeight: "bolder",
+                        indexLabelLineThickness: 4,
+                        dataPoints: dataPoints
+                    },
+                ]
+            });
+
+        function addData(data) {
+            for (var i = 0; i < data.length; i++) {
+                dataPoints.push({
+                    Label: data[i].Label,
+                    y: data[i].CourseworkNumber
+                });
+            }
+            chart.render();
+        }
+
+        var url = '@Url.Action("GetCompletedCourseworks", "Home")';
+        $.getJSON(url, addData);
+
+        $.getJSON(url, function (response) {
+            $.each(response,
+                function (index, item) { // item is now an object containing properties ID and Text
+                    if (index == 0) {
+                        $("#completedCourseworksHdn").val(item.CourseworkNumber);
+                    }
+                    $("#totalCourseworksHdn").val(item.CourseworkNumber);
+                });
+        });
+    }
+
+    function drawAverageMarkGraph() {
+        var dataPoints = [];
+
+        var chart = new CanvasJS.Chart("averageGradeChartContainer",
+            {
+                animationEnabled: true,
+                theme: "light2",
+                backgroundColor: null,
+                title: {
+                    text: "Average Coursework Mark",
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: [
+                    {
+                        type: "doughnut",
+                        toolTipContent: "<b>{Label}:</b> {y}",
+                        indexLabel: "{Label}",
+                        indexLabelFontSize: 12,
+                        indexLabelFontWeight: "bolder",
+                        indexLabelLineThickness: 4,
+                        dataPoints: dataPoints
+                    },
+                ]
+            });
+
+        function addData(data) {
+            for (var i = 0; i < data.length; i++) {
+                dataPoints.push({
+                    Label: data[i].Label,
+                    y: data[i].CourseworkNumber
+                });
+            }
+            chart.render();
+        }
+
+        var url = '@Url.Action("GetAverageMark", "Home")';
+        $.getJSON(url, addData);
+
+        $.getJSON(url, function(response) {
+            $.each(response,
+                function (index, item) { // item is now an object containing properties ID and Text
+                    if (index == 0) {
+                        $("#averageMarkHdn").val(item.CourseworkNumber);
+                        }
+                });
+        });
+    }
+
+    function drawNumOfUsersGraph() {
+        var dataPoints = [];
+
+        var chart = new CanvasJS.Chart("numOfUsersChartContainer",
+            {
+                animationEnabled: true,
+                theme: "light2",
+                backgroundColor: null,
+                title: {
+                    text: "Total Number of Users",
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: [
+                    {
+                        type: "doughnut",
+                        toolTipContent: "<b>{Label}:</b> {y}",
+                        indexLabel: "{Label}",
+                        indexLabelFontSize: 12,
+                        indexLabelFontWeight: "bolder",
+                        indexLabelLineThickness: 4,
+                        dataPoints: dataPoints
+                    },
+                ]
+            });
+
+        function addData(data) {
+            for (var i = 0; i < 1; i++) {
+                dataPoints.push({
+                    Label: data[i].Label,
+                    y: data[i].CourseworkNumber
+                });
+            }
+            chart.render();
+        }
+
+        var url = '@Url.Action("GetTotalNumberOfUsers", "Home")';
+        $.getJSON(url, addData);
+
+        $.getJSON(url, function(response) {
+            $.each(response,
+                function (index, item) { // item is now an object containing properties ID and Text
+                    $("#numOfUsersHdn").val(item.CourseworkNumber);
+                });
+        });
+    }
+
+    function drawNumOfResultsGraph() {
+        var dataPoints = [];
+
+        var chart = new CanvasJS.Chart("numOfResultsChartContainer",
+            {
+                animationEnabled: true,
+                theme: "light2",
+                backgroundColor: null,
+                title: {
+                    text: "Total Number of Results Entered",
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: [
+                    {
+                        type: "doughnut",
+                        toolTipContent: "<b>{Label}:</b> {y}",
+                        indexLabel: "{Label}",
+                        indexLabelFontSize: 12,
+                        indexLabelFontWeight: "bolder",
+                        indexLabelLineThickness: 4,
+                        dataPoints: dataPoints
+                    },
+                ]
+            });
+
+        function addData(data) {
+            for (var i = 0; i < 1; i++) {
+                dataPoints.push({
+                    Label: data[i].Label,
+                    y: data[i].CourseworkNumber
+                });
+            }
+            chart.render();
+        }
+
+        var url = '@Url.Action("GetTotalNumberOfResults", "Home")';
+        $.getJSON(url, addData);
+
+        $.getJSON(url, function (response) {
+            $.each(response,
+                function (index, item) { // item is now an object containing properties ID and Text
+                    $("#numOfResultsHdn").val(item.CourseworkNumber);
+                });
+        });
+    }
+
+    function addNumbersToChartCentreLoggedIn() {
+        debugger;
+        var compMo = document.getElementById("completedModulesHdn").value;
+        var totalMo = document.getElementById("totalModulesHdn").value;
+        document.getElementById("middleTextLeft").innerHTML = compMo + "/" + totalMo;
+
+        var compCw = document.getElementById("completedCourseworksHdn").value;
+        var totalCw = document.getElementById("totalCourseworksHdn").value;
+        document.getElementById("middleTextMiddle").innerHTML = compCw + "/" + totalCw;
+
+        var avgMark = document.getElementById("averageMarkHdn").value;
+        document.getElementById("middleTextRight").innerHTML = avgMark + "%";
+    }
+
+    function addNumbersToChartCentreLoggedOut() {
+        debugger;
+        var numOfUsers = document.getElementById("numOfUsersHdn").value;
+        document.getElementById("usersText").innerHTML = numOfUsers;
+
+        var numOfResults = document.getElementById("numOfResultsHdn").value;
+        document.getElementById("resultsText").innerHTML = numOfResults;
+    }
+
+</script>

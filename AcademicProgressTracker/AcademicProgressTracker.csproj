@@ -255,6 +255,7 @@
     <Compile Include="Models\Graphs\MarkToClassification.cs" />
     <Compile Include="Models\Graphs\MaximumWeightedGrade.cs" />
     <Compile Include="Models\Graphs\KnnResult.cs" />
+    <Compile Include="Models\Graphs\CourseworkQuantity.cs" />
     <Compile Include="Models\UserModuleResult.cs" />
     <Compile Include="Models\WeightedResult.cs" />
     <Compile Include="Utilities\Utilities.cs" />
