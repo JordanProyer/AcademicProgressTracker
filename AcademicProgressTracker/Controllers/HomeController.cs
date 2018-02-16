@@ -45,8 +45,8 @@ namespace AcademicProgressTracker.Controllers
 
             graphObject = new CourseworkQuantity
             {
-                Label = "Total Number of Courseworks",
-                CourseworkNumber = numberOfCourseworks
+                Label = "Number of Courseworks Remaining",
+                CourseworkNumber = numberOfCourseworks - numberofCompletedCourseworks
             };
 
             resultsList.Add(graphObject);
@@ -87,8 +87,8 @@ namespace AcademicProgressTracker.Controllers
 
             graphObject = new CourseworkQuantity
             {
-                Label = "Total Number of Modules",
-                CourseworkNumber = userModules.Count
+                Label = "Number of Modules Remaining",
+                CourseworkNumber = userModules.Count - completedModules
             };
 
             resultsList.Add(graphObject);

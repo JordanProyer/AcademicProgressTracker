@@ -12,7 +12,6 @@
 <p><a href="~/About/Index" class="btn btn-primary btn-lg">More Details &raquo;</a></p>
 <br/>
 <hr />
-<br/>
 
 @if (_context.UserModules.FirstOrDefault(x => x.UserId == userId) != null)
 {
@@ -22,13 +21,13 @@
                 <div id="middleTextLeft" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; line-height: 350px; text-align: center; color: black; font-size: 22px;"></div>
                 <div id="completedModulesChartContainer" style="height: 320px; width: 100%;"></div>
                 <textarea hidden="true" id="completedModulesHdn"></textarea>
-                <textarea hidden="true" id="totalModulesHdn"></textarea>
+                <textarea hidden="true" id="remainingModulesHdn"></textarea>
             </div>
             <div class="col-md-4">
                 <div id="middleTextMiddle" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; line-height: 350px; text-align: center; color: black; font-size: 22px;"></div>
                 <div id="completedCourseworksChartContainer" style="height: 320px; width: 100%;"></div>
                 <textarea hidden="true" id="completedCourseworksHdn"></textarea>
-                <textarea hidden="true" id="totalCourseworksHdn"></textarea>
+                <textarea hidden="true" id="remainingCourseworksHdn"></textarea>
             </div>
             <div class="col-md-4">
                 <div id="middleTextRight" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; line-height: 350px; text-align: center; color: black; font-size: 22px;"></div>
@@ -133,7 +132,7 @@ else
                     if (index == 0) {
                         $("#completedModulesHdn").val(item.CourseworkNumber);
                     }
-                    $("#totalModulesHdn").val(item.CourseworkNumber);
+                    $("#remainingModulesHdn").val(item.CourseworkNumber);
                 });
         });
     }
@@ -196,7 +195,7 @@ else
                     if (index == 0) {
                         $("#completedCourseworksHdn").val(item.CourseworkNumber);
                     }
-                    $("#totalCourseworksHdn").val(item.CourseworkNumber);
+                    $("#remainingCourseworksHdn").val(item.CourseworkNumber);
                 });
         });
     }
@@ -350,11 +349,13 @@ else
     function addNumbersToChartCentreLoggedIn() {
         debugger;
         var compMo = document.getElementById("completedModulesHdn").value;
-        var totalMo = document.getElementById("totalModulesHdn").value;
+        var remainMo = document.getElementById("remainingModulesHdn").value;
+        var totalMo = parseInt(compMo) + parseInt(remainMo);
         document.getElementById("middleTextLeft").innerHTML = compMo + "/" + totalMo;
 
         var compCw = document.getElementById("completedCourseworksHdn").value;
-        var totalCw = document.getElementById("totalCourseworksHdn").value;
+        var remainCw = document.getElementById("remainingCourseworksHdn").value;
+        var totalCw = parseInt(compCw) + parseInt(remainCw);
         document.getElementById("middleTextMiddle").innerHTML = compCw + "/" + totalCw;
 
         var avgMark = document.getElementById("averageMarkHdn").value;
