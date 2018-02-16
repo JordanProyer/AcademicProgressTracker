@@ -10,6 +10,7 @@ namespace AcademicProgressTracker
         {
             bundles.Add(new ScriptBundle("~/bundles/lib").Include(
                         "~/Content/Scripts/jquery-{version}.js",
+                        "~/Content/Scripts/jquery-ui-1.12.1.js",
                         "~/Content/Scripts/bootstrap.js",
                         "~/Content/Scripts/bootbox.js",
                         "~/Content/Scripts/respond.js",
@@ -31,7 +32,8 @@ namespace AcademicProgressTracker
                       "~/Content/bootstrap-cerulean.css",
                       "~/Content/datatables/css/datatables.bootstrap.css",
                       "~/Content/toastr.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/themes/base/jquery-ui.css"));
         }
     }
 }

@@ -16,8 +16,9 @@
         <thead>
         <tr>
             <th>Name</th>
-            <th style="width: 180px">Percentage</th>
-            <th style="width: 502px">Result (%)</th>
+            <th style="width: 120px">Percentage</th>
+            <th style="width: 250px">Submission Date</th>
+            <th style="width: 250px">Result (%)</th>
         </tr>
         </thead>
         <tbody>
@@ -28,10 +29,14 @@
                 <td>
                     @coursework.value.Name
                 </td>
-                <td style="width: 180px">
+                <td style="width: 120px">
                     @coursework.value.Percentage
                 </td>
-                <td style="width: 502px">@Html.EditorFor(x => x.UserResults[coursework.index].Mark)
+                <td style="width: 250px">
+                    @Html.TextBoxFor(x => x.UserResults[coursework.index].AddedDateTime, "{0:dd/MM/yyyy}", new {@class = "date-picker"})
+                @Html.ValidationMessageFor(x => x.UserResults[coursework.index].AddedDateTime)
+            </td>
+                <td style="width: 250px">@Html.EditorFor(x => x.UserResults[coursework.index].Mark)
                     @Html.ValidationMessageFor(x => x.UserResults[coursework.index].Mark)
                 </td>
                     @Html.HiddenFor(x => x.UserResults[coursework.index].CourseworkId, new {Value = courseWorkId.ToString()})
@@ -66,6 +71,11 @@
                         }
                     });
             });
+
+            $(function () {
+                // This will make every element with the class "date-picker" into a DatePicker element
+                $('.date-picker').datepicker();
+            })
         });
     </script>
 }

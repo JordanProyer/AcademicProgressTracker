@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AcademicProgressTracker.Models
@@ -12,6 +14,7 @@ namespace AcademicProgressTracker.Models
         [MinGradeValue]
         [MaxGradeValue]
         public decimal? Mark { get; set; }
+        [DisplayName("Submission Date")]
         public DateTime AddedDateTime { get; set; }
 
         [ForeignKey("UserId")]
