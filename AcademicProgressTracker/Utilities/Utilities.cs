@@ -285,17 +285,35 @@ namespace AcademicProgressTracker.Utilities
         public double WeightedMark(List<UserResults> userResultList)
         {
             double weightedTotal = 0;
+            var courseworkContext = _context.Coursework.ToList();
 
             foreach (var result in userResultList)
             {
                 var mark = Convert.ToDouble(result.Mark);
-                double weighting = Convert.ToDouble(result.Coursework.Percentage) / 100;
-                var weightedMark = mark * weighting;
+                double weighting = courseworkContext.First(x => x.Id == result.CourseworkId).Percentage;
+                var weightedMark = mark * (weighting / 100);
 
                 weightedTotal += weightedMark;
             }
 
             return Math.Round(weightedTotal,2);
+        }
+
+        public double WeightedMarkForModule(List<UserModuleResult> userModuleResultList)
+        {
+            double weightedTotal = 0;
+            var moduleContext = _context.Module.ToList();
+
+            foreach (var result in userModuleResultList)
+            {
+                var mark = Convert.ToDouble(result.Mark);
+                double credits = moduleContext.First(x => x.Id == result.ModuleId).Credits;
+                var weightedMark = mark * (credits / 120);
+
+                weightedTotal += weightedMark;
+            }
+
+            return Math.Round(weightedTotal, 2);
         }
 
         public List<MarkToClassification> CalculateNeededMarks(List<UserResults> userResultList)

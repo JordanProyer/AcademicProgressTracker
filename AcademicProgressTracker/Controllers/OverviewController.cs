@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using AcademicProgressTracker.Models;
@@ -28,6 +29,7 @@ namespace AcademicProgressTracker.Controllers
             List<UserModuleResult> userModuleResultYear2List = new List<UserModuleResult>();
             List<UserModuleResult> userModuleResultYear3List = new List<UserModuleResult>();
             List<UserModuleResult> userModuleResultYear4List = new List<UserModuleResult>();
+            var util = new Utilities.Utilities();
             var userId = Convert.ToInt32(User.Identity.GetUserId());
 
             var userYears = _context.UserModules.Where(x => x.UserId == userId).Select(y => y.Module.Year).GroupBy(z => z.Id).Select(grp => grp.FirstOrDefault()).ToList();
@@ -42,11 +44,12 @@ namespace AcademicProgressTracker.Controllers
                 {
                     var mark = Convert.ToDouble(userResult.Sum(x => x.Mark));
                     var averageCwMark = mark / userResult.Count();
+                    var weightedMark = util.WeightedMark(userResult.ToList());
                     var userModuleResult = new UserModuleResult
                     {
                         ModuleName = userResult.Key.Name,
                         ModuleId = userResult.Key.Id,
-                        Mark = Math.Round(averageCwMark, 2),
+                        Mark = Math.Round(weightedMark, 2),
                         Classification = classificationList.First(x => x.LowerBound <= averageCwMark && x.UpperBound >= averageCwMark).Value,
                     };
 
@@ -116,16 +119,14 @@ namespace AcademicProgressTracker.Controllers
                 }
 
                 currentUserModuleResultList.OrderBy(x => x.ModuleName);
-                var totalMark = currentUserModuleResultList.Sum(x => x.Mark);
-                var numberOfModules = currentUserModuleResultList.Count;
-                var averageMark = totalMark / numberOfModules;
+                var weightedMarkbycredits = util.WeightedMarkForModule(currentUserModuleResultList);
 
                 //Add total for each year
                 var finalResult = new UserModuleResult()
                 {
                     ModuleName = "Total",
-                    Mark = Math.Round(averageMark, 2),
-                    Classification = classificationList.First(x => x.LowerBound <= averageMark && x.UpperBound >= averageMark).Value,
+                    Mark = weightedMarkbycredits,
+                    Classification = classificationList.First(x => x.LowerBound <= weightedMarkbycredits && x.UpperBound >= weightedMarkbycredits).Value,
                 };
 
                 if (year.Id == 1)
