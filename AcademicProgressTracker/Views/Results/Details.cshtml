@@ -335,13 +335,12 @@
                         titleFontSize: 24,
                     },
                     axisY: {
-                        title: "Mark",
+                        title: "Mark (%)",
                         titleFontSize: 24,
                         maximum: 100,
                         interlacedColor: "#D6DCFC"
                     },
                     axisY2: {
-                        title: "Distance",
                         titleFontColor: "#C0504E",
                         lineColor: "#C0504E",
                         tickColor: "#C0504E",
@@ -354,14 +353,13 @@
                     data: [
                         {
                             type: "bar",
-                            name: "Mark (%)",
+                            name: "Predicted / Attained Module Mark (%)",
                             showInLegend: true,
                             dataPoints: dataPoints
                         },
                         {
                             type: "bar",
-                            name: "Distance ",
-                            legendText: "Distance",
+                            name: "Weighted mark after X Courseworks",
                             showInLegend: true,
                             axisYType: "secondary",
                             color: "#C0504E",
@@ -374,12 +372,12 @@
                 for (var i = 0; i < data.length; i++) {
                     dataPoints.push({
                         label: data[i].Label,
-                        y: data[i].AverageModuleMark
+                        y: data[i].PredictedModuleMark
                     });
 
                     dataPoints2.push({
                         label: data[i].Label,
-                        y: data[i].Distance
+                        y: data[i].MarkAfterXCourseworks
                     });
                 }
                 chart.render();
@@ -428,7 +426,7 @@
                         {
                             type: "bubble",
                             name: "Mark (%)",
-                            toolTipContent: "<b>{name}</b><br/>Distance: {x}<br/> Average Mark: {y}",
+                            toolTipContent: "<b>{name}</b><br/>Distance: {x}<br/> Average Mark: {y}</br>",
                             dataPoints: dataPoints
                         },
                     ]
@@ -438,8 +436,8 @@
                 for (var i = 0; i < data.length; i++) {
                     dataPoints.push({
                         x: data[i].Distance,
-                        y: data[i].AverageModuleMark,
-                        z: data[i].AverageModuleMark,
+                        y: data[i].PredictedModuleMark,
+                        z: data[i].PredictedModuleMark,
                         name: data[i].Label
                     });
                 }

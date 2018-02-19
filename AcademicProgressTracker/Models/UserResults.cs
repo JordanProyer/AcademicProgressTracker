@@ -13,6 +13,7 @@ namespace AcademicProgressTracker.Models
 
         [MinGradeValue]
         [MaxGradeValue]
+        [DisplayName("Result")]
         public decimal? Mark { get; set; }
         [DisplayName("Submission Date")]
         public DateTime AddedDateTime { get; set; }

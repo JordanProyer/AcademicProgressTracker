@@ -67,7 +67,7 @@ namespace AcademicProgressTracker.Controllers
                 Module = module,
             };
 
-            var knnNum = Math.Round(util.GetKnnResultNumber(userId, id), 2);
+            var knnNum = Math.Round(util.GetKnnResultNumber(userId, id, 3), 2);
 
             if (Math.Abs(knnNum) > 0)
             {
@@ -139,15 +139,16 @@ namespace AcademicProgressTracker.Controllers
         {
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var util = new Utilities.Utilities();
+            var userResultContext = _context.UserResults.Include(x => x.Coursework);
             var knnResultList = util.KNeareastNeighbour(userId, moduleId, kValue).ToList();
 
-            var userResultContext = _context.UserResults;
-            var totalAverageMark = Convert.ToDouble(userResultContext.Where(x => x.Coursework.ModuleId == moduleId && x.UserId == userId).Sum(y => y.Mark));
-            var courseworkCount = userResultContext.Count(x => x.Coursework.ModuleId == moduleId && x.UserId == userId);
-            var userAverageMark = Math.Round((totalAverageMark / courseworkCount), 2);
+
+            var userResultsForModule = userResultContext.Where(x => x.Coursework.ModuleId == moduleId && x.UserId == userId).ToList();
+            var userResultforCompletedCw = userResultsForModule.Where(x => x.Mark != null).ToList();
             var userKnnResult = new KnnResult
             {
-                AverageModuleMark = userAverageMark,
+                MarkAfterXCourseworks = util.WeightedMark(userResultforCompletedCw),
+                PredictedModuleMark = util.GetKnnResultNumber(userId, moduleId, kValue),
                 Label = "Your Result",
                 UserId = userId
             };

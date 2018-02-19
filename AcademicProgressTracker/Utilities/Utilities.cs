@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Security.Cryptography.X509Certificates;
@@ -22,7 +23,8 @@ namespace AcademicProgressTracker.Utilities
         {
             //Set up variables
             var userResult = _context.UserResults.Where(x => x.UserId == userId && x.Coursework.ModuleId == moduleId).ToList();
-            var allUserResults = _context.UserResults.Where(x => x.Coursework.ModuleId == moduleId && x.UserId != userId).ToList();
+            var everyUserResultForCourseworks = _context.UserResults.Where(x => x.Coursework.Module.Id == moduleId).Include(y => y.Coursework).ToList();
+            var allUserResults = everyUserResultForCourseworks.Where(x => x.UserId != userId).ToList();
             decimal? moduleMark = 0;
             int individualCourseworkCount = 0;
             int numOfCourseworks = userResult.Count;
@@ -104,13 +106,18 @@ namespace AcademicProgressTracker.Utilities
                     }
                 }
 
+                //Gets weighted mark for each user based on modules our user has compler
+                var userResultsForUsersCompletedCw = allUserResults.Where(x => userResult.Where(z => z.Mark != null).Select(y => y.CourseworkId).Contains(x.CourseworkId)).ToList();
+                var weightedMark = WeightedMark(userResultsForUsersCompletedCw.Where(x => x.UserId == group.Key).ToList());
+
                 //Calculate total distance between all marks for two users
                 var totalDistance = KNNFactor(values);
                 var knnResult = new KnnResult()
                 {
                     UserId = group.Key,
                     Distance = totalDistance,
-                    AverageModuleMark = Math.Round((Convert.ToDouble(moduleMark) / individualCourseworkCount),2)
+                    PredictedModuleMark = WeightedMark(allUserResults.Where(x => x.UserId == group.Key).ToList()),
+                    MarkAfterXCourseworks = weightedMark,
                 };
 
                 knnResultList.Add(knnResult);
@@ -127,24 +134,41 @@ namespace AcademicProgressTracker.Utilities
             return orderedKnnResultList;
         }
 
-        public double GetKnnResultNumber(int userId, int moduleId)
+        public double GetAverageMark(List<UserResults> userResultList)
+        {
+            var totalMark = Convert.ToDouble(userResultList.Sum(x => x.Mark));
+            var numOfCw = userResultList.Count;
+
+            return Math.Round(totalMark / numOfCw , 2);
+        }
+
+        public double GetKnnResultNumber(int userId, int moduleId, int kValue)
         {
             var allUserResults = _context.UserResults.Where(x => x.Coursework.ModuleId == moduleId && x.UserId != userId).ToList();
-            var knnOrderedResultList = KNeareastNeighbour(userId, moduleId, 3);
+            var knnOrderedResultList = KNeareastNeighbour(userId, moduleId, kValue);
 
             //Get coursework count for chosen k users
-            var relevantUserResults = allUserResults.Where(x => knnOrderedResultList.Select(y => y.UserId).Contains(x.UserId)).ToList();
-            var courseworkCount = relevantUserResults.Count;
+            var relevantUserResults = allUserResults.Where(x => knnOrderedResultList.Select(y => y.UserId).Contains(x.UserId)).GroupBy(z => z.UserId).ToList();
 
-            //Calculate average final mark for chosen k users
-            if (courseworkCount > 0)
+            double theTotalMark = 0;
+            List<double> numbersToAdd = new List<double>();
+
+            foreach (var group in relevantUserResults)
             {
-                var totalMark = relevantUserResults.Select(x => x.Mark).Sum();
-                var averageMark = totalMark / courseworkCount;
-                return Convert.ToDouble(averageMark);
+                foreach (var entry in group)
+                {
+                    theTotalMark += Convert.ToDouble(entry.Mark);
+                }
+
+                var cwCount = group.Count();
+                var groupAverage = theTotalMark / cwCount;
+                numbersToAdd.Add(groupAverage);
+                theTotalMark = 0;
+                cwCount = 0;
+
             }
 
-            return 0;
+            return Math.Round(numbersToAdd.Sum() / numbersToAdd.Count, 2);
         }
 
         public String GetKnnResultText(double result)
@@ -173,6 +197,20 @@ namespace AcademicProgressTracker.Utilities
             var total = numberList.Sum();
             var distance = Math.Sqrt(total);
             return distance;
+        }
+
+        public static double StandardDeviation(List<UserResults> values)
+        {
+            var resultsList = values.Select(x => Convert.ToDouble(x.Mark)).ToList();
+            double avg = resultsList.Average();
+            return Math.Sqrt(resultsList.Average(v => Math.Pow(v - avg, 2)));
+        }
+
+        public double MeanMark(List<UserResults> values)
+        {
+            var resultsList = values.Select(x => Convert.ToDouble(x.Mark)).ToList();
+            double avg = resultsList.Average();
+            return avg;
         }
 
         private void SetNeighbourLabelName(List<KnnResult> resultList)
@@ -249,6 +287,22 @@ namespace AcademicProgressTracker.Utilities
             var weightedMark = mark * weighting;
 
             return weightedMark;
+        }
+
+        public double WeightedMark(List<UserResults> userResultList)
+        {
+            double weightedTotal = 0;
+
+            foreach (var result in userResultList)
+            {
+                var mark = Convert.ToDouble(result.Mark);
+                double weighting = Convert.ToDouble(result.Coursework.Percentage) / 100;
+                var weightedMark = mark * weighting;
+
+                weightedTotal += weightedMark;
+            }
+
+            return Math.Round(weightedTotal,2);
         }
 
         public List<MarkToClassification> CalculateNeededMarks(List<UserResults> userResultList)

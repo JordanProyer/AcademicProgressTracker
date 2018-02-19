@@ -7,6 +7,7 @@ namespace AcademicProgressTracker.Models.Graphs
         public int UserId { get; set; }
         public double Distance { get; set; }
         public String Label { get; set; }
-        public double AverageModuleMark { get; set; }
+        public double PredictedModuleMark { get; set; }
+        public double MarkAfterXCourseworks { get; set; }
     }
 }

@@ -56,8 +56,8 @@ namespace AcademicProgressTracker
             //   consumerSecret: "");
 
             //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            //   appId: "162754031042695",
+            //   appSecret: "df2678ad415fc0dae948710eae26d5c0");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
