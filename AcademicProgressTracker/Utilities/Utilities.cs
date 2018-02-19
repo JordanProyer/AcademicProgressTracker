@@ -25,8 +25,6 @@ namespace AcademicProgressTracker.Utilities
             var userResult = _context.UserResults.Where(x => x.UserId == userId && x.Coursework.ModuleId == moduleId).ToList();
             var everyUserResultForCourseworks = _context.UserResults.Where(x => x.Coursework.Module.Id == moduleId).Include(y => y.Coursework).ToList();
             var allUserResults = everyUserResultForCourseworks.Where(x => x.UserId != userId).ToList();
-            decimal? moduleMark = 0;
-            int individualCourseworkCount = 0;
             int numOfCourseworks = userResult.Count;
             int markPercentRange = 10;
             int numOfValidResults = 0;
@@ -100,9 +98,6 @@ namespace AcademicProgressTracker.Utilities
                         var userMark = Convert.ToDouble(userResultMark.Mark);
                         var distance = Math.Pow(userMark - Convert.ToDouble(coursework.Mark), 2);
                         values.Add(distance);
-
-                        moduleMark += coursework.Mark;
-                        individualCourseworkCount++;
                     }
                 }
 
@@ -115,7 +110,7 @@ namespace AcademicProgressTracker.Utilities
                 var knnResult = new KnnResult()
                 {
                     UserId = group.Key,
-                    Distance = totalDistance,
+                    Distance = Math.Round(totalDistance, 2),
                     PredictedModuleMark = WeightedMark(allUserResults.Where(x => x.UserId == group.Key).ToList()),
                     MarkAfterXCourseworks = weightedMark,
                 };
@@ -124,8 +119,6 @@ namespace AcademicProgressTracker.Utilities
 
                 //Clear distance list for next iteration
                 values.Clear();
-                moduleMark = 0;
-                individualCourseworkCount = 0;
             }
 
             //Order all results by distance asc and take first k results

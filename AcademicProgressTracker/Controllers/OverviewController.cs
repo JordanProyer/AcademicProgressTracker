@@ -46,7 +46,7 @@ namespace AcademicProgressTracker.Controllers
                     {
                         ModuleName = userResult.Key.Name,
                         ModuleId = userResult.Key.Id,
-                        Mark = averageCwMark,
+                        Mark = Math.Round(averageCwMark, 2),
                         Classification = classificationList.First(x => x.LowerBound <= averageCwMark && x.UpperBound >= averageCwMark).Value,
                     };
 
