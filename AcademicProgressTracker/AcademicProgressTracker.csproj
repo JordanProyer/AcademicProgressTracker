@@ -246,9 +246,9 @@
     <Compile Include="Migrations\201802112219520_AddCSYearTwoCourse.Designer.cs">
       <DependentUpon>201802112219520_AddCSYearTwoCourse.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201802202026074_AddDeletedColumnToCourse.cs" />
-    <Compile Include="Migrations\201802202026074_AddDeletedColumnToCourse.Designer.cs">
-      <DependentUpon>201802202026074_AddDeletedColumnToCourse.cs</DependentUpon>
+    <Compile Include="Migrations\201802202303134_AddDeleteColumnToCourse.cs" />
+    <Compile Include="Migrations\201802202303134_AddDeleteColumnToCourse.Designer.cs">
+      <DependentUpon>201802202303134_AddDeleteColumnToCourse.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
@@ -629,8 +629,8 @@
     <EmbeddedResource Include="Migrations\201802112219520_AddCSYearTwoCourse.resx">
       <DependentUpon>201802112219520_AddCSYearTwoCourse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802202026074_AddDeletedColumnToCourse.resx">
-      <DependentUpon>201802202026074_AddDeletedColumnToCourse.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201802202303134_AddDeleteColumnToCourse.resx">
+      <DependentUpon>201802202303134_AddDeleteColumnToCourse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,56 @@
+﻿@model AcademicProgressTracker.ViewModels.AdminDeleteViewModel
+@{
+    ViewBag.Title = "Delete";
+    ViewBag.Message = "Delete a Course";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+@using (Html.BeginForm("DeleteCourse", "Admin", FormMethod.Post, new { id = "deleteForm" }))
+{
+    @Html.HiddenFor(x => x.Success)
+    <div class="form-group">
+        @Html.LabelFor(m => m.CourseToDeleteId)
+        @Html.DropDownListFor(m => m.CourseList, new SelectList(Model.CourseList, "Id", "Name"), "Select a course", new{@class = "form-control"})
+        @Html.HiddenFor(m => m.CourseToDeleteId)
+    </div>
+        <input type="submit" id="btnDelete" class="btn btn-danger" value="Delete" />
+}
+
+        @section scripts
+{
+            <script>
+                $(document).ready(function () {
+                    $("#CourseList").removeClass("input-validation-error");
+                    $("#deleteForm").submit(function (e) {
+                        debugger;
+                        var currentForm = this;
+                        e.preventDefault();
+                        bootbox.confirm("Are you sure you would like to delete this course?",
+                            function (result) {
+                                if (result) {
+                                    currentForm.submit();
+                                }
+                            });
+                    });
+                    setDeleteHdnValue();
+                    successToastr();
+                });
+
+                function successToastr() {
+                    debugger;
+                    if ($("#Success").val() === "True") {
+                        toastr.success('Course successfully deleted');
+                    }
+                }
+
+                function setDeleteHdnValue() {
+                    $("#CourseList").change(function () {
+                        var courseId = $("#CourseList").val();
+                        $("#CourseToDeleteId").val(courseId);
+                    });
+                }
+            </script>
+        }
