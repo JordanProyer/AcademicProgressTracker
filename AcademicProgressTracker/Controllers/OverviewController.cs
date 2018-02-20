@@ -42,15 +42,13 @@ namespace AcademicProgressTracker.Controllers
             {
                 foreach (var userResult in userResultsGrouped.Where(x => x.Key.Year.Id == year.Id))
                 {
-                    var mark = Convert.ToDouble(userResult.Sum(x => x.Mark));
-                    var averageCwMark = mark / userResult.Count();
                     var weightedMark = util.WeightedMark(userResult.ToList());
                     var userModuleResult = new UserModuleResult
                     {
                         ModuleName = userResult.Key.Name,
                         ModuleId = userResult.Key.Id,
                         Mark = Math.Round(weightedMark, 2),
-                        Classification = classificationList.First(x => x.LowerBound <= averageCwMark && x.UpperBound >= averageCwMark).Value,
+                        Classification = classificationList.First(x => x.LowerBound <= weightedMark && x.UpperBound >= weightedMark).Value,
                     };
 
                     if (year.Id == 1)
