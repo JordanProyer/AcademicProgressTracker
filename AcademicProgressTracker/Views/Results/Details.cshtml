@@ -7,30 +7,44 @@
 
 <h1>@ViewBag.Title</h1>
 <p>@ViewBag.Message</p>
+<br/>
 
-<div id="gradesChartContainer" style="height: 370px; width: 80%;"></div>
-<br /><br /><br />
-<div id="gradesOverTimeChartContainer" style="height: 370px; width: 80%;"></div>
-<br /><br /><br />
-<div id="maximumgradeChartContainer" style="height: 370px; width: 80%;"></div>
-<br /><br /><br />
-<div id="marksToClassificationChartContainer" style="height: 370px; width: 80%;"></div>
-<br /><br /><br />
-<h5>How many nearest neightbours do you want to view? (max: 5)</h5>
-<input type="text" id="kValueDistance" value ="3"/>
-<input type="submit" id="btnSubmitDistance" class="btn btn-info" value="Run" onclick="redrawKnnResultGraphDistance()" /><br/>
-<div id="knnChartContainerDistance" style="height: 370px; width: 80%;"></div>
-<br /><br /><br />
-<h5>How many nearest neightbours do you want to view? (max: 5)</h5>
-<input type="text" id="kValueBubble" value="3" />
-<input type="submit" id="btnSubmitBubble" class="btn btn-info" value="Run" onclick="redrawKnnResultGraphBubble()" /><br/>
-<div id="knnChartContainerBubble" style="height: 370px; width: 80%;"></div>
-<br /><br /><br />
-<div class="form-group">
-    @Html.LabelFor(m => m.KnnPredictionNum)
-    @Html.DisplayTextFor(m => m.KnnPredictionNum)<br />
-    @Html.LabelFor(m => m.KnnPredictionTxt)
-    @Html.DisplayTextFor(m => m.KnnPredictionTxt)
+<div>
+    <h4>This chart shows the percentage mark achieved for each coursework for this module:</h4>
+    <div id="gradesChartContainer" style="height: 370px; width: 100%;"></div>
+    <br /><br /><br /><br />
+</div>
+<div>
+    <h4>This chart shows your coursework grades with respect to time. The solid line shows each individual grade and the dotted line shows the weighted total:</h4>
+    <div id="gradesOverTimeChartContainer" style="height: 370px; width: 100%;"></div>
+    <br/><br/><br/><br/>
+</div>
+<div>
+    <h4>This chart shows the the maximum possible grade you can achieve for this module based on the coursework you have already completed:</h4>
+    <div id="maximumgradeChartContainer" style="height: 370px; width: 100%;"></div>
+    <br/><br/><br/><br/>
+</div>
+<div>
+    <h4>This chart shows what mark you need to average in remianing coursework to achieve each classification for this module (a required mark of 0 means you have already achieved that classification):</h4>
+    <div id="marksToClassificationChartContainer" style="height: 370px; width: 100%;"></div>
+    <br/><br/><br/><br/>
+</div>
+<div>
+    <h4>This chart shows your predicted grade for this module using the K-nearest-neighbour algorithm. Using the courseworks you have already completed, your marks will be compared with other students who have completed this module. Using their final result, your predicted result can be predicted: </h4>
+    <h4 style="font-weight: bolder" id ="knnPredictedGrade">Your predicted grade: </h4>
+    <h5>How many nearest neightbours do you want to view? (max: 5)</h5>
+    <input type="text" id="kValueDistance" value="3"/>
+    <input type="submit" id="btnSubmitDistance" class="btn btn-info" value="Run" onclick="redrawKnnResultGraphDistance()"/><br/>
+    <div id="knnChartContainerDistance" style="height: 370px; width: 100%;"></div>
+    <br/><br/><br/><br/>
+</div>
+<div>
+    <h4>This chart shows the 'distance' each of your nearest neighbours is away from you. The smaller the distance, the closer your coursework marks are to theirs and the more accurate your predicted grade is likely to be:</h4>
+    <h5>How many nearest neightbours do you want to view? (max: 5)</h5>
+    <input type="text" id="kValueBubble" value="3"/>
+    <input type="submit" id="btnSubmitBubble" class="btn btn-info" value="Run" onclick="redrawKnnResultGraphBubble()"/><br/>
+    <div id="knnChartContainerBubble" style="height: 370px; width: 100%;"></div>
+    <br/><br/><br/><br/>
 </div>
 
 <script>
@@ -284,7 +298,7 @@
                         titleFontSize: 24,
                     },
                     axisY: {
-                        title: "Mark (%)",
+                        title: "Required Mark (%)",
                         titleFontSize: 24,
                         maximum: 100,
                         interlacedColor: "#D6DCFC"
@@ -297,7 +311,7 @@
                         {
                             type: "column",
                             name: "Mark (%)",
-                            //toolTipContent: "<b>{name}</b><br/>Distance: {x}<br/> Average Mark: {y}",
+                            toolTipContent: "<b>{label}</b><br/>Required Mark (%): {y}<br/>",
                             dataPoints: dataPoints
                         },
                     ]
@@ -369,7 +383,7 @@
                 });
 
             function addData(data) {
-                for (var i = 0; i < data.length; i++) {
+                for (var i = (data.length - 1); i >= 0; i--) {
                     dataPoints.push({
                         label: data[i].Label,
                         y: data[i].PredictedModuleMark
@@ -385,11 +399,37 @@
             }
 
             var moduleId = @Model.Module.Id;
-            debugger;
             var kValueDistance = $("#kValueDistance").val();
 
             var url = '@Url.Action("GetKnnResult", "Results")' + '?moduleId=' + moduleId + '&kValue=' + kValueDistance;
             $.getJSON(url, addData);
+
+            $.getJSON(url, function (response) {
+                $.each(response,
+                    function (index, item) { // item is now an object containing properties ID and Text
+                        var classification = "";
+                        if (index == 0) {
+                            if (item.PredictedModuleMark >= 70) {
+                                classification = "First Class";
+                            }
+                            else if (item.PredictedModuleMark >= 60) {
+                                classification = "Second Class Division 1";
+                            }
+                            else if (item.PredictedModuleMark >= 50) {
+                                classification = "Second Class Division 2";
+                            }
+                            else if (item.PredictedModuleMark >= 40) {
+                                classification = "Third Class";
+                            }
+                            else{
+                                classification = "Fail";
+                            }
+
+                            var grade = $("#knnPredictedGrade").val(item.PredictedModuleMark);
+                            $("#knnPredictedGrade").text("Your predicted grade: " + grade.val() + " - " + classification);
+                        }
+                    });
+            });
         }
 
         function redrawKnnResultGraphDistance() {

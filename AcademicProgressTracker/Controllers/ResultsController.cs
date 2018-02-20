@@ -59,21 +59,11 @@ namespace AcademicProgressTracker.Controllers
 
         public ActionResult Details(int id)
         {
-            var userId = Convert.ToInt32(User.Identity.GetUserId());
-            var util = new Utilities.Utilities();
             var module = _context.Module.First(x => x.Id == id);
             var viewModel = new ResultsDetailedViewModel
             {
                 Module = module,
             };
-
-            var knnNum = Math.Round(util.GetKnnResultNumber(userId, id, 3), 2);
-
-            if (Math.Abs(knnNum) > 0)
-            {
-                viewModel.KnnPredictionNum = knnNum;
-                viewModel.KnnPredictionTxt = util.GetKnnResultText(knnNum);
-            }
 
             return View(viewModel);
         }
