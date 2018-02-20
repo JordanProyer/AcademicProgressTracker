@@ -132,3 +132,4 @@ D:\OneDrive\Uni\Year 4\Final Year Project\Codebase\GitHub\AcademicProgressTracke
 D:\OneDrive\Uni\Year 4\Final Year Project\Codebase\GitHub\AcademicProgressTracker\AcademicProgressTracker\obj\Debug\AcademicProgressTracker.Migrations.AddDateTimeToUserResult.resources
 D:\OneDrive\Uni\Year 4\Final Year Project\Codebase\GitHub\AcademicProgressTracker\AcademicProgressTracker\obj\Debug\AcademicProgressTracker.Migrations.AddCSYearOneCourse.resources
 D:\OneDrive\Uni\Year 4\Final Year Project\Codebase\GitHub\AcademicProgressTracker\AcademicProgressTracker\obj\Debug\AcademicProgressTracker.Migrations.AddCSYearTwoCourse.resources
+D:\OneDrive\Uni\Year 4\Final Year Project\Codebase\GitHub\AcademicProgressTracker\AcademicProgressTracker\obj\Debug\AcademicProgressTracker.Migrations.AddDeletedColumnToCourse.resources
