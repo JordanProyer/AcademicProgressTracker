@@ -1,0 +1,56 @@
+﻿@model List<AcademicProgressTracker.ViewModels.AdminAddCourseworkViewModel>
+
+
+@if (Model[0].Module.Name != "BadCode")
+{
+    var index = Model[0].Index;
+    var moduleId = Model[index].Module.Id;
+    <h2>@Model[index].Module.Name</h2>
+    <table id="courseworkTable-@moduleId" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Coursework Name</th>
+            <th>Percentage</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>@Html.TextBoxFor(x => Model[index].Coursework[0].Name)</td>
+            <td>@Html.TextBoxFor(x => Model[index].Coursework[0].Percentage) @Html.TextBoxFor(x => Model[index].Module.Id)</td>
+        </tr> 
+        </tbody>
+    </table>
+    <input type="button" id="addNewTableRow-@moduleId" class="btn btn-info" value="+ New row" />
+}
+
+<script language="javascript" type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script>
+        $(document).ready(function() {
+            var count = 1;
+            var index = @Model[0].Index;
+
+            $("#addNewTableRow-@Model[Model[0].Index].Module.Id").click(function () {
+                debugger;
+                if (count === 1)
+                    $('#courseworkTable-@Model[Model[0].Index].Module.Id > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[1].Name)</td><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[1].Percentage)@Html.HiddenFor(x => Model[Model[0].Index].Module.Id)</td></tr>');
+                else if (count === 2)
+                    $('#courseworkTable-@Model[Model[0].Index].Module.Id > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[2].Name)</td><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[2].Percentage)@Html.HiddenFor(x => Model[Model[0].Index].Module.Id)</td></tr>');
+                else if (count === 3)
+                    $('#courseworkTable-@Model[Model[0].Index].Module.Id > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[3].Name)</td><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[3].Percentage)@Html.HiddenFor(x => Model[Model[0].Index].Module.Id)</td></tr>');
+                else if (count === 4)
+                    $('#courseworkTable-@Model[Model[0].Index].Module.Id > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[4].Name)</td><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[4].Percentage)@Html.HiddenFor(x => Model[Model[0].Index].Coursework[4].ModuleId)</td></tr>');
+                else if (count === 5)
+                    $('#courseworkTable-@Model[Model[0].Index].Module.Id > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[5].Name)</td><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[5].Percentage)@Html.HiddenFor(x => Model[Model[0].Index].Coursework[5].ModuleId)</td></tr>');
+                else if (count === 6)
+                    $('#courseworkTable-@Model[Model[0].Index].Module.Id > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[6].Name)</td><td>@Html.TextBoxFor(x => Model[Model[0].Index].Coursework[6].Percentage)@Html.HiddenFor(x => Model[Model[0].Index].Coursework[6].ModuleId)</td></tr>');
+
+                count++;
+            });
+        });
+</script>

@@ -250,6 +250,10 @@
     <Compile Include="Migrations\201802202303134_AddDeleteColumnToCourse.Designer.cs">
       <DependentUpon>201802202303134_AddDeleteColumnToCourse.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802210103102_MakeOptionalABool.cs" />
+    <Compile Include="Migrations\201802210103102_MakeOptionalABool.Designer.cs">
+      <DependentUpon>201802210103102_MakeOptionalABool.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
@@ -271,6 +275,8 @@
     <Compile Include="Models\Year.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="ViewModels\AdminAddCourseworkViewModel.cs" />
+    <Compile Include="ViewModels\AdminAddViewModel.cs" />
     <Compile Include="ViewModels\AdminDeleteViewModel.cs" />
     <Compile Include="ViewModels\GradesAddViewModel.cs" />
     <Compile Include="ViewModels\GradesViewModel.cs" />
@@ -588,6 +594,10 @@
     <Content Include="Views\Overview\_YearPanel.cshtml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Admin\Add.cshtml" />
+    <Content Include="Views\Admin\AddCoursework.cshtml" />
+    <Content Include="Views\Admin\_AddCourseworkTable.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Coursework.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -631,6 +641,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802202303134_AddDeleteColumnToCourse.resx">
       <DependentUpon>201802202303134_AddDeleteColumnToCourse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802210103102_MakeOptionalABool.resx">
+      <DependentUpon>201802210103102_MakeOptionalABool.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

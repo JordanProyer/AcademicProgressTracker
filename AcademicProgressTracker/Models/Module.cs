@@ -10,7 +10,7 @@ namespace AcademicProgressTracker.Models
         public int CourseId { get; set; }
         public int YearId { get; set; }
         public int Credits { get; set; }
-        public byte Optional { get; set; }
+        public bool Optional { get; set; }
 
         [ForeignKey("CourseId")]
         public Course Course { get; set; }

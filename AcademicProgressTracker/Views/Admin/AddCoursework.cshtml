@@ -1,0 +1,24 @@
+﻿@model List<AcademicProgressTracker.ViewModels.AdminAddCourseworkViewModel>
+@{
+    ViewBag.Title = "Add Coursework";
+    ViewBag.Message = "Add courseworks to your new course";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+@using (Html.BeginForm("AddCourseworkAdd", "Admin", FormMethod.Post, new { id = "addCourseworkAddForm" }))
+{
+    for(var i =0; i < Model.Count; i++)
+    {
+        Model[0].Index = i;
+        <div>
+            @Html.Partial("_AddCourseworkTable", Model)
+        </div>
+        <br />
+    }
+
+    <div class="pull-right"><input type="submit" id="btnSubmit" class="btn btn-info" value="Submit" /></div>
+}
+

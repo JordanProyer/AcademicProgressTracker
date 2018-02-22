@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -21,6 +22,97 @@ namespace AcademicProgressTracker.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Add(AdminAddViewModel viewModel)
+        {
+            var courseTypeList = new List<string>();
+            var courseDurationList = new List<int>();
+            var yearList = _context.Year.ToList();
+
+            courseTypeList.Add("BA"); courseTypeList.Add("BAS"); courseTypeList.Add("BEng"); courseTypeList.Add("BSc"); courseTypeList.Add("MEng"); courseTypeList.Add("MSc");
+            courseDurationList.Add(1); courseDurationList.Add(2); courseDurationList.Add(3); courseDurationList.Add(4);
+
+            viewModel.CourseType = courseTypeList;
+            viewModel.CourseDuration = courseDurationList;
+            viewModel.YearList = yearList;
+
+            return View(viewModel);
+        }
+
+        public ActionResult AddCourse(AdminAddViewModel viewModel)
+        {
+            //Add Course to db
+            var courseToAdd = new Course()
+            {
+                Name = viewModel.CourseName,
+                Type = viewModel.CourseType.First(),
+                Duration = viewModel.CourseDuration.First(),
+                Deleted = 0
+            };
+            _context.Course.Add(courseToAdd);
+            _context.SaveChanges();
+
+            //Get correct modules and add to db
+            var courseId = _context.Course.Max(x => x.Id);
+
+            foreach (var module in viewModel.Modules)
+            {
+                if (module.Name != null)
+                {
+                    module.CourseId = courseId;
+                    module.YearId = module.YearId;
+                    _context.Module.Add(module);
+                }
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("AddCoursework", "Admin", viewModel);
+        }
+
+        public ActionResult AddCoursework()
+        {
+            var viewModelList = new List<AdminAddCourseworkViewModel>();
+            var newCourseId = _context.Course.Max(x => x.Id);
+            var modules = _context.Module.Where(x => x.CourseId == newCourseId);
+            var i = 0;
+
+            foreach (var module in modules)
+            {
+                var viewModel = new AdminAddCourseworkViewModel
+                {
+                    Module = module,
+                    Index = i,
+                };
+
+                i++;
+                viewModelList.Add(viewModel);
+            }
+
+            return View(viewModelList);
+        }
+
+        [System.Web.Http.HttpPost]
+        public ActionResult AddCourseworkAdd(List<AdminAddCourseworkViewModel> viewModelList)
+        {
+            foreach (var module in viewModelList)
+            {
+                foreach (var coursework in module.Coursework)
+                {
+                    var newCoursework = new Coursework
+                    {
+                        Name = coursework.Name,
+                        ModuleId = module.Module.Id,
+                        Percentage = coursework.Percentage
+                    };
+
+                    _context.Coursework.Add(newCoursework);
+                }
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("AddCoursework", "Admin", viewModelList);
         }
 
         public ActionResult Delete(AdminDeleteViewModel viewModel)

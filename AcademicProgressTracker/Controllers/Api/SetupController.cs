@@ -50,9 +50,11 @@ namespace AcademicProgressTracker.Controllers.Api
         [HttpGet]
         public IHttpActionResult Modules(int courseid, int yearid, int optional)
         {
+            bool option = optional == 1;
+
             var modules = _context.Module.Where(x => x.CourseId == courseid
                                                 && x.YearId == yearid
-                                                && x.Optional == optional);
+                                                && x.Optional == option);
 
             if (modules == null)
             {

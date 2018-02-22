@@ -39,9 +39,10 @@ namespace AcademicProgressTracker.Controllers
 
         public JsonResult GetModules(int courseId, int yearId, int optional, int[] chosenModulesIds)
         {
+            bool option = optional == 1;
             var modules = _context.Module.Where(x => x.CourseId == courseId
                                           && x.YearId == yearId
-                                          && x.Optional == optional)
+                                          && x.Optional == option)
                                           .OrderBy(x => x.Name)
                                           .ToList();
 
@@ -70,9 +71,10 @@ namespace AcademicProgressTracker.Controllers
 
         public JsonResult GetCompulsoryCredits(int courseId, int yearId, int optional)
         {
+            bool option = optional == 1;
             var compulsoryCredits = _context.Module.Where(x => x.CourseId == courseId 
                                                         && x.YearId == yearId
-                                                        && x.Optional == optional).Select(y => y.Credits).Sum();
+                                                        && x.Optional == option).Select(y => y.Credits).Sum();
 
             return Json(compulsoryCredits, JsonRequestBehavior.AllowGet);
         }
@@ -98,7 +100,7 @@ namespace AcademicProgressTracker.Controllers
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var compulsoryModules = _context.Module.Where(x => x.CourseId == viewModel.CourseId
                                                                && x.YearId == viewModel.YearId
-                                                               && x.Optional == 0).Select(x => x.Id);
+                                                               && x.Optional == false).Select(x => x.Id);
             foreach (var module in viewModel.ModuleId)
             {
                 var userModule = new UserModules()
