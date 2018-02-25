@@ -158,5 +158,14 @@ namespace AcademicProgressTracker.Controllers
             var marksToClassificationList = util.CalculateNeededMarks(relevantUserResults);
             return Json(marksToClassificationList, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetProbabilityDensityFunction(int moduleId)
+        {
+            var resultList= _context.UserResults.Include(x => x.Coursework).Where(x => x.Coursework.ModuleId == moduleId).ToList();
+            var util = new Utilities.Utilities();
+            var result = util.ProbabilityDensity(resultList);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

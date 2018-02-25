@@ -46,6 +46,11 @@
     <div id="knnChartContainerBubble" style="height: 370px; width: 100%;"></div>
     <br/><br/><br/><br/>
 </div>
+<div>
+    <h4>This chart shows the distribution of results for this module across all grades entered</h4>
+    <div id="probabilityDensityChartContainer" style="height: 370px; width: 100%;"></div>
+    <br /><br /><br /><br />
+</div>
 
 <script>
         window.onload = function() {
@@ -55,6 +60,7 @@
             drawMarksToClassificationGraph();
             drawKnnResultGraphDistance();
             drawKnnResultGraphBubble();
+            drawProbabilityDensityGraph();
         }
 
         function drawMarksGraph() {
@@ -496,5 +502,55 @@
             $("#knnChartContainerBubble").html("");
             drawKnnResultGraphBubble();
     }
+
+        function drawProbabilityDensityGraph() {
+            var dataPoints = [];
+
+            var chart = new CanvasJS.Chart("probabilityDensityChartContainer",
+                {
+                    animationEnabled: true,
+                    theme: "light1",
+                    title: {
+                        text: "Distribution of Coursework Marks"
+                    },
+                    axisX: {
+                        title: "Mark",
+                        titleFontSize: 24,
+                    },
+                    axisY: {
+                        title: "Percentage Chance",
+                        titleFontSize: 24,
+                        minimum: 0,
+                        interlacedColor: "#D6DCFC"
+                    },
+
+                    toolTip: {
+                        shared: true
+                    },
+                    data: [
+                        {
+                            type: "spline",
+                            name: "Mark (%)",
+                            toolTipContent: "<b>Percentage Chance:</b> {y} <br/><b>Mark (%):</b> {x}<br/>",
+                            dataPoints: dataPoints
+                        },
+                    ]
+                });
+
+            function addData(data) {
+                for (var i = 0; i < data.length; i++) {
+                    dataPoints.push({
+                        x: data[i].XValue,
+                        y: data[i].PropabilityDensity,
+                    });
+                }
+                chart.render();
+
+            }
+
+            var moduleId = @Model.Module.Id;
+            var url = '@Url.Action("GetProbabilityDensityFunction", "Results")' + '?moduleId=' + moduleId;
+            $.getJSON(url, addData);
+        }
 
 </script>

@@ -192,14 +192,43 @@ namespace AcademicProgressTracker.Utilities
             return distance;
         }
 
-        public static double StandardDeviation(List<UserResults> values)
+        public List<ProbabilityDensity> ProbabilityDensity(List<UserResults> userResultList)
+        {
+            var stDev = StandardDeviation(userResultList);
+            var mean = MeanMark(userResultList);
+
+            var resultList = new List<ProbabilityDensity>();
+            var firstValue = 1 / Math.Sqrt(2 * Math.PI * Math.Pow(stDev, 2));
+
+            for (double i = 1; i <= 100; i++)
+            {
+                var powerNumerator = -Math.Pow((i - mean), 2);
+                var powerDenominator = 2 * Math.Pow(stDev, 2);
+                var power = powerNumerator / powerDenominator;
+                var secondValue = Math.Pow(Math.E, power);
+
+                var result = firstValue * secondValue;
+
+                var probabilityDensity = new ProbabilityDensity
+                {   XValue = i,
+                    PropabilityDensity = result
+                };
+
+                resultList.Add(probabilityDensity);
+            }
+
+            return resultList;
+
+        }
+
+        private static double StandardDeviation(List<UserResults> values)
         {
             var resultsList = values.Select(x => Convert.ToDouble(x.Mark)).ToList();
             double avg = resultsList.Average();
             return Math.Sqrt(resultsList.Average(v => Math.Pow(v - avg, 2)));
         }
 
-        public double MeanMark(List<UserResults> values)
+        private double MeanMark(List<UserResults> values)
         {
             var resultsList = values.Select(x => Convert.ToDouble(x.Mark)).ToList();
             double avg = resultsList.Average();
