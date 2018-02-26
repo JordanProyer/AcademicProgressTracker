@@ -143,12 +143,20 @@ namespace AcademicProgressTracker.Controllers
 
             var userResultsForModule = userResultContext.Where(x => x.Coursework.ModuleId == moduleId && x.UserId == userId).ToList();
             var userResultforCompletedCw = userResultsForModule.Where(x => x.Mark != null).ToList();
+
+            //Circle size stuff 
+            var allUserResults = userResultContext.Where(x => x.Coursework.ModuleId == moduleId).ToList();
+            var stdDev = util.StandardDeviation(allUserResults);
+            var mean = util.MeanMark(allUserResults);
+            var predictedModuleMark = util.GetKnnResultNumber(userId, moduleId, kValue);
+
             var userKnnResult = new KnnResult
             {
                 MarkAfterXCourseworks = util.WeightedMark(userResultforCompletedCw),
-                PredictedModuleMark = util.GetKnnResultNumber(userId, moduleId, kValue),
+                PredictedModuleMark = predictedModuleMark,
                 Label = "Your Result",
-                UserId = userId
+                UserId = userId,
+                CircleSize = util.ProbabilityDensity(stdDev, mean, predictedModuleMark)
             };
 
             knnResultList.Insert(0, userKnnResult);

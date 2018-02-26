@@ -472,7 +472,7 @@
                         {
                             type: "bubble",
                             name: "Mark (%)",
-                            toolTipContent: "<b>{name}</b><br/>Distance: {x}<br/> Predicted/Attained Mark: {y}</br>",
+                            toolTipContent: "<b>{name}</b><br/>Distance: {x}<br/> Predicted/Attained Mark: {y}",
                             dataPoints: dataPoints
                         },
                     ]
@@ -483,7 +483,7 @@
                     dataPoints.push({
                         x: data[i].Distance,
                         y: data[i].PredictedModuleMark,
-                        z: data[i].PredictedModuleMark,
+                        z: data[i].CircleSize,
                         name: data[i].Label
                     });
                 }

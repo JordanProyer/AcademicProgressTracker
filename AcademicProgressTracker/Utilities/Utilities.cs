@@ -25,6 +25,7 @@ namespace AcademicProgressTracker.Utilities
             var userResult = _context.UserResults.Where(x => x.UserId == userId && x.Coursework.ModuleId == moduleId).ToList();
             var everyUserResultForCourseworks = _context.UserResults.Where(x => x.Coursework.Module.Id == moduleId).Include(y => y.Coursework).ToList();
             var allUserResults = everyUserResultForCourseworks.Where(x => x.UserId != userId).ToList();
+            var allUserResultsIncludingUser =_context.UserResults.Where(x => x.Coursework.ModuleId == moduleId).ToList();
             int numOfCourseworks = userResult.Count;
             int markPercentRange = 10;
             int numOfValidResults = 0;
@@ -107,12 +108,19 @@ namespace AcademicProgressTracker.Utilities
 
                 //Calculate total distance between all marks for two users
                 var totalDistance = KNNFactor(values);
+
+                //Circle size stuff 
+                var stdDev = StandardDeviation(allUserResultsIncludingUser);
+                var mean = MeanMark(allUserResultsIncludingUser);
+                var predictedModuleMark = WeightedMark(allUserResultsIncludingUser.Where(x => x.UserId == group.Key).ToList());
+
                 var knnResult = new KnnResult()
                 {
                     UserId = group.Key,
                     Distance = Math.Round(totalDistance, 2),
-                    PredictedModuleMark = WeightedMark(allUserResults.Where(x => x.UserId == group.Key).ToList()),
+                    PredictedModuleMark = predictedModuleMark,
                     MarkAfterXCourseworks = weightedMark,
+                    CircleSize = ProbabilityDensity(stdDev, mean, predictedModuleMark)
                 };
 
                 knnResultList.Add(knnResult);
@@ -192,6 +200,20 @@ namespace AcademicProgressTracker.Utilities
             return distance;
         }
 
+        public double ProbabilityDensity(double stDev, double mean, double value)
+        {
+            var firstValue = 1 / Math.Sqrt(2 * Math.PI * Math.Pow(stDev, 2));
+
+            var powerNumerator = -Math.Pow((value - mean), 2);
+            var powerDenominator = 2 * Math.Pow(stDev, 2);
+            var power = powerNumerator / powerDenominator;
+            var secondValue = Math.Pow(Math.E, power);
+
+            var result = firstValue * secondValue;
+
+            return result;
+        }
+
         public List<ProbabilityDensity> ProbabilityDensity(List<UserResults> userResultList)
         {
             var stDev = StandardDeviation(userResultList);
@@ -221,14 +243,14 @@ namespace AcademicProgressTracker.Utilities
 
         }
 
-        private static double StandardDeviation(List<UserResults> values)
+        public double StandardDeviation(List<UserResults> values)
         {
             var resultsList = values.Select(x => Convert.ToDouble(x.Mark)).ToList();
             double avg = resultsList.Average();
             return Math.Sqrt(resultsList.Average(v => Math.Pow(v - avg, 2)));
         }
 
-        private double MeanMark(List<UserResults> values)
+        public double MeanMark(List<UserResults> values)
         {
             var resultsList = values.Select(x => Convert.ToDouble(x.Mark)).ToList();
             double avg = resultsList.Average();

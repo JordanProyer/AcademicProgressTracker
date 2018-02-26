@@ -9,5 +9,6 @@ namespace AcademicProgressTracker.Models.Graphs
         public String Label { get; set; }
         public double PredictedModuleMark { get; set; }
         public double MarkAfterXCourseworks { get; set; }
+        public double CircleSize { get; set; }
     }
 }
