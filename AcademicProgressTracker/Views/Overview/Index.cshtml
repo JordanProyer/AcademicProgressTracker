@@ -8,10 +8,46 @@
 <h2>@ViewBag.Title</h2>
 <p>@ViewBag.Message</p>
 
-@foreach (var result in Model)
-{
-<div class="row col-md-4" style="overflow: hidden; width: 410px; height: 430px;">
-    @Html.Partial("_YearPanel", result)
+<div class="row">
+    <div class="row col-md-3" style="padding-top: 8px">
+        <p style="padding-left: 14px">Show nearest neighbour prediction for incomplete modules</p>
+    </div>
+    <div class="row col-md-3" style="padding-top: 4px">
+        <label id="knnSwitch" class="switch" style="padding-top: 10px">
+            <input id="knnBox" type="checkbox">
+            <span class="slider round"></span>
+        </label>
+    </div>
 </div>
-}
+<br />
 
+    @foreach (var result in Model)
+    {
+        <div class="row col-md-4" style="overflow: hidden; width: 410px; height: 430px;">
+            @Html.Partial("_YearPanel", result);
+        </div>
+    }
+
+    @section scripts
+{
+        <script>
+        $(document).ready(function () {
+            var showKnnResult;
+            $("#knnBox").val("off");
+
+            $("#knnSwitch").on('change', (function () {
+                debugger;
+                if ($("#knnBox").val() === "on") {
+                    $("#knnBox").val("off");
+                    showKnnResult = false;
+                    location.href = '@Url.Action("Index","Overview")';
+                } else {
+                    $("#knnBox").val("on");
+                    showKnnResult = true;
+                    location.href = '@Url.Action("knnIndex","Overview")';
+                }
+            }));
+
+    });
+        </script>
+    }
