@@ -302,13 +302,13 @@ namespace AcademicProgressTracker.Utilities
 
         public decimal? WeightedMark(UserResults userResult)
         {
-            var mark = userResult.Mark;
+            var mark = Convert.ToDouble(userResult.Mark);
             var courseworkId = userResult.CourseworkId;
-            decimal percentage = _context.Coursework.First(x => x.Id == courseworkId).Percentage;
+            double percentage = _context.Coursework.First(x => x.Id == courseworkId).Percentage;
             var weighting = percentage / 100;
             var weightedMark = mark * weighting;
 
-            return weightedMark;
+            return Convert.ToDecimal(weightedMark);
         }
 
         public double WeightedMark(List<UserResults> userResultList)

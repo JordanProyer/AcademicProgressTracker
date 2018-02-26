@@ -37,7 +37,7 @@ namespace AcademicProgressTracker.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         ModuleId = c.Int(nullable: false),
-                        Percentage = c.Int(nullable: false),
+                        Percentage = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Modules", t => t.ModuleId, cascadeDelete: true)

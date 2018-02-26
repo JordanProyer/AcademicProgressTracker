@@ -258,6 +258,10 @@
     <Compile Include="Migrations\201802260039583_MakeUserResultDateTimeNullable.Designer.cs">
       <DependentUpon>201802260039583_MakeUserResultDateTimeNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802260104364_CourseworkPercentageToDouble.cs" />
+    <Compile Include="Migrations\201802260104364_CourseworkPercentageToDouble.Designer.cs">
+      <DependentUpon>201802260104364_CourseworkPercentageToDouble.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
@@ -652,6 +656,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802260039583_MakeUserResultDateTimeNullable.resx">
       <DependentUpon>201802260039583_MakeUserResultDateTimeNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802260104364_CourseworkPercentageToDouble.resx">
+      <DependentUpon>201802260104364_CourseworkPercentageToDouble.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
