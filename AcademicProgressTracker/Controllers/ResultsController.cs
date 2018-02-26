@@ -99,14 +99,17 @@ namespace AcademicProgressTracker.Controllers
             foreach (var userResult in relevantUserResults)
             {
                 totalWeightedMark += util.WeightedMark(userResult);
-                var courseworkGradesOverTime = new CourseworkGradesOverTime
+                if (userResult.AddedDateTime != null)
                 {
-                    Mark = userResult.Mark,
-                    WeightedMark = totalWeightedMark,
-                    AddedDateTime = DateTimeOffset.Parse(userResult.AddedDateTime.ToLongDateString()).ToUnixTimeMilliseconds()
-                };
+                    var courseworkGradesOverTime = new CourseworkGradesOverTime
+                    {
+                        Mark = userResult.Mark,
+                        WeightedMark = totalWeightedMark,
+                        AddedDateTime = DateTimeOffset.Parse(userResult.AddedDateTime.Value.ToLongDateString()).ToUnixTimeMilliseconds()
+                    };
 
-                courseworkGradesOverTimeList.Add(courseworkGradesOverTime);
+                    courseworkGradesOverTimeList.Add(courseworkGradesOverTime);
+                }
             }
 
             return Json(courseworkGradesOverTimeList, JsonRequestBehavior.AllowGet);

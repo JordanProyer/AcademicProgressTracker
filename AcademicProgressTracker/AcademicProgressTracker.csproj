@@ -254,6 +254,10 @@
     <Compile Include="Migrations\201802210103102_MakeOptionalABool.Designer.cs">
       <DependentUpon>201802210103102_MakeOptionalABool.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802260039583_MakeUserResultDateTimeNullable.cs" />
+    <Compile Include="Migrations\201802260039583_MakeUserResultDateTimeNullable.Designer.cs">
+      <DependentUpon>201802260039583_MakeUserResultDateTimeNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Course.cs" />
@@ -645,6 +649,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802210103102_MakeOptionalABool.resx">
       <DependentUpon>201802210103102_MakeOptionalABool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802260039583_MakeUserResultDateTimeNullable.resx">
+      <DependentUpon>201802260039583_MakeUserResultDateTimeNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

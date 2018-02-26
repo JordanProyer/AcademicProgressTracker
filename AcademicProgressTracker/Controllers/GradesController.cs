@@ -91,22 +91,22 @@ namespace AcademicProgressTracker.Controllers
             //Variables to update db with new userResults
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var userResultContext = _context.UserResults;
-            var addedDateTime = System.DateTime.Now;
             IList<UserResults> userResultsToRemove = new List<UserResults>();
 
             //Create new userResult for each table entry
             foreach (var userResults in gradesAddViewModel.UserResults)
             {
-                if (userResults.AddedDateTime != null)
+                if (userResults.AddedDateTime != null && userResults.AddedDateTime.Value == Convert.ToDateTime("01/01/1900"))
                 {
-                    addedDateTime = userResults.AddedDateTime;
+                    userResults.AddedDateTime = null;
                 }
+
                 var userResult = new UserResults
                 {
                     UserId = userId,
                     CourseworkId = userResults.CourseworkId,
                     Mark = userResults.Mark,
-                    AddedDateTime = addedDateTime
+                    AddedDateTime = userResults.AddedDateTime
                 };
 
                 var resultInDb = userResultContext.FirstOrDefault(x => x.UserId == userId && x.CourseworkId == userResult.CourseworkId);

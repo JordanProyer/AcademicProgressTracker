@@ -7,7 +7,7 @@ namespace AcademicProgressTracker.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.UserResults", "AddedDateTime", c => c.DateTime(nullable: false));
+            AddColumn("dbo.UserResults", "AddedDateTime", c => c.DateTime(nullable: true));
         }
         
         public override void Down()

@@ -16,7 +16,7 @@ namespace AcademicProgressTracker.Models
         [DisplayName("Result")]
         public decimal? Mark { get; set; }
         [DisplayName("Submission Date")]
-        public DateTime AddedDateTime { get; set; }
+        public DateTime? AddedDateTime { get; set; }
 
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }

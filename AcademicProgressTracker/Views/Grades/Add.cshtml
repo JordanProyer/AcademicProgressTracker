@@ -54,7 +54,8 @@
 @section scripts
 {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+            var addedDateTimes = [$("#UserResults_0__AddedDateTime"), $("#UserResults_0__AddedDateTime"), $("#UserResults_1__AddedDateTime"), $("#UserResults_2__AddedDateTime"), $("#UserResults_3__AddedDateTime"), $("#UserResults_4__AddedDateTime"), $("#UserResults_5__AddedDateTime"), $("#UserResults_6__AddedDateTime")]
             $("#courseworkTable").DataTable();
 
             if ($("#Success").val() === "True") {
@@ -62,20 +63,30 @@
                 $("#Success").val("False");
             }
 
-            $("#gradesForm").submit(function(e) {
+            $("#gradesForm").submit(function (e) {
                 var currentForm = this;
                 e.preventDefault();
-                bootbox.confirm("Are you sure you would like to add these results?", function(result) {
-                        if (result) {
-                            currentForm.submit();
-                        }
-                    });
+                bootbox.confirm("Are you sure you would like to add these results?", function (result) {
+                    if (result) {
+                        debugger;
+                        addedDateTimes.forEach(function(element) {
+                            if (element.val() === "") {
+                                element.text("");
+                                element.val("01/01/1900");
+                                element.text("");
+                            }
+                        });
+                        
+                        currentForm.submit();
+                    }
+                });
             });
 
-            $(function () {
+            $(function() {
                 // This will make every element with the class "date-picker" into a DatePicker element
                 $('.date-picker').datepicker();
-            })
+            });
+
         });
     </script>
 }
