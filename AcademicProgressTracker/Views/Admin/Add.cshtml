@@ -68,8 +68,13 @@
                 debugger;
                 var currentForm = this;
                 e.preventDefault();
-                assignValuesToModel();
-                currentForm.submit();
+                bootbox.confirm("Are you sure you would like to add these modules?",
+                    function (result) {
+                        if (result) {
+                            assignValuesToModel();
+                            currentForm.submit();
+                        }
+                    });
             });
 
             function assignValuesToModel() {

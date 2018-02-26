@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AcademicProgressTracker.ViewModels.AdminViewModel
+@{
     ViewBag.Title = "Admin";
     ViewBag.Message = "With your admin access, you can make changes to the courses";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -49,4 +50,17 @@
     </div>
     <br /><br />
 </div>
+
+@Html.HiddenFor(x => x.Success);
+
+<script language="javascript" type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var success = $("#Success").val();
+        if (success === "True") {
+                toastr.success('Course successfully deleted');
+        }
+    });
+</script>
 

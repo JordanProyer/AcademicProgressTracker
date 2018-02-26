@@ -277,7 +277,9 @@
     <Compile Include="Models\UserModuleResult.cs" />
     <Compile Include="Models\WeightedResult.cs" />
     <Compile Include="Utilities\Utilities.cs" />
+    <Compile Include="Validation\MaxCreditsAttribute.cs" />
     <Compile Include="Validation\MaxGradeValueAttribute.cs" />
+    <Compile Include="Validation\MinCreditsAttribute.cs" />
     <Compile Include="Validation\MinGradeValueAttribute.cs" />
     <Compile Include="Models\Module.cs" />
     <Compile Include="Models\UserModules.cs" />
@@ -288,6 +290,7 @@
     <Compile Include="ViewModels\AdminAddCourseworkViewModel.cs" />
     <Compile Include="ViewModels\AdminAddViewModel.cs" />
     <Compile Include="ViewModels\AdminDeleteViewModel.cs" />
+    <Compile Include="ViewModels\AdminViewModel.cs" />
     <Compile Include="ViewModels\GradesAddViewModel.cs" />
     <Compile Include="ViewModels\GradesViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />

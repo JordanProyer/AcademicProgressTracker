@@ -22,3 +22,18 @@
     <div class="pull-right"><input type="submit" id="btnSubmit" class="btn btn-info" value="Submit" /></div>
 }
 
+<script language="javascript" type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#addCourseworkAddForm").submit(function (e) {
+            var currentForm = this;
+            e.preventDefault();
+            bootbox.confirm("Are you sure you would like to add these courseworks?",
+                function (result) {
+                    if (result) {
+                        currentForm.submit();
+                    }
+                });
+        });
+    });
+</script>

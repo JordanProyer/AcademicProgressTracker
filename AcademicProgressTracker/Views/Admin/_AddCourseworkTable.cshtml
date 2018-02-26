@@ -10,13 +10,13 @@
         <thead>
         <tr>
             <th>Coursework Name</th>
-            <th>Percentage</th>
+            <th>Percentage Worth</th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <td>@Html.TextBoxFor(x => Model[index].Coursework[0].Name)</td>
-            <td>@Html.TextBoxFor(x => Model[index].Coursework[0].Percentage) @Html.TextBoxFor(x => Model[index].Module.Id)</td>
+            <td>@Html.TextBoxFor(x => Model[index].Coursework[0].Percentage) @Html.HiddenFor(x => Model[index].Module.Id)</td>
         </tr> 
         </tbody>
     </table>

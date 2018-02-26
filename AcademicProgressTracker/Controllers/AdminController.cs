@@ -19,9 +19,9 @@ namespace AcademicProgressTracker.Controllers
         }
 
         // GET: Admin
-        public ActionResult Index()
+        public ActionResult Index(AdminViewModel viewModel)
         {
-            return View();
+            return View(viewModel);
         }
 
         public ActionResult Add(AdminAddViewModel viewModel)
@@ -112,7 +112,12 @@ namespace AcademicProgressTracker.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("AddCoursework", "Admin", viewModelList);
+            var adminViewModel = new AdminViewModel
+            {
+                Success = true,
+            };
+
+            return RedirectToAction("Index", "Admin", adminViewModel);
         }
 
         public ActionResult Delete(AdminDeleteViewModel viewModel)
