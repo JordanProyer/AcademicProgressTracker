@@ -98,7 +98,12 @@ namespace AcademicProgressTracker.Controllers
 
             foreach (var userResult in relevantUserResults)
             {
-                totalWeightedMark += util.WeightedMark(userResult);
+                var thisWeightedMark = util.WeightedMark(userResult);
+                if (thisWeightedMark != null)
+                {
+                    totalWeightedMark += util.WeightedMark(userResult);
+                }
+
                 if (userResult.AddedDateTime != null)
                 {
                     var courseworkGradesOverTime = new CourseworkGradesOverTime
