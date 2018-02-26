@@ -10,5 +10,6 @@ namespace AcademicProgressTracker.ViewModels
     {
         public string YearName { get; set; }
         public List<UserModuleResult> ModuleResultList { get; set; }
+        public List<OverallResult> OverallResultList { get; set; }
     }
 }

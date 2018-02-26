@@ -11,8 +11,8 @@
         <div class="panel-body-result">
             @foreach (var module in Model.ModuleResultList)
             {
-                var boldClass = (module.ModuleName != "Total") ? "bold-hover" : "";
-                if (module.ModuleName == "Total")
+                var boldClass = (module.ModuleName != "Weighted Total") ? "bold-hover" : "";
+                if (module.ModuleName == "Weighted Total")
                 {
                     <br/>
                 }

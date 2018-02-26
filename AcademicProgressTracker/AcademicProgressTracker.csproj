@@ -273,6 +273,7 @@
     <Compile Include="Models\Graphs\KnnResult.cs" />
     <Compile Include="Models\Graphs\CourseworkQuantity.cs" />
     <Compile Include="Models\Graphs\ProbabilityDensity.cs" />
+    <Compile Include="Models\OverallResult.cs" />
     <Compile Include="Models\UserModuleResult.cs" />
     <Compile Include="Models\WeightedResult.cs" />
     <Compile Include="Utilities\Utilities.cs" />

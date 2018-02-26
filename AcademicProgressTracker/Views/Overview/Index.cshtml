@@ -1,7 +1,7 @@
-﻿@model IEnumerable<AcademicProgressTracker.ViewModels.OverviewViewModel>
+﻿@model List<AcademicProgressTracker.ViewModels.OverviewViewModel>
 @{
     ViewBag.Title = "Yearly Overview";
-    ViewBag.Message = "Your yearly overview:";
+    ViewBag.Message = "Your weighted grade is shown for each module. Predicted grades can be shown where a module is incomplete:";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,14 +21,32 @@
 </div>
 <br />
 
-    @foreach (var result in Model)
+    @for (var i = 0; i < Model.Count - 1; i++)
     {
         <div class="row col-md-4" style="overflow: hidden; width: 410px; height: 430px;">
-            @Html.Partial("_YearPanel", result);
+            @Html.Partial("_YearPanel", Model[i]);
         </div>
     }
 
-    @section scripts
+    <div class="panel-primary-overall" style="overflow: hidden; width: 375px; height:400px">
+        <div class="panel-heading">
+            <b>Overall results</b>
+        </div>
+        <div class="panel-body-result">
+            @foreach (var result in Model[Model.Count - 1].OverallResultList)
+            {
+                if (result.YearName == "Weighted Total")
+                {
+                    <br />
+                }
+                <b>@result.YearName:</b>
+                <i>@result.Mark% - @result.Classification</i><br />
+            }
+        </div>
+    </div>
+
+
+@section scripts
 {
         <script>
         $(document).ready(function () {
