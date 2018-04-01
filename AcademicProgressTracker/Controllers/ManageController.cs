@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using AcademicProgressTracker.Models;
 using AcademicProgressTracker.ViewModels;
+using Microsoft.Ajax.Utilities;
 
 namespace AcademicProgressTracker.Controllers
 {
@@ -16,9 +17,11 @@ namespace AcademicProgressTracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly ApplicationDbContext _context;
 
         public ManageController()
         {
+            _context = new ApplicationDbContext();
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -53,7 +56,7 @@ namespace AcademicProgressTracker.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index(ManageMessageId? message, IndexViewModel viewModel)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -71,8 +74,13 @@ namespace AcademicProgressTracker.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId.ToString())
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId.ToString()),
             };
+
+            if (viewModel.Success == false)
+            {
+                model.Success = false;
+            }
             return View(model);
         }
 
@@ -334,7 +342,43 @@ namespace AcademicProgressTracker.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        public ActionResult Delete(IndexViewModel viewModel)
+        {
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var userResults = _context.UserResults.Where(x => x.UserId == userId).ToList();
+            var userModules = _context.UserModules.Where(x => x.UserId == userId).ToList();
+
+            _context.UserResults.RemoveRange(userResults);
+            _context.UserModules.RemoveRange(userModules);
+            _context.SaveChanges();
+
+            viewModel.Success = true;
+
+
+            return RedirectToAction("Index", viewModel);
+        }
+
+        public ActionResult DeleteUser()
+        {
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var user = _context.Users.Find(userId);
+            var userRole = UserManager.GetRoles(userId)[0];
+            var userResults = _context.UserResults.Where(x => x.UserId == userId).ToList();
+            var userModules = _context.UserModules.Where(x => x.UserId == userId).ToList();
+
+            _context.UserResults.RemoveRange(userResults);
+            _context.UserModules.RemoveRange(userModules);
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie, DefaultAuthenticationTypes.ExternalCookie);
+
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

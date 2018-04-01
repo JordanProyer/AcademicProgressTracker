@@ -66,10 +66,10 @@ namespace AcademicProgressTracker.Utilities
                     numOfValidResults = 0;
                     allUserResults.Clear();
                     allUserResults = _context.UserResults.Where(x => x.Coursework.ModuleId == moduleId && x.UserId != userId).ToList();
-                    markPercentRange += 10;
+                    markPercentRange += 5;
 
                     //If not enough results are in a reasonable range, continue with valid ones
-                    if (markPercentRange > 200)
+                    if (markPercentRange > 25)
                     {
                         enoughResults = true;
                     }
