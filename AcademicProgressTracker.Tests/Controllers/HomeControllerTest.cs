@@ -13,7 +13,7 @@ namespace AcademicProgressTracker.Tests.Controllers
     public class HomeControllerTest
     {
         [TestMethod]
-        public void Index()
+        public void Home_Initalise_NotNull()
         {
             // Arrange
             HomeController controller = new HomeController();

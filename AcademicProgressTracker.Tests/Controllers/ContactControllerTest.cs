@@ -8,7 +8,7 @@ namespace AcademicProgressTracker.Tests.Controllers
     public class ContactControllerTest
     {
         [TestMethod]
-        public void Contact()
+        public void Contact_Initialise_NotNull()
         {
             // Arrange
             ContactController controller = new ContactController();

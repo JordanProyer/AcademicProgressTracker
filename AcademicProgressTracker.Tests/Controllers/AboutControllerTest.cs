@@ -8,7 +8,7 @@ namespace AcademicProgressTracker.Tests.Controllers
     public class AboutControllerTest
     {
         [TestMethod]
-        public void Index()
+        public void About_Initialise_NotNull()
         {
             // Arrange
             AboutController controller = new AboutController();
