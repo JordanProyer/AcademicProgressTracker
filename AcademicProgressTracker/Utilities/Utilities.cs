@@ -178,22 +178,27 @@ namespace AcademicProgressTracker.Utilities
             return _context.Classification.First(x => x.UpperBound >= roundResult && x.LowerBound <= roundResult).Name;
         }
 
-        private bool IsResultInRange(UserResults userResult, UserResults existingUserResult, decimal range)
+        public bool IsResultInRange(UserResults userResult, UserResults existingUserResult, decimal range)
         {
             decimal upperRange = 1 + range / 100;
             decimal lowerRange = 1 - range / 100;
 
-            if (userResult.Mark * upperRange < existingUserResult.Mark ||
-                userResult.Mark * lowerRange > existingUserResult.Mark)
+            if (userResult.Mark == null || existingUserResult.Mark == null)
             {
                 return false;
             }
 
-            return true;
+            if (existingUserResult.Mark * upperRange >= userResult.Mark &&
+                existingUserResult.Mark * lowerRange <= userResult.Mark)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         //Square roots the sum of squared distances to find total distance
-        private double KNNFactor(List<double> numberList)
+        public double KNNFactor(List<double> numberList)
         {
             var total = numberList.Sum();
             var distance = Math.Sqrt(total);
@@ -257,7 +262,7 @@ namespace AcademicProgressTracker.Utilities
             return avg;
         }
 
-        private void SetNeighbourLabelName(List<KnnResult> resultList)
+        public void SetNeighbourLabelName(List<KnnResult> resultList)
         {
             int positionInList = 0;
 
@@ -315,7 +320,7 @@ namespace AcademicProgressTracker.Utilities
         }
 
 
-        private double WeightedMark(double moduleMark, double percentage)
+        public double WeightedMark(double moduleMark, double percentage)
         {
             var weighting = percentage / 100;
             var weightedMark = moduleMark * weighting;
@@ -406,7 +411,7 @@ namespace AcademicProgressTracker.Utilities
             return markToClassificationList;
         }
 
-        private String SetClassificationLabelName(int lowerBound)
+        public String SetClassificationLabelName(int lowerBound)
         { 
                 String label;
                 switch (lowerBound)

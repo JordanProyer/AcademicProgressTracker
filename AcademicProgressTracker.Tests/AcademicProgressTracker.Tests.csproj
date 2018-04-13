@@ -90,7 +90,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AboutControllerTest.cs" />
+    <Compile Include="Controllers\AdminControllerTest.cs" />
     <Compile Include="Controllers\ContactControllerTest.cs" />
+    <Compile Include="Controllers\GradesControllerTest.cs" />
+    <Compile Include="Controllers\OverviewControllerTest.cs" />
+    <Compile Include="Controllers\ResultsControllerTest.cs" />
+    <Compile Include="Controllers\SetupControllerTest.cs" />
+    <Compile Include="Controllers\UtilitiesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
