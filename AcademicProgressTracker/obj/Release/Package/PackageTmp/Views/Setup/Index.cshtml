@@ -1,0 +1,289 @@
+﻿@using AcademicProgressTracker.Models
+@using Microsoft.Ajax.Utilities
+@using Microsoft.AspNet.Identity
+@model AcademicProgressTracker.ViewModels.SetupViewModel
+
+@{
+    ViewBag.Title = "Course Setup";
+    ViewBag.Message = "Set up your course modules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var _context = new ApplicationDbContext();
+    var userId = Convert.ToInt32(User.Identity.GetUserId());
+    var usermodulesExist = _context.UserModules.Any(x => x.UserId == userId);
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <p><b>You must be logged in to choose your course modules</b>
+    </p>
+    <p><b>To login, <a href="~/Account/Login">click here</a> or to sign up, <a href="~/Account/Register">click here</a> </b>
+    </p>
+}
+
+else 
+//if (User.Identity.IsAuthenticated && !usermodulesExist )
+{
+    using (Html.BeginForm("CreateUserModule", "Setup", FormMethod.Post, new {id = "setupForm"}))
+    {
+        @Html.HiddenFor(x => x.Success)
+        <form id="moduleForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group"><br/>
+                        @Html.LabelFor(m => m.Course)
+                        @Html.DropDownListFor(m => m.Course, new SelectList(Model.Course, "Id", "Name"), "Select a course", new {@class = "form-control"})
+                        @Html.HiddenFor(m => m.CourseId)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Year)
+                        @Html.DropDownListFor(m => m.Year, new SelectList(Model.Year, "Id", "Name"), "Select a year", new {@class = "form-control"})
+                        @Html.HiddenFor(m => m.YearId)
+                    </div>
+                    <div id="divModule1" class="form-group-module" hidden>
+                        @Html.Label("Optional Module 1")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule1", @class = "form-control"})
+                    </div>
+                    <div id="divModule2" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 2")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule2", @class = "form-control"})
+                    </div>
+                    <div id="divModule3" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 3")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule3", @class = "form-control"})
+                    </div>
+                    <div id="divModule4" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 4")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule4", @class = "form-control"})
+                    </div>
+                    <div id="divModule5" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 5")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule5", @class = "form-control"})
+                    </div>
+                    <div id="divModule6" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 6")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule6", @class = "form-control"})
+                    </div>
+                    <div id="divModule7" class="form-group-module" hidden>
+                        <br/>
+                        @Html.Label("Optional Module 7")
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule7", @class = "form-control"})
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-pull-12">
+                            <br/>
+                            <input type="submit" id="btnSubmit"class="btn btn-info" value="Submit"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div id="creditsText">
+                        <h1>Course Information:</h1>
+                        <h2 id="compulsoryCredits">Compulsory Credits: -</h2>
+                        <h2 id="optionalCredits">Optional Credits Selected: -</h2>
+                    </div>
+                    @Html.HiddenFor(x => x.SelectionComplete)
+                </div>
+            </div>
+        </form>
+    }
+}
+
+@*else
+{
+    @Html.HiddenFor(x => x.Success)
+    <p><b>Looks like you've already picked your optional modules</b></p>
+}*@
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            removeErrors();
+            if ($("#Success").val() === "True") {
+                toastr.success('Module choices saved successfully');
+            }
+            var moduleShowCount = 2;          
+
+            changeOnYear();
+            showModules(moduleShowCount);    
+
+            $("#btnSubmit").click(function () {
+                if ($('#SelectionComplete').val() === 'False') {
+                    toastr.error('Insufficient number of credits selected');
+                    return false;
+                }
+                return true;
+            });
+
+            $("#setupForm").submit(function(e) {
+                var currentForm = this;
+                e.preventDefault();
+                bootbox.confirm("Are you sure you would like to save these modules? This can not be undone", function(result) {
+                    if (result) {
+                        currentForm.submit();
+                    }
+                });
+            });
+        });
+
+
+        function changeOnYear() {
+            $("#Year").change(function () {
+                $("#ddlModule1").empty();
+                var courseId = $("#Course").val();
+                var yearId = $("#Year").val();
+                $("#CourseId").val(courseId);
+                $("#YearId").val(yearId);
+                GetCompulsoryCredits(courseId, yearId);
+                updateModules(1);
+            });
+        }
+
+        function updateModules(id) {
+            var ddlModule = $("#ddlModule" + id);
+            var divModule = $("#divModule" + id);
+            var courseId = $("#Course").val();
+            var yearId = $("#Year").val();
+
+            var count = id - 1;
+            var ddlModuleValue = $("#ddlModule" + count).val();
+            var result = moduleStore(count, ddlModuleValue);
+
+            var module1 = result[0] || 0;
+            var module2 = result[1] || 0;
+            var module3 = result[2] || 0;
+            var module4 = result[3] || 0;
+            var module5 = result[4] || 0;
+            var module6 = result[5] || 0;
+            var module7 = result[6] || 0;
+
+            var url = '@Url.Action("GetModules", "Setup")' + '?courseId=' + courseId + '&yearId=' + yearId + '&optional=1' + '&chosenModulesIds=' + module1 + '&chosenModulesIds=' + module2 + '&chosenModulesIds=' + module3 + '&chosenModulesIds=' + module4 + '&chosenModulesIds=' + module5 + '&chosenModulesIds=' + module6 + '&chosenModulesIds=' + module7;
+            $.getJSON(url, function(response) {
+                $.each(response,
+                    function(index, item) { // item is now an object containing properties ID and Text
+                        ddlModule.append($('<option>').text(item.Name).val(item.Id));
+                    });
+            });
+
+            updateCredits(ddlModuleValue);
+            debugger;
+            var optionalCredits = $("#optionalCredits").text().replace('Optional Credits Selected: ', '');
+            if (optionalCredits !== '60/70') {
+                divModule.removeAttr("hidden");
+            }
+            id++;
+        }
+
+        function showModules(moduleShowCount) {
+            $('.form-group-module').change(function () {
+                updateModules(moduleShowCount);
+                moduleShowCount++;
+            });
+        }
+
+        function moduleStore(count, moduleId) {
+            var module1 = sessionStorage.getItem("optionalModule1");
+            var module2 = sessionStorage.getItem("optionalModule2");
+            var module3 = sessionStorage.getItem("optionalModule3");
+            var module4 = sessionStorage.getItem("optionalModule4");
+            var module5 = sessionStorage.getItem("optionalModule5");
+            var module6 = sessionStorage.getItem("optionalModule6");
+            var module7 = sessionStorage.getItem("optionalModule7");
+            switch (count) {
+                case 1:
+                optionalModule1 = moduleId;
+                sessionStorage.setItem("optionalModule1", moduleId.toString());
+                return optionalModule1;
+            case 2:
+                optionalModule2 = moduleId;
+                sessionStorage.setItem("optionalModule2", moduleId.toString());
+                return [module1, optionalModule2];
+            case 3:
+                optionalModule3 = moduleId;
+                sessionStorage.setItem("optionalModule3", moduleId.toString());
+                return [module1, module2, optionalModule3 ];
+            case 4:
+                optionalModule4 = moduleId;
+                sessionStorage.setItem("optionalModule4", moduleId.toString());
+                return [module1, module2, module3, optionalModule4];
+            case 5:
+                optionalModule5 = moduleId;
+                sessionStorage.setItem("optionalModule5", moduleId.toString());
+                return [module1, module2, module3, module4, optionalModule5];
+            case 6:
+                optionalModule6 = moduleId;
+                sessionStorage.setItem("optionalModule6", moduleId.toString());
+                return [module1, module2, module3, module4, module5, optionalModule6];
+            case 7:
+                optionalModule7 = moduleId;
+                sessionStorage.setItem("optionalModule7", moduleId.toString());
+                return [module1, module2, module3, module4, module5, module6, optionalModule7];
+            default:
+                return 0;
+            }
+
+        }
+
+        function updateCredits(module) {
+            var compulsoryCredits = $("#compulsoryCredits").text().replace('Compulsory Credits: ', '');
+            var optionalCredits = 120 - +compulsoryCredits;
+
+            var optionalCreditsText = $("#optionalCredits").text().replace('Optional Credits Selected: ', '').replace('-', '').replace('/' + optionalCredits, '');
+            var totalCredits;
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                data: {chosenModulesIds: + module},
+                url: "/Setup/GetCredits",
+                success: function (data) {
+                    chosenModuleCredits = +data;
+                    totalCredits = +optionalCreditsText + +data;
+                    $("#optionalCredits").text('Optional Credits Selected: ' +totalCredits + '/' + optionalCredits);
+
+                    if (+optionalCredits == +optionalCreditsText + +data) {
+                        $("#SelectionComplete").val(true);
+                    }
+                }
+            });
+
+        }
+
+        function GetCompulsoryCredits(course, year) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                data: { courseId: + course, yearId: + year, optional: + 0 },
+                url: "/Setup/GetCompulsoryCredits",
+                success: function (data) {
+                    var compulsoryCreditsText = "Compulsory Credits: " + data;
+                    $("#compulsoryCredits").text(compulsoryCreditsText);
+
+                    var optionalCredits = 120 - +data;
+                    var optionalCreditsText = "Optional Credits Selected: 0/" + optionalCredits;
+                    $("#optionalCredits").text(optionalCreditsText);
+                }
+            });
+        }
+
+        function removeErrors() {
+            $("#Course").removeClass("input-validation-error");
+            $("#Year").removeClass("input-validation-error");
+            $("#ddlModule1").removeClass("input-validation-error");
+            $("#ddlModule2").removeClass("input-validation-error");
+            $("#ddlModule3").removeClass("input-validation-error");
+            $("#ddlModule4").removeClass("input-validation-error");
+            $("#ddlModule5").removeClass("input-validation-error");
+            $("#ddlModule6").removeClass("input-validation-error");
+            $("#ddlModule7").removeClass("input-validation-error");
+        }
+    </script>
+}

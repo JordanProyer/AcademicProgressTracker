@@ -1,0 +1,131 @@
+﻿@model AcademicProgressTracker.ViewModels.AdminAddViewModel
+@{
+    ViewBag.Title = "Add a New Course and Modules";
+    ViewBag.Message = "Enter course details and the associated modules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+@using (Html.BeginForm("AddCourse", "Admin", FormMethod.Post, new { id = "addForm" }))
+{
+    <div class="row" id="courseInfo">
+        <div class="col-md-4">
+            @Html.LabelFor(x => x.CourseName) <br />
+            @Html.TextBoxFor(x => x.CourseName, new { @class = "form-control", width= "200px" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.CourseType)
+            @Html.DropDownListFor(m => m.CourseType, new SelectList(Model.CourseType), "Select a course type", new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.CourseDuration)
+            @Html.DropDownListFor(m => m.CourseDuration, new SelectList(Model.CourseDuration), "Select a duration", new { @class = "form-control" })
+        </div>
+        <br/><br/><br /><br/>
+    </div>
+    <table id="modulesTable" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Module Name</th>
+            <th>Code</th>
+            <th>Year</th>
+            <th>Credits</th>
+            <th>Optional</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>@Html.TextBoxFor(x => x.Modules[0].Name)</td>
+            <td>@Html.TextBoxFor(x => x.Modules[0].Code)</td>
+            <td>@Html.DropDownListFor(x => x.Modules[0].YearId, new SelectList(Model.YearList, "Id", "Name"))</td>
+            <td>@Html.TextBoxFor(x => x.Modules[0].Credits)</td>
+            <td>@Html.CheckBoxFor(x => x.Modules[0].Optional)</td>
+        </tr>
+        </tbody>
+    </table>
+        <input type="button" id="addNewTableRow" class="btn btn-info" value="+ New row"/>
+    <div class="pull-right"><input type="submit" id="btnSubmit" class="btn btn-info" value="Submit" /></div>
+
+    @Html.HiddenFor(x => x.Modules[1].YearId)
+    @Html.HiddenFor(x => x.Modules[2].YearId)
+    @Html.HiddenFor(x => x.Modules[3].YearId)
+    @Html.HiddenFor(x => x.Modules[4].YearId)
+    @Html.HiddenFor(x => x.Modules[5].YearId)
+    @Html.HiddenFor(x => x.Modules[6].YearId)
+    @Html.HiddenFor(x => x.Modules[7].YearId)
+    @Html.HiddenFor(x => x.Modules[8].YearId)
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var count = 1;
+            $("#addForm").submit(function (e) {
+                debugger;
+                var currentForm = this;
+                e.preventDefault();
+                bootbox.confirm("Are you sure you would like to add these modules?",
+                    function (result) {
+                        if (result) {
+                            assignValuesToModel();
+                            currentForm.submit();
+                        }
+                    });
+            });
+
+            function assignValuesToModel() {
+                var year1Id = $("#Modules_1Year_Id").val();
+                var year2Id = $("#Modules_2Year_Id").val();
+                var year3Id = $("#Modules_3Year_Id").val();
+                var year4Id = $("#Modules_4Year_Id").val();
+                var year5Id = $("#Modules_5Year_Id").val();
+                var year6Id = $("#Modules_6Year_Id").val();
+                var year7Id = $("#Modules_7Year_Id").val();
+                var year8Id = $("#Modules_8Year_Id").val();
+                $("#Modules_1__YearId").val(year1Id);
+                $("#Modules_2__YearId").val(year2Id);
+                $("#Modules_3__YearId").val(year3Id);
+                $("#Modules_4__YearId").val(year4Id);
+                $("#Modules_5__YearId").val(year5Id);
+                $("#Modules_6__YearId").val(year6Id);
+                $("#Modules_7__YearId").val(year7Id);
+                $("#Modules_8__YearId").val(year8Id);
+            }
+
+            $("#addNewTableRow").click(function() {
+
+                if (count === 1)
+                    $('#modulesTable > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => x.Modules[1].Name)</td><td>@Html.TextBoxFor(x => x.Modules[1].Code)</td><td><select id="Modules_1Year_Id"><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option></select></td><td>@Html.TextBoxFor(x => x.Modules[1].Credits)</td><td>@Html.CheckBoxFor(x => x.Modules[1].Optional)</td></tr>');
+                    else if (count === 2)
+                    $('#modulesTable > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => x.Modules[2].Name)</td><td>@Html.TextBoxFor(x => x.Modules[2].Code)</td><td><select id="Modules_2Year_Id"><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option></select></td><td>@Html.TextBoxFor(x => x.Modules[2].Credits)</td><td>@Html.CheckBoxFor(x => x.Modules[2].Optional)</td></tr>');
+                else if (count === 3)
+                    $('#modulesTable > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => x.Modules[3].Name)</td><td>@Html.TextBoxFor(x => x.Modules[3].Code)</td><td><select id="Modules_3Year_Id"><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option></select></td><td>@Html.TextBoxFor(x => x.Modules[3].Credits)</td><td>@Html.CheckBoxFor(x => x.Modules[3].Optional)</td></tr>');
+                else if (count === 4)
+                    $('#modulesTable > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => x.Modules[4].Name)</td><td>@Html.TextBoxFor(x => x.Modules[4].Code)</td><td><select id="Modules_4Year_Id"><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option></select></td><td>@Html.TextBoxFor(x => x.Modules[4].Credits)</td><td>@Html.CheckBoxFor(x => x.Modules[4].Optional)</td></tr>');
+                else if (count === 5)
+                    $('#modulesTable > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => x.Modules[5].Name)</td><td>@Html.TextBoxFor(x => x.Modules[5].Code)</td><td><select id="Modules_5Year_Id"><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option></select></td><td>@Html.TextBoxFor(x => x.Modules[5].Credits)</td><td>@Html.CheckBoxFor(x => x.Modules[5].Optional)</td></tr>');
+                else if (count === 6)
+                    $('#modulesTable > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => x.Modules[6].Name)</td><td>@Html.TextBoxFor(x => x.Modules[6].Code)</td><td><select id="Modules_6Year_Id"><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option></select></td><td>@Html.TextBoxFor(x => x.Modules[6].Credits)</td><td>@Html.CheckBoxFor(x => x.Modules[6].Optional)</td></tr>');
+                else if (count === 7)
+                    $('#modulesTable > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => x.Modules[7].Name)</td><td>@Html.TextBoxFor(x => x.Modules[7].Code)</td><td><select id="Modules_7Year_Id"><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option></select></td><td>@Html.TextBoxFor(x => x.Modules[7].Credits)</td><td>@Html.CheckBoxFor(x => x.Modules[7].Optional)</td></tr>');
+                else if (count === 8)
+                    $('#modulesTable > tbody:last-child').append(
+                        '<tr><td>@Html.TextBoxFor(x => x.Modules[8].Name)</td><td>@Html.TextBoxFor(x => x.Modules[8].Code)</td><td><select id="Modules_8Year_Id"><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option></select></td><td>@Html.TextBoxFor(x => x.Modules[8].Credits)</td><td>@Html.CheckBoxFor(x => x.Modules[8].Optional)</td></tr>');
+
+
+                count++;
+            });
+        });
+    </script>
+}

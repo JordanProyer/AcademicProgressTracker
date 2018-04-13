@@ -1,0 +1,66 @@
+﻿@model AcademicProgressTracker.ViewModels.AdminViewModel
+@{
+    ViewBag.Title = "Admin";
+    ViewBag.Message = "With your admin access, you can make changes to the courses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+<div class="row col-sm-4">
+    <br />
+    <div class="panel-primary" style=" overflow: hidden; width: 330px" ; height="1600px">
+        <div class="panel-heading">
+            <b>Add a Course</b>
+            <img src="~/Content/Images/green-plus-sign-md.png" alt="Plus image" style="width: 24px; height: 24px;" class="pull-right">
+        </div>
+        <div class="panel-body-result">           
+            <button class="pull-right btn btn-block" onclick="location.href = '@Url.Action("Add", "Admin")';">Add a course</button>
+            <br/><br/>
+        </div>
+    </div>
+    <br/><br/>
+</div>
+<div class="row col-md-4">
+    <br />
+    <div class="panel-primary" style="overflow: hidden; width: 330px" ; height="400px">
+        <div class="panel-heading">
+            <b>Edit a Course</b>
+            <img src="~/Content/Images/edit.png" alt="Edit image" style="width: 24px; height: 24px;" class="pull-right">
+        </div>
+        <div class="panel-body-result">   
+            <button class="pull-right btn btn-block" onclick="location.href = '@Url.Action("Details", "Results")';">Edit a course</button>
+            <br/><br/>
+        </div>
+    </div>
+    <br/><br/>
+</div>
+<div class="row col-md-4">
+    <br />
+    <div class="panel-primary" style="overflow: hidden; width: 330px" ; height="400px">
+        <div class="panel-heading">
+            <b>Delete a Course</b>
+            <img src="~/Content/Images/red_cross_tick.png" alt="Plus image" style="width: 24px; height: 24px;" class="pull-right">
+        </div>
+        <div class="panel-body-result">            
+            <button class="pull-right btn btn-block" onclick="location.href = '@Url.Action("Delete", "Admin")';">Delete a course</button>
+            <br/><br/>
+        </div>
+    </div>
+    <br /><br />
+</div>
+
+@Html.HiddenFor(x => x.Success);
+
+<script language="javascript" type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var success = $("#Success").val();
+        if (success === "True") {
+                toastr.success('Course successfully deleted');
+        }
+    });
+</script>
+

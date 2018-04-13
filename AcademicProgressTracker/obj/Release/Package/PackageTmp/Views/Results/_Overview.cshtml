@@ -1,0 +1,24 @@
+﻿@model AcademicProgressTracker.ViewModels.ResultsViewModel
+
+@if (Model.ModuleId != 100000000)
+{
+    var divClass = (Model.YearName == "Year 1") ? "panel-primary-year1" : (Model.YearName == "Year 2") ? "panel-primary-year2" : (Model.YearName == "Year 3") ? "panel-primary-year3" : (Model.YearName == "Year 4") ? "panel-primary-year4" : "panel-primary-year1";
+
+    <div class="@divClass" style="overflow: hidden; width: 330px; height:400px">
+        <div class="panel-heading">
+            <b>@Model.ModuleName (@Model.YearName)</b>
+        </div>
+        <div class="panel-body-result">
+            <b>Coursework Completed: </b> @Model.CompletedCoursework / @Model.TotalCourseworks
+            <br/>
+            <b> Average Mark: </b> @Model.AverageMark
+            <br/>
+            <b>Predicted Classifcation:</b> @Model.PredictedClassification
+            <br/><br/>
+            <button class="pull-right btn btn-block" onclick="location.href = '@Url.Action("Details", "Results", new {id = Model.ModuleId})';">More details</button>
+            <br/><br/>
+        </div>
+    </div>
+    <br/>
+    <br/>
+}

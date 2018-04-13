@@ -1,0 +1,93 @@
+﻿@model AcademicProgressTracker.ViewModels.GradesAddViewModel
+@{
+    ViewBag.Title = @Model.Module.Name;
+    ViewBag.Message = "Enter module results for " + @Model.Module.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+<p>@ViewBag.Message</p>
+
+@using (Html.BeginForm("AddGrades", "Grades", FormMethod.Post, new { id = "gradesForm", gradesAddViewModel = Model }))
+{
+    @Html.HiddenFor(x => x.Success)
+
+    <table id="courseworkTable" class="table table-bordered table-hover fixed">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th style="width: 120px">Percentage</th>
+            <th style="width: 250px">Submission Date</th>
+            <th style="width: 250px">Result (%)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var coursework in Model.CourseworkList.Select((value, index) => new {value, index}))
+        {
+            var courseWorkId = coursework.value.Id;
+            <tr>
+                <td>
+                    @coursework.value.Name
+                </td>
+                <td style="width: 120px">
+                    @coursework.value.Percentage
+                </td>
+                <td style="width: 250px">
+                    @Html.TextBoxFor(x => x.UserResults[coursework.index].AddedDateTime, "{0:dd/MM/yyyy}", new {@class = "date-picker"})
+                @Html.ValidationMessageFor(x => x.UserResults[coursework.index].AddedDateTime)
+            </td>
+                <td style="width: 250px">@Html.EditorFor(x => x.UserResults[coursework.index].Mark)
+                    @Html.ValidationMessageFor(x => x.UserResults[coursework.index].Mark)
+                </td>
+                    @Html.HiddenFor(x => x.UserResults[coursework.index].CourseworkId, new {Value = courseWorkId.ToString()})
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="col-md-pull-12">
+        <br/>
+        <input type="submit" id="btnSubmit" class="btn btn-info" value="Submit" />
+        @Html.ActionLink("Back", "Index", "Grades", new {@class = "btn btn-info btn-lg; pull-right"})
+    </div>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var addedDateTimes = [$("#UserResults_0__AddedDateTime"), $("#UserResults_0__AddedDateTime"), $("#UserResults_1__AddedDateTime"), $("#UserResults_2__AddedDateTime"), $("#UserResults_3__AddedDateTime"), $("#UserResults_4__AddedDateTime"), $("#UserResults_5__AddedDateTime"), $("#UserResults_6__AddedDateTime")]
+            $("#courseworkTable").DataTable();
+
+            if ($("#Success").val() === "True") {
+                toastr.success('Module choices saved successfully');
+                $("#Success").val("False");
+            }
+
+            $("#gradesForm").submit(function (e) {
+                var currentForm = this;
+                e.preventDefault();
+                bootbox.confirm("Are you sure you would like to add these results?", function (result) {
+                    if (result) {
+                        debugger;
+                        addedDateTimes.forEach(function(element) {
+                            if (element.val() === "") {
+                                element.text("");
+                                element.val("01/01/1900");
+                                element.text("");
+                            }
+                        });
+                        
+                        currentForm.submit();
+                    }
+                });
+            });
+
+            $(function() {
+                // This will make every element with the class "date-picker" into a DatePicker element
+                $('.date-picker').datepicker();
+            });
+
+        });
+    </script>
+}
+

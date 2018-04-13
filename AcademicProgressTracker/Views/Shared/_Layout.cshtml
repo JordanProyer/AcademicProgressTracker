@@ -1,61 +1,59 @@
 ﻿<!DOCTYPE html>
 <html>
+<body background-repeat: no-repeat; background-size: 100% 100%; background="~/Content/Images/open-books-background-transparent1.png">
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Progress Tracker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("About", "Index", "About")</li>
+                @*<li>@Html.ActionLink("Contact", "Index", "Contact")</li>*@
+                <li>@Html.ActionLink("Setup", "Index", "Setup")</li>
+                <li>@Html.ActionLink("Grades", "Index", "Grades")</li>
+                <li>@Html.ActionLink("Results", "Index", "Results")</li>
+                <li>@Html.ActionLink("Overview", "Index", "Overview")</li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                }
+
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div>
+<div class="container body-content">
+    @RenderBody()
+    <hr />
+    <div class="col-sm-12 pull-left">
+        <p>&copy; @DateTime.Now.Year - Academic Progress Tracker</p>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/lib")
+@RenderSection("scripts", required: false)
+</body>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
     <script type="text/javascript">
-        window.smartlook||(function(d) {
-            var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
-            var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
-            c.charset='utf-8';c.src='https://rec.smartlook.com/recorder.js';h.appendChild(c);
+        window.smartlook || (function (d) {
+            var o = smartlook = function () { o.api.push(arguments) }, h = d.getElementsByTagName('head')[0];
+            var c = d.createElement('script'); o.api = new Array(); c.async = true; c.type = 'text/javascript';
+            c.charset = 'utf-8'; c.src = 'https://rec.smartlook.com/recorder.js'; h.appendChild(c);
         })(document);
         smartlook('init', '68918869fe31d76c2a0230aaacbe47b2264d9f85');
     </script>
-
 </head>
-<body background-repeat: no-repeat; background-size: 100% 100%; background="~/Content/Images/open-books-background-transparent1.png">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Progress Tracker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "Index", "About")</li>
-                    @*<li>@Html.ActionLink("Contact", "Index", "Contact")</li>*@
-                    <li>@Html.ActionLink("Setup", "Index", "Setup")</li>
-                    <li>@Html.ActionLink("Grades", "Index", "Grades")</li>
-                    <li>@Html.ActionLink("Results", "Index", "Results")</li>
-                    <li>@Html.ActionLink("Overview", "Index", "Overview")</li>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
-                    }
-
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <div class="col-sm-12 pull-left">
-            <p>&copy; @DateTime.Now.Year - Academic Progress Tracker</p>
-        </div>
-    </div>
-
-    @Scripts.Render("~/bundles/lib")
-    @RenderSection("scripts", required: false)
-</body>
 </html>

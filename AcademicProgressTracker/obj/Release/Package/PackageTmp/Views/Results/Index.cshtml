@@ -1,0 +1,28 @@
+﻿@model IEnumerable<AcademicProgressTracker.ViewModels.ResultsViewModel>
+@{
+    ViewBag.Title = "Results";
+    ViewBag.Message = "View Your Results";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+@if (Model.All(x => x.ModuleId == 0))
+{
+    <p><b>You must select your optional modules before you can view the results page</b>
+    </p>
+    <p><b>To select your modules, <a href="~/Setup/Index">click here</a></b>
+    </p>
+}
+
+else
+{
+    foreach (var result in Model)
+    {
+        <div class="row col-md-4" style="overflow: hidden; width: 390px; height: 230px;">
+            @Html.Partial("_Overview", result)
+        </div>
+    }
+}
+

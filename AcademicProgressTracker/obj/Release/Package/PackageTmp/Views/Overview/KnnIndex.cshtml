@@ -1,0 +1,72 @@
+﻿@model List<AcademicProgressTracker.ViewModels.OverviewViewModel>
+@{
+    ViewBag.Title = "Yearly Overview";
+    ViewBag.Message = "Your weighted grade is shown for each module. Predicted grades can be shown where a module is incomplete:";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+<div class="row">
+    <div class="row col-md-3" style="padding-top: 8px">
+        <p style="padding-left: 14px">Show nearest neighbour prediction for incomplete modules</p>
+    </div>
+    <div class="row col-md-3" style="padding-top: 4px">
+        <label id="knnSwitch" class="switch" style="padding-top: 10px">
+            <input id="knnBox" type="checkbox" checked="checked">
+            <span class="slider round"></span>
+        </label>
+    </div>
+</div>
+<br />
+
+@for (var i = 0; i < Model.Count - 1; i++)
+{
+    <div class="row col-md-4" style="overflow: hidden; width: 410px; height: 430px;">
+        @Html.Partial("_YearPanel", Model[i]);
+    </div>
+}
+
+<div class="panel-primary-overall" style="overflow: hidden; width: 375px; height:400px">
+    <div class="panel-heading">
+        <b>Overall results</b>
+    </div>
+    <div class="panel-body-result">
+        @foreach (var result in Model[Model.Count - 1].OverallResultList)
+        {
+            if (result.YearName == "Weighted Total")
+            {
+                <br />
+            }
+            <b>@result.YearName:</b>
+            <i>@result.Mark% - @result.Classification</i><br />
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            debugger;
+            var showKnnResult;
+            $("#knnBox").val("on");
+            $("#knnSwitch").checked = true;
+
+            $("#knnSwitch").on('change', (function () {
+                debugger;
+                if ($("#knnBox").val() === "on") {
+                    $("#knnBox").val("off");
+                    showKnnResult = false;
+                    location.href = '@Url.Action("Index","Overview")';
+                } else {
+                    $("#knnBox").val("on");
+                    showKnnResult = true;
+                    location.href = '@Url.Action("knnIndex","Overview")';
+                }
+            }));
+
+        });
+    </script>
+}

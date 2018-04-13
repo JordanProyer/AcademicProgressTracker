@@ -1,0 +1,53 @@
+﻿@model AcademicProgressTracker.ViewModels.GradesViewModel
+@{
+    ViewBag.Title = "Grades";
+    ViewBag.Message = "Select the module you would like to edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+@if (!Model.ModuleList.Any())
+{
+    <p><b>You must select your modules before can enter in any grades</b></p>
+    <p><b>To select your modules, <a href="~/Setup/Index">click here</a></b></p>
+}
+else
+{
+    <table id="modulesTable" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Year</th>
+            <th>Add Grades</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var module in Model.ModuleList)
+        {
+            var colour = (module.YearId == 1) ? "table-danger" : (module.YearId == 2) ? "table-primary" : (module.YearId == 3) ? "table-success" : (module.YearId == 4) ? "table-dark" : "table-warning";
+            <tr class="@colour">
+            @*<tr>*@
+                <td>@module.Code</td>
+                <td>@module.Name</td>
+                <td>@module.Year.Id</td>
+                <td>@Html.ActionLink("Add Grades", "Add", "Grades", new {id = module.Id, success = false}, null)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#modulesTable").DataTable({
+                "order": [[3, "desc"]]
+            });
+        });
+    </script>
+}
+
