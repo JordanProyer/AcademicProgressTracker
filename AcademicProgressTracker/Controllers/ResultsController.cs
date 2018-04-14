@@ -150,9 +150,15 @@ namespace AcademicProgressTracker.Controllers
             var mean = util.MeanMark(allUserResults);
             var predictedModuleMark = util.GetKnnResultNumber(userId, moduleId, kValue);
 
+            var markAfterXCourseworks = util.WeightedMark(userResultforCompletedCw);
+            if (userResultsForModule.Count == userResultforCompletedCw.Count)
+            {
+                markAfterXCourseworks = predictedModuleMark;
+            }
+
             var userKnnResult = new KnnResult
             {
-                MarkAfterXCourseworks = util.WeightedMark(userResultforCompletedCw),
+                MarkAfterXCourseworks = markAfterXCourseworks,
                 PredictedModuleMark = predictedModuleMark,
                 Label = "Your Result",
                 UserId = userId,

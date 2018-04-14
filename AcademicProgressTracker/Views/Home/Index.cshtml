@@ -365,10 +365,36 @@ else
     function addNumbersToChartCentreLoggedOut() {
         debugger;
         var numOfUsers = document.getElementById("numOfUsersHdn").value;
-        document.getElementById("usersText").innerHTML = numOfUsers;
+        var displayUsers = alterDisplayNumber(numOfUsers);
+        document.getElementById("usersText").innerHTML = displayUsers;
 
         var numOfResults = document.getElementById("numOfResultsHdn").value;
-        document.getElementById("resultsText").innerHTML = numOfResults;
+        var displayResults = alterDisplayNumber(numOfResults);
+        document.getElementById("resultsText").innerHTML = displayResults;
+    }
+
+    function alterDisplayNumber(numofUsers) {
+        var output;
+        if (numofUsers >= 1000) {
+            output = "1000+";
+        }
+        else if (numofUsers >= 500 && numofUsers < 1000) {
+            output = "500+";
+        }
+        else if (numofUsers >= 100 && numofUsers < 500) {
+            output = "100+";
+        }
+        else if (numofUsers >= 50 && numofUsers < 100) {
+            output = "50+";
+        }
+        else if (numofUsers >= 10 && numofUsers <= 50) {
+            output = "10+";
+        }
+        else {
+            output = "<10";
+        }
+
+        return output;
     }
 
 </script>

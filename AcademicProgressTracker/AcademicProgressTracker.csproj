@@ -268,25 +268,27 @@
     <Compile Include="Models\Coursework.cs" />
     <Compile Include="Models\Graphs\CourseworkGrades.cs" />
     <Compile Include="Models\Graphs\CourseworkGradesOverTime.cs" />
+    <Compile Include="Models\Graphs\CourseworkQuantity.cs" />
+    <Compile Include="Models\Graphs\KnnResult.cs" />
     <Compile Include="Models\Graphs\MarkToClassification.cs" />
     <Compile Include="Models\Graphs\MaximumWeightedGrade.cs" />
-    <Compile Include="Models\Graphs\KnnResult.cs" />
-    <Compile Include="Models\Graphs\CourseworkQuantity.cs" />
     <Compile Include="Models\Graphs\ProbabilityDensity.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Module.cs" />
     <Compile Include="Models\OverallResult.cs" />
     <Compile Include="Models\UserModuleResult.cs" />
+    <Compile Include="Models\UserModules.cs" />
+    <Compile Include="Models\UserResults.cs" />
     <Compile Include="Models\WeightedResult.cs" />
+    <Compile Include="Models\Year.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Utilities\Utilities.cs" />
     <Compile Include="Validation\MaxCreditsAttribute.cs" />
     <Compile Include="Validation\MaxGradeValueAttribute.cs" />
     <Compile Include="Validation\MinCreditsAttribute.cs" />
     <Compile Include="Validation\MinGradeValueAttribute.cs" />
-    <Compile Include="Models\Module.cs" />
-    <Compile Include="Models\UserModules.cs" />
-    <Compile Include="Models\UserResults.cs" />
-    <Compile Include="Models\Year.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="ViewModels\AdminAddCourseworkViewModel.cs" />
     <Compile Include="ViewModels\AdminAddViewModel.cs" />
     <Compile Include="ViewModels\AdminDeleteViewModel.cs" />
@@ -294,14 +296,16 @@
     <Compile Include="ViewModels\GradesAddViewModel.cs" />
     <Compile Include="ViewModels\GradesViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\OverviewViewModel.cs" />
     <Compile Include="ViewModels\ResultsDetailedViewModel.cs" />
     <Compile Include="ViewModels\ResultsViewModel.cs" />
     <Compile Include="ViewModels\SetupViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-AcademicProgressTracker-20171108125720.mdf" />
+    <Content Include="App_Data\aspnet-AcademicProgressTracker-20171108125720_log.ldf">
+      <DependentUpon>aspnet-AcademicProgressTracker-20171108125720.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-cerulean.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -331,6 +335,7 @@
     <Content Include="Content\DataTables\css\colReorder.foundation.min.css" />
     <Content Include="Content\DataTables\css\colReorder.jqueryui.css" />
     <Content Include="Content\DataTables\css\colReorder.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="Content\DataTables\css\dataTables.bootstrap.css" />
     <Content Include="Content\DataTables\css\dataTables.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\dataTables.bootstrap4.css" />
@@ -372,6 +377,7 @@
     <Content Include="Content\DataTables\css\keyTable.foundation.min.css" />
     <Content Include="Content\DataTables\css\keyTable.jqueryui.css" />
     <Content Include="Content\DataTables\css\keyTable.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\responsive.bootstrap.css" />
     <Content Include="Content\DataTables\css\responsive.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\responsive.dataTables.css" />
@@ -417,75 +423,11 @@
     <Content Include="Content\Images\open-books-background-transparent.png" />
     <Content Include="Content\Images\open-books-background-transparent1.png" />
     <Content Include="Content\Images\Red_cross_tick.png" />
-    <Content Include="Content\Scripts\canvasjs.min.js" />
-    <Content Include="Content\Scripts\jquery.canvasjs.min.js" />
-    <Content Include="Content\themes\base\accordion.css" />
-    <Content Include="Content\themes\base\all.css" />
-    <Content Include="Content\themes\base\autocomplete.css" />
-    <Content Include="Content\themes\base\base.css" />
-    <Content Include="Content\themes\base\button.css" />
-    <Content Include="Content\themes\base\core.css" />
-    <Content Include="Content\themes\base\datepicker.css" />
-    <Content Include="Content\themes\base\dialog.css" />
-    <Content Include="Content\themes\base\draggable.css" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="Content\themes\base\jquery-ui.css" />
-    <Content Include="Content\themes\base\jquery-ui.min.css" />
-    <Content Include="Content\themes\base\menu.css" />
-    <Content Include="Content\themes\base\progressbar.css" />
-    <Content Include="Content\themes\base\resizable.css" />
-    <Content Include="Content\themes\base\selectable.css" />
-    <Content Include="Content\themes\base\selectmenu.css" />
-    <Content Include="Content\themes\base\slider.css" />
-    <Content Include="Content\themes\base\sortable.css" />
-    <Content Include="Content\themes\base\spinner.css" />
-    <Content Include="Content\themes\base\tabs.css" />
-    <Content Include="Content\themes\base\theme.css" />
-    <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="Content\toastr.css" />
-    <Content Include="Content\toastr.min.css" />
-    <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\Scripts\bootbox.js" />
+    <Content Include="Content\Scripts\bootbox.min.js" />
     <Content Include="Content\Scripts\bootstrap.js" />
     <Content Include="Content\Scripts\bootstrap.min.js" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\DataTables\css\mixins.scss" />
-    <Content Include="Content\DataTables\css\common.scss" />
-    <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Content\Scripts\jquery-1.10.2.js" />
-    <Content Include="Content\Scripts\jquery-1.10.2.min.js" />
-    <None Include="Content\Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Content\Scripts\jquery.validate.js" />
-    <Content Include="Content\Scripts\jquery.validate.min.js" />
-    <Content Include="Content\Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Content\Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Content\Scripts\modernizr-2.6.2.js" />
-    <Content Include="Content\Scripts\respond.js" />
-    <Content Include="Content\Scripts\respond.min.js" />
-    <Content Include="Content\Scripts\toastr.js" />
-    <Content Include="Content\Scripts\toastr.min.js" />
+    <Content Include="Content\Scripts\canvasjs.min.js" />
     <Content Include="Content\Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Content\Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Content\Scripts\DataTables\autoFill.foundation.js" />
@@ -550,31 +492,84 @@
     <Content Include="Content\Scripts\DataTables\responsive.foundation.min.js" />
     <Content Include="Content\Scripts\DataTables\responsive.jqueryui.js" />
     <Content Include="Content\Scripts\DataTables\responsive.jqueryui.min.js" />
-    <Content Include="Content\Scripts\bootbox.js" />
-    <Content Include="Content\Scripts\bootbox.min.js" />
-    <None Include="Properties\PublishProfiles\AcademicProgressTracker20180413091543 - Web Deploy.pubxml" />
-    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
-    <Content Include="Scripts\jquery-1.12.4.js" />
-    <Content Include="Scripts\jquery-1.12.4.min.js" />
+    <Content Include="Content\Scripts\jquery-1.10.2.js" />
+    <Content Include="Content\Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Content\Scripts\jquery-1.10.2.min.map" />
     <Content Include="Content\Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Content\Scripts\jquery-ui-1.12.1.min.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
+    <Content Include="Content\Scripts\jquery.canvasjs.min.js" />
+    <Content Include="Content\Scripts\jquery.validate.js" />
+    <Content Include="Content\Scripts\jquery.validate.min.js" />
+    <Content Include="Content\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Content\Scripts\respond.js" />
+    <Content Include="Content\Scripts\respond.min.js" />
+    <Content Include="Content\Scripts\toastr.js" />
+    <Content Include="Content\Scripts\toastr.min.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Global.asax" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
+    <None Include="Content\Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Properties\PublishProfiles\AcademicProgressTracker20180413091543 - Web Deploy.pubxml" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\About\Index.cshtml" />
-    <Content Include="Views\Contact\Index.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
@@ -586,44 +581,51 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Admin\Add.cshtml" />
+    <Content Include="Views\Admin\AddCoursework.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\_AddCourseworkTable.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
+    <Content Include="Views\Grades\Add.cshtml" />
+    <Content Include="Views\Grades\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Grades\Index.cshtml" />
-    <Content Include="Views\Setup\Index.cshtml" />
-    <Content Include="Views\Results\Index.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Grades\Add.cshtml" />
-    <Content Include="Views\Results\_Overview.cshtml" />
-    <Content Include="Views\Results\Details.cshtml" />
     <Content Include="Views\Overview\Index.cshtml" />
-    <Content Include="Views\Overview\_YearPanel.cshtml" />
-    <Content Include="Scripts\jquery-1.12.4.min.map" />
-    <Content Include="Views\Admin\Delete.cshtml" />
-    <Content Include="Views\Admin\Add.cshtml" />
-    <Content Include="Views\Admin\AddCoursework.cshtml" />
-    <Content Include="Views\Admin\_AddCourseworkTable.cshtml" />
     <Content Include="Views\Overview\KnnIndex.cshtml" />
+    <Content Include="Views\Overview\_YearPanel.cshtml" />
+    <Content Include="Views\Results\Details.cshtml" />
+    <Content Include="Views\Results\Index.cshtml" />
+    <Content Include="Views\Results\_Overview.cshtml" />
+    <Content Include="Views\Setup\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\toastr.scss" />
-    <Content Include="Content\toastr.less" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Content\Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711091725557_InitialModel.resx">
