@@ -25,13 +25,13 @@ namespace AcademicProgressTracker.Controllers
         {
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var viewModelList = new List<ResultsViewModel>();
-            var userModuleList = _context.UserModules.Where(x => x.UserId == userId).Include(y => y.Module.Year).OrderByDescending(z => z.Module.Year.Id).ThenBy(z => z.Module.Name);
-            var moduleList = _context.Module;
-            var courseworkList = _context.Coursework;
-            var userResultsList = _context.UserResults.Where(x => x.UserId == userId);
-            var classificationList = _context.Classification;
+            var userModuleList = _context.UserModules.Where(x => x.UserId == userId).Include(y => y.Module.Year).OrderByDescending(z => z.Module.Year.Id).ThenBy(z => z.Module.Name).ToList();
+            var moduleList = _context.Module.ToList();
+            var courseworkList = _context.Coursework.ToList();
+            var userResultsList = _context.UserResults.Where(x => x.UserId == userId).ToList();
+            var classificationList = _context.Classification.ToList();
 
-            foreach (var userModule in userModuleList)
+            foreach (var userModule in userModuleList.ToList())
             {
                 var viewModel = new ResultsViewModel
                 {
@@ -54,7 +54,7 @@ namespace AcademicProgressTracker.Controllers
                 viewModelList.Add(viewModel);
             }
 
-            return View(viewModelList);
+            return View(viewModelList.ToList());
         }
 
         public ActionResult Details(int id)
