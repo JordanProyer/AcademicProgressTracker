@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\AcademicProgressTracker",
-    "\\AcademicProgressTracker\\Utilities"
+    "\\AcademicProgressTracker\\Controllers",
+    "\\AcademicProgressTracker\\Models"
   ],
-  "SelectedNode": "\\AcademicProgressTracker\\Utilities\\Utilities.cs",
+  "SelectedNode": "\\AcademicProgressTracker\\Controllers\\HomeController.cs",
   "PreviewInSolutionExplorer": false
 }

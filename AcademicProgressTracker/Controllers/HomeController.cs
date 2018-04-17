@@ -33,7 +33,7 @@ namespace AcademicProgressTracker.Controllers
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var userModules = _context.UserModules.Where(x => x.UserId == userId).Select(x => x.ModuleId).ToList();
             var numberOfCourseworks = _context.Coursework.Count(x => userModules.Contains(x.ModuleId));
-            var numberofCompletedCourseworks = _context.UserResults.Count(x => x.UserId == userId);
+            var numberofCompletedCourseworks = _context.UserResults.Count(x => x.UserId == userId && x.Mark != null);
 
             var graphObject = new CourseworkQuantity
             {
@@ -60,7 +60,7 @@ namespace AcademicProgressTracker.Controllers
             var notCompletedModuleIdList = new List<int>();
             var userId = Convert.ToInt32(User.Identity.GetUserId());
             var userModules = _context.UserModules.Where(x => x.UserId == userId).Select(x => x.ModuleId).ToList();
-            var completedCourseworks = _context.UserResults.Where(x => x.UserId == userId).Select(x => x.Coursework).ToList();
+            var completedCourseworks = _context.UserResults.Where(x => x.UserId == userId && x.Mark != null).Select(x => x.Coursework).ToList();
             var courseworksGroupedbyModule = _context.Coursework.Where(x => userModules.Contains(x.ModuleId)).GroupBy(y => y.ModuleId).ToList();
 
             foreach (var module in courseworksGroupedbyModule)

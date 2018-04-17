@@ -44,37 +44,37 @@ else
                     </div>
                     <div id="divModule1" class="form-group-module" hidden>
                         @Html.Label("Optional Module 1")
-                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule1", @class = "form-control"})
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), new { @Id = "ddlModule1", @class = "form-control" })
                     </div>
                     <div id="divModule2" class="form-group-module" hidden>
                         <br/>
                         @Html.Label("Optional Module 2")
-                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule2", @class = "form-control"})
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), new {@Id = "ddlModule2", @class = "form-control"})
                     </div>
                     <div id="divModule3" class="form-group-module" hidden>
                         <br/>
                         @Html.Label("Optional Module 3")
-                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule3", @class = "form-control"})
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), new {@Id = "ddlModule3", @class = "form-control"})
                     </div>
                     <div id="divModule4" class="form-group-module" hidden>
                         <br/>
                         @Html.Label("Optional Module 4")
-                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule4", @class = "form-control"})
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), new {@Id = "ddlModule4", @class = "form-control"})
                     </div>
                     <div id="divModule5" class="form-group-module" hidden>
                         <br/>
                         @Html.Label("Optional Module 5")
-                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule5", @class = "form-control"})
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), new {@Id = "ddlModule5", @class = "form-control"})
                     </div>
                     <div id="divModule6" class="form-group-module" hidden>
                         <br/>
                         @Html.Label("Optional Module 6")
-                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule6", @class = "form-control"})
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), new {@Id = "ddlModule6", @class = "form-control"})
                     </div>
                     <div id="divModule7" class="form-group-module" hidden>
                         <br/>
                         @Html.Label("Optional Module 7")
-                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), "Select a module", new {@Id = "ddlModule7", @class = "form-control"})
+                        @Html.DropDownListFor(m => m.ModuleId, new SelectList(Model.Module, "Id", "Name"), new {@Id = "ddlModule7", @class = "form-control"})
                     </div>
                     <div class="form-group">
                         <div class="col-md-pull-12">
@@ -166,9 +166,10 @@ else
             var module7 = result[6] || 0;
 
             var url = '@Url.Action("GetModules", "Setup")' + '?courseId=' + courseId + '&yearId=' + yearId + '&optional=1' + '&chosenModulesIds=' + module1 + '&chosenModulesIds=' + module2 + '&chosenModulesIds=' + module3 + '&chosenModulesIds=' + module4 + '&chosenModulesIds=' + module5 + '&chosenModulesIds=' + module6 + '&chosenModulesIds=' + module7;
-            $.getJSON(url, function(response) {
+            $.getJSON(url, function (response) {
+                ddlModule.append($('<option>').text("Select a Module").val(0));
                 $.each(response,
-                    function(index, item) { // item is now an object containing properties ID and Text
+                    function (index, item) { // item is now an object containing properties ID and Text
                         ddlModule.append($('<option>').text(item.Name).val(item.Id));
                     });
             });

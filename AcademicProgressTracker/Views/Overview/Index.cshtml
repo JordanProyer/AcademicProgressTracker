@@ -8,27 +8,42 @@
 <h2>@ViewBag.Title</h2>
 <p>@ViewBag.Message</p>
 
-<div class="row">
-    <div class="row col-md-3" style="padding-top: 8px">
-        <p style="padding-left: 14px">Show nearest neighbour prediction for incomplete modules</p>
-    </div>
-    <div class="row col-md-3" style="padding-top: 4px">
-        <label id="knnSwitch" class="switch" style="padding-top: 10px">
-            <input id="knnBox" type="checkbox">
-            <span class="slider round"></span>
-        </label>
-    </div>
-</div>
-<br />
+@if (!User.Identity.IsAuthenticated)
+{
+    <p>
+        <b>You must be logged in to view the overview page</b>
+    </p>
+    <p>
+        <b>To login, <a href="~/Account/Login">click here</a></b>
+    </p>
+}
 
-    @for (var i = 0; i < Model.Count - 1; i++)
-    {
-        <div class="row col-md-4" style="overflow: hidden; width: 410px; height: 430px;">
-            @Html.Partial("_YearPanel", Model[i]);
+else
+{
+
+
+
+    <div class="row">
+        <div class="row col-md-3" style="padding-top: 8px">
+            <p style="padding-left: 14px">Show nearest neighbour prediction for incomplete modules</p>
         </div>
-    }
+        <div class="row col-md-3" style="padding-top: 4px">
+            <label id="knnSwitch" class="switch" style="padding-top: 10px">
+                <input id="knnBox" type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <br/>
 
-    <div class="panel-primary-overall" style="overflow: hidden; width: 375px; height:400px">
+    for (var i = 0; i < Model.Count - 1; i++)
+     {
+         <div class="row col-md-4" style="overflow: hidden; width: 410px; height: 330px;">
+             @Html.Partial("_YearPanel", Model[i])
+         </div>
+     }
+
+    <div class="panel-primary-overall" style="overflow: hidden; width: 375px; height: 400px">
         <div class="panel-heading">
             <b>Overall results</b>
         </div>
@@ -37,13 +52,15 @@
             {
                 if (result.YearName == "Weighted Total")
                 {
-                    <br />
+                    <br/>
                 }
                 <b>@result.YearName:</b>
-                <i>@result.Mark% - @result.Classification</i><br />
+                <i>@result.Mark% - @result.Classification</i>
+                <br/>
             }
         </div>
     </div>
+}
 
 
 @section scripts
